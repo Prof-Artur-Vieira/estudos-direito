@@ -6,14 +6,34 @@ const app        = document.getElementById('app')
 const breadcrumb = document.getElementById('breadcrumb')
 
 // ── Inicialização ────────────────────────────────────────
-renderMaterias()
+history.replaceState({ view: 'materias' }, '')
+renderMaterias(true)
+
+// ── Histórico do navegador ───────────────────────────────
+window.addEventListener('popstate', (e) => {
+  const s = e.state
+  if (!s || s.view === 'materias') {
+    renderMaterias(true)
+  } else if (s.view === 'materia') {
+    selecionarMateria(s.materiaId, true)
+  } else if (s.view === 'turma') {
+    selecionarTurma(s.materiaId, s.turmaId, true)
+  } else if (s.view === 'tema') {
+    const materia = materias.find(m => m.id === s.materiaId)
+    const turma   = materia.turmas.find(t => t.id === s.turmaId)
+    estado.materiaAtual = materia
+    estado.turmaAtual   = turma
+    abrirTema(s.temaIndex, true)
+  }
+})
 
 // ── Renderização ─────────────────────────────────────────
 
-function renderMaterias() {
+function renderMaterias(fromPop = false) {
   estado.materiaAtual = null
   estado.turmaAtual   = null
   atualizarBreadcrumb()
+  if (!fromPop) history.pushState({ view: 'materias' }, '')
 
   app.innerHTML = `
     <p class="secao-titulo">Selecione uma matéria</p>
@@ -28,11 +48,12 @@ function renderMaterias() {
   `
 }
 
-function selecionarMateria(id) {
+function selecionarMateria(id, fromPop = false) {
   const materia = materias.find(m => m.id === id)
   estado.materiaAtual = materia
   estado.turmaAtual   = null
   atualizarBreadcrumb()
+  if (!fromPop) history.pushState({ view: 'materia', materiaId: id }, '')
 
   if (materia.turmas.length === 0) {
     app.innerHTML = `<p class="secao-titulo">Nenhuma turma cadastrada ainda para ${materia.titulo}.</p>`
@@ -51,11 +72,13 @@ function selecionarMateria(id) {
   `
 }
 
-function selecionarTurma(materiaId, turmaId) {
+function selecionarTurma(materiaId, turmaId, fromPop = false) {
   const materia = materias.find(m => m.id === materiaId)
   const turma   = materia.turmas.find(t => t.id === turmaId)
-  estado.turmaAtual = turma
+  estado.materiaAtual = materia
+  estado.turmaAtual   = turma
   atualizarBreadcrumb()
+  if (!fromPop) history.pushState({ view: 'turma', materiaId, turmaId }, '')
 
   if (turma.indice) {
     app.innerHTML = `<div id="conteudo-area"><p style="color:#888;font-size:13px">Carregando...</p></div>`
@@ -102,9 +125,15 @@ function selecionarTurma(materiaId, turmaId) {
   `
 }
 
-function abrirTema(index) {
+function abrirTema(index, fromPop = false) {
   const tema = estado.turmaAtual.temas[index]
   atualizarBreadcrumb(tema.titulo)
+  if (!fromPop) history.pushState({
+    view: 'tema',
+    materiaId: estado.materiaAtual.id,
+    turmaId: estado.turmaAtual.id,
+    temaIndex: index
+  }, '')
 
   app.innerHTML = `<div id="conteudo-area"><p style="color:#888;font-size:13px">Carregando...</p></div>`
 
@@ -153,4 +182,5 @@ function atualizarBreadcrumb(tituloTema) {
     partes.push(`<span class="crumb-atual">${tituloTema}</span>`)
   }
 
-  breadcrumb.innerHTML = partes.join('')}
+  breadcrumb.innerHTML = partes.join('')
+}
