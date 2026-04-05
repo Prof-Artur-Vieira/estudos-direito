@@ -7,13 +7,13 @@ const breadcrumb = document.getElementById('breadcrumb')
 
 // ── Inicialização ────────────────────────────────────────
 history.replaceState({ view: 'materias' }, '')
-renderMaterias(true)
+renderArvore(true)
 
 // ── Histórico do navegador ───────────────────────────────
 window.addEventListener('popstate', (e) => {
   const s = e.state
   if (!s || s.view === 'materias') {
-    renderMaterias(true)
+    renderArvore(true)
   } else if (s.view === 'materia') {
     selecionarMateria(s.materiaId, true)
   } else if (s.view === 'turma') {
@@ -29,19 +29,40 @@ window.addEventListener('popstate', (e) => {
 
 // ── Renderização ─────────────────────────────────────────
 
-function renderMaterias(fromPop = false) {
+function renderArvore(fromPop = false) {
   estado.materiaAtual = null
   estado.turmaAtual   = null
   atualizarBreadcrumb()
   if (!fromPop) history.pushState({ view: 'materias' }, '')
 
   app.innerHTML = `
-    <p class="secao-titulo">Selecione uma matéria</p>
-    <div class="cards-materias">
+    <div class="arvore">
       ${materias.map(m => `
-        <div class="card-materia" onclick="selecionarMateria('${m.id}')">
-          <div class="icone">${m.icone}</div>
-          <div class="nome">${m.titulo}</div>
+        <div class="ramo">
+          <div class="no-materia">${m.icone} ${m.titulo}</div>
+          <div class="conector-v" style="height:14px"></div>
+          <div class="turmas-lista">
+            ${m.turmas.length === 0
+              ? '<div class="no-turma vazia">Em breve</div>'
+              : m.turmas.map(t => `
+                  <div class="no-turma-wrap">
+                    ${t.temas.length > 0
+                      ? `<div class="no-turma">${t.titulo}</div>
+                         <div class="conector-v" style="height:10px"></div>
+                         <div class="temas-lista">
+                           ${t.temas.map((tema, i) => `
+                             <div class="no-tema" onclick="abrirTemaDaArvore('${m.id}','${t.id}',${i})">
+                               ${tema.titulo}
+                               <span class="tag">${tema.descricao}</span>
+                             </div>
+                           `).join('')}
+                         </div>`
+                      : `<div class="no-turma vazia">${t.titulo}<br><span style="font-size:12px">(em breve)</span></div>`
+                    }
+                  </div>
+                `).join('')
+            }
+          </div>
         </div>
       `).join('')}
     </div>
@@ -136,6 +157,14 @@ function executarScripts(container) {
   })
 }
 
+function abrirTemaDaArvore(materiaId, turmaId, temaIndex) {
+  const materia = materias.find(m => m.id === materiaId)
+  const turma   = materia.turmas.find(t => t.id === turmaId)
+  estado.materiaAtual = materia
+  estado.turmaAtual   = turma
+  abrirTema(temaIndex)
+}
+
 function abrirTema(index, fromPop = false) {
   const tema = estado.turmaAtual.temas[index]
   atualizarBreadcrumb(tema.titulo)
@@ -170,7 +199,7 @@ function abrirTema(index, fromPop = false) {
 function atualizarBreadcrumb(tituloTema) {
   const partes = []
 
-  partes.push(`<button class="crumb" onclick="renderMaterias()">Início</button>`)
+  partes.push(`<button class="crumb" onclick="renderArvore()">Início</button>`)
 
   if (estado.materiaAtual) {
     partes.push(`<span class="sep">›</span>`)
