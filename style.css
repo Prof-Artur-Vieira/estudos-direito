@@ -18,12 +18,33 @@ header {
   box-shadow: 0 2px 8px rgba(0,0,0,.3);
 }
 
+.header-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 6px;
+}
+
 .site-titulo {
   font-size: 18px;
   font-weight: 700;
   letter-spacing: .3px;
-  margin-bottom: 6px;
 }
+
+.btn-sobre {
+  font-size: 13px;
+  font-weight: 600;
+  color: white;
+  background: rgba(255,255,255,.15);
+  border: 1px solid rgba(255,255,255,.35);
+  border-radius: 6px;
+  padding: 5px 14px;
+  text-decoration: none;
+  transition: background .15s;
+  white-space: nowrap;
+}
+
+.btn-sobre:hover { background: rgba(255,255,255,.25); }
 
 /* ── Breadcrumb ── */
 #breadcrumb {
