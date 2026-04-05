@@ -125,6 +125,17 @@ function selecionarTurma(materiaId, turmaId, fromPop = false) {
   `
 }
 
+function executarScripts(container) {
+  container.querySelectorAll('script').forEach(oldScript => {
+    const newScript = document.createElement('script')
+    Array.from(oldScript.attributes).forEach(attr =>
+      newScript.setAttribute(attr.name, attr.value)
+    )
+    newScript.textContent = oldScript.textContent
+    oldScript.parentNode.replaceChild(newScript, oldScript)
+  })
+}
+
 function abrirTema(index, fromPop = false) {
   const tema = estado.turmaAtual.temas[index]
   atualizarBreadcrumb(tema.titulo)
@@ -143,7 +154,9 @@ function abrirTema(index, fromPop = false) {
       return r.text()
     })
     .then(html => {
-      document.getElementById('conteudo-area').innerHTML = html
+      const area = document.getElementById('conteudo-area')
+      area.innerHTML = html
+      executarScripts(area)
     })
     .catch(() => {
       document.getElementById('conteudo-area').innerHTML =
