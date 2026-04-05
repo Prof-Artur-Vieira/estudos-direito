@@ -159,7 +159,9 @@ function executarScripts(container) {
 
 function abrirTemaDaArvore(materiaId, turmaId, temaIndex) {
   const materia = materias.find(m => m.id === materiaId)
-  const turma   = materia.turmas.find(t => t.id === turmaId)
+  if (!materia) { console.error('abrirTemaDaArvore: matéria não encontrada', materiaId); return }
+  const turma = materia.turmas.find(t => t.id === turmaId)
+  if (!turma)  { console.error('abrirTemaDaArvore: turma não encontrada', turmaId); return }
   estado.materiaAtual = materia
   estado.turmaAtual   = turma
   abrirTema(temaIndex)
