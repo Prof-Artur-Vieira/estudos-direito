@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mapa Conceitual – Crimes contra a Fé Pública</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Source+Sans+3:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --navy:#1F497D; --navy2:#2c5f9e; --navy3:#4a7fb5;
+  --gold:#C9A84C; --gold2:#e8c96a;
+  --green:#4a7a4a; --green2:#6b9e6b;
+  --red:#8b3a3a; --red2:#b05555;
+  --gray:#5a6472; --gray2:#8a98a8;
+  --bg:#f0f4f8; --surface:#ffffff; --surface2:#f7f9fc;
+  --text:#1a2030; --muted:#5a6478;
+  --border:rgba(31,73,125,0.15);
+  --shadow:0 3px 14px rgba(31,73,125,0.13);
+  --serif:'Playfair Display',Georgia,serif;
+  --sans:'Source Sans 3',system-ui,sans-serif;
+}
+@media(prefers-color-scheme:dark){
+  :root{
+    --navy:#4a7fb5;--navy2:#6a9fd4;--navy3:#8ab9e0;
+    --gold:#e8c96a;--gold2:#f5da90;
+    --green:#6b9e6b;--green2:#8bbf8b;
+    --red:#c07070;--red2:#d49090;
+    --gray:#8a98a8;--gray2:#aab8c8;
+    --bg:#0f1623;--surface:#1a2235;--surface2:#1e2840;
+    --text:#dde4f0;--muted:#8a98b8;
+    --border:rgba(100,150,210,0.2);
+    --shadow:0 3px 14px rgba(0,0,0,0.35);
+  }
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:var(--sans);background:var(--bg);color:var(--text);min-height:100vh;}
+
+header{background:var(--navy);padding:0 28px;height:60px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 2px 10px rgba(0,0,0,0.22);}
+.h-title{font-family:var(--serif);color:#fff;font-size:17px;font-weight:700;}
+.h-sub{color:var(--gold2);font-size:11px;font-weight:500;letter-spacing:.07em;text-transform:uppercase;margin-top:2px;}
+
+main{padding:28px 24px 40px;}
+.intro{max-width:780px;margin:0 auto 28px;font-size:14px;color:var(--muted);line-height:1.65;text-align:center;}
+.intro strong{color:var(--navy);font-weight:600;}
+
+.legend{display:flex;gap:16px;flex-wrap:wrap;justify-content:center;margin-bottom:24px;}
+.leg{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--muted);}
+.leg-dot{width:13px;height:13px;border-radius:50%;}
+
+.map-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;}
+
+/* SVG node hover */
+.cnode{cursor:pointer;}
+.cnode:hover rect,.cnode:hover ellipse{filter:brightness(1.08);}
+
+/* Detail panel */
+#detail{
+  max-width:680px;margin:28px auto 0;
+  background:var(--surface);border:1.5px solid var(--border);
+  border-radius:12px;padding:20px 24px;
+  box-shadow:var(--shadow);
+  display:none;
+}
+#detail.show{display:block;}
+#detail h3{font-family:var(--serif);font-size:16px;color:var(--navy);margin-bottom:10px;}
+#detail p{font-size:13.5px;line-height:1.65;color:var(--text);margin-bottom:8px;}
+.tag{display:inline-block;padding:3px 10px;border-radius:5px;font-size:11.5px;font-weight:600;margin-right:6px;margin-bottom:4px;}
+.tag-art{background:rgba(31,73,125,0.1);color:var(--navy);}
+.tag-stj{background:rgba(201,168,76,0.15);color:#7a5800;}
+@media(prefers-color-scheme:dark){
+  .tag-art{background:rgba(74,127,181,0.2);color:var(--navy2);}
+  .tag-stj{background:rgba(232,201,106,0.15);color:var(--gold);}
+}
+</style>
+</head>
+<body>
+<header>
+  <div>
+    <div class="h-title">Crimes contra a Fé Pública — Mapa Conceitual</div>
+    <div class="h-sub">Título X · CP, arts. 289–311 · Direito Penal IV</div>
+  </div>
+</header>
+<main>
+  <p class="intro">Clique em qualquer conceito para ver detalhes. As setas indicam <strong>relações lógicas</strong> entre os conceitos: classificação, pressuposto, consequência ou exceção.</p>
+
+  <div class="legend">
+    <div class="leg"><div class="leg-dot" style="background:#1F497D"></div>Conceito central</div>
+    <div class="leg"><div class="leg-dot" style="background:#2c5f9e"></div>Categorias do falso</div>
+    <div class="leg"><div class="leg-dot" style="background:#4a7a4a"></div>Tipos penais</div>
+    <div class="leg"><div class="leg-dot" style="background:#8b3a3a"></div>Consequências/penas</div>
+    <div class="leg"><div class="leg-dot" style="background:#C9A84C"></div>Jurisprudência</div>
+  </div>
+
+  <div class="map-wrap">
+<svg id="cmap" width="100%" viewBox="0 0 1120 860" xmlns="http://www.w3.org/2000/svg" font-family="'Source Sans 3',system-ui,sans-serif">
+<defs>
+  <marker id="ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+    <path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  </marker>
+  <marker id="ar-dash" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+    <path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  </marker>
+</defs>
+
+<!-- ══ EDGES ══ -->
+<!-- Central to Bem Jurídico -->
+<path d="M560 110 L560 155" fill="none" stroke="#1F497D" stroke-width="1.4" opacity=".5" marker-end="url(#ar)"/>
+<!-- Central to falsidade material -->
+<path d="M490 95 Q340 95 310 160" fill="none" stroke="#2c5f9e" stroke-width="1.3" opacity=".5" marker-end="url(#ar)"/>
+<!-- Central to falsidade ideológica -->
+<path d="M630 95 Q790 95 810 160" fill="none" stroke="#2c5f9e" stroke-width="1.3" opacity=".5" marker-end="url(#ar)"/>
+<!-- Falsidade material to moeda falsa -->
+<path d="M280 220 L200 290" fill="none" stroke="#4a7a4a" stroke-width="1.2" opacity=".5" marker-end="url(#ar)"/>
+<!-- Falsidade material to doc publico -->
+<path d="M310 225 L310 290" fill="none" stroke="#4a7a4a" stroke-width="1.2" opacity=".5" marker-end="url(#ar)"/>
+<!-- Falsidade material to selos -->
+<path d="M340 222 L420 290" fill="none" stroke="#4a7a4a" stroke-width="1.2" opacity=".5" marker-end="url(#ar)"/>
+<!-- Falsidade ideológica to falso ideal -->
+<path d="M810 220 L810 290" fill="none" stroke="#4a7a4a" stroke-width="1.2" opacity=".5" marker-end="url(#ar)"/>
+<!-- Falsidade ideológica to art 299 -->
+<path d="M840 222 L920 290" fill="none" stroke="#4a7a4a" stroke-width="1.2" opacity=".5" marker-end="url(#ar)"/>
+<!-- Moeda falsa to grosseiro -->
+<path d="M200 350 Q160 400 190 450" fill="none" stroke="#C9A84C" stroke-width="1.2" opacity=".55" stroke-dasharray="4 3" marker-end="url(#ar-dash)"/>
+<!-- Moeda falsa to petrechos -->
+<path d="M200 350 L200 450" fill="none" stroke="#8b3a3a" stroke-width="1.2" opacity=".5" marker-end="url(#ar)"/>
+<!-- Doc publico to uso doc falso -->
+<path d="M310 350 Q310 400 310 450" fill="none" stroke="#8b3a3a" stroke-width="1.2" opacity=".5" marker-end="url(#ar)"/>
+<!-- Doc publico to antefato -->
+<path d="M340 350 Q420 400 450 450" fill="none" stroke="#C9A84C" stroke-width="1.2" opacity=".55" stroke-dasharray="4 3" marker-end="url(#ar-dash)"/>
+<!-- Art 299 to falso × estelionato -->
+<path d="M920 350 Q920 400 920 450" fill="none" stroke="#C9A84C" stroke-width="1.2" opacity=".55" stroke-dasharray="4 3" marker-end="url(#ar-dash)"/>
+<!-- Bem jurídico to pressuposto -->
+<path d="M560 220 L560 290" fill="none" stroke="#1F497D" stroke-width="1.2" opacity=".45" marker-end="url(#ar)"/>
+<!-- Pressuposto to relevância -->
+<path d="M560 350 Q560 400 560 450" fill="none" stroke="#8b3a3a" stroke-width="1.2" opacity=".45" marker-end="url(#ar)"/>
+<!-- Relevância to competência -->
+<path d="M560 510 L560 570" fill="none" stroke="#2c5f9e" stroke-width="1.2" opacity=".45" marker-end="url(#ar)"/>
+<!-- Competência to JF -->
+<path d="M530 630 L430 700" fill="none" stroke="#4a7a4a" stroke-width="1.2" opacity=".45" marker-end="url(#ar)"/>
+<!-- Competência to JE -->
+<path d="M590 630 L690 700" fill="none" stroke="#8b3a3a" stroke-width="1.2" opacity=".45" marker-end="url(#ar)"/>
+<!-- Petrechos upward link label -->
+<path d="M180 540 Q140 620 180 700" fill="none" stroke="#8b3a3a" stroke-width="1.1" opacity=".35" stroke-dasharray="3 3"/>
+
+<!-- ══ NODES ══ -->
+
+<!-- CENTRAL -->
+<g class="cnode" onclick="show('fe')" id="n-fe">
+  <rect x="420" y="54" width="280" height="60" rx="10" fill="#1F497D" stroke="#162f52" stroke-width="2"/>
+  <text x="560" y="77" text-anchor="middle" dominant-baseline="central" fill="#fff" font-size="14" font-weight="700" font-family="'Playfair Display',serif">Fé Pública</text>
+  <text x="560" y="97" text-anchor="middle" dominant-baseline="central" fill="rgba(255,255,255,0.75)" font-size="11">Bem jurídico · Título X, CP</text>
+</g>
+
+<!-- BEM JURÍDICO -->
+<g class="cnode" onclick="show('bj')" id="n-bj">
+  <rect x="450" y="158" width="220" height="52" rx="8" fill="#2c5f9e" stroke="#1F497D" stroke-width="1.5"/>
+  <text x="560" y="178" text-anchor="middle" dominant-baseline="central" fill="#fff" font-size="12" font-weight="600">Confiança coletiva</text>
+  <text x="560" y="196" text-anchor="middle" dominant-baseline="central" fill="rgba(255,255,255,0.72)" font-size="10">nos atos, documentos e sinais</text>
+</g>
+
+<!-- FALSIDADE MATERIAL -->
+<g class="cnode" onclick="show('fm')" id="n-fm">
+  <rect x="210" y="158" width="190" height="52" rx="8" fill="#2c5f9e" stroke="#1F497D" stroke-width="1.5"/>
+  <text x="305" y="178" text-anchor="middle" dominant-baseline="central" fill="#fff" font-size="12" font-weight="600">Falsidade material</text>
+  <text x="305" y="196" text-anchor="middle" dominant-baseline="central" fill="rgba(255,255,255,0.72)" font-size="10">suporte falsificado</text>
+</g>
+
+<!-- FALSIDADE IDEOLÓGICA -->
+<g class="cnode" onclick="show('fi')" id="n-fi">
+  <rect x="714" y="158" width="196" height="52" rx="8" fill="#2c5f9e" stroke="#1F497D" stroke-width="1.5"/>
+  <text x="812" y="178" text-anchor="middle" dominant-baseline="central" fill="#fff" font-size="12" font-weight="600">Falsidade ideológica</text>
+  <text x="812" y="196" text-anchor="middle" dominant-baseline="central" fill="rgba(255,255,255,0.72)" font-size="10">conteúdo falso, doc. perfeito</text>
+</g>
+
+<!-- MOEDA FALSA -->
+<g class="cnode" onclick="show('mf')" id="n-mf">
+  <rect x="118" y="292" width="168" height="52" rx="8" fill="#4a7a4a" stroke="#3a6a3a" stroke-width="1.4"/>
+  <text x="202" y="312" text-anchor="middle" dominant-baseline="central" fill="#fff" font-size="12" font-weight="600">Moeda falsa</text>
+  <text x="202" y="330" text-anchor="middle" dominant-baseline="central" fill="rgba(255,255,255,0.72)" font-size="10">Art. 289 CP</text>
+</g>
+
+<!-- DOC PÚBLICO -->
+<g class="cnode" onclick="show('dp')" id="n-dp">
+  <rect x="230" y="292" width="168" height="52" rx="8" fill="#4a7a4a" stroke="#3a6a3a" stroke-width="1.4"/>
+  <text x="314" y="312" text-anchor="middle" dominant-baseline="central" fill="#fff" font-size="12" font-weight="600">Falsif. doc. público</text>
+  <text x="314" y="330" text-anchor="middle" dominant-baseline="central" fill="rgba(255,255,255,0.72)" font-size="10">Art. 297 CP</text>
+</g>
+
+<!-- SELOS -->
+<g class="cnode" onclick="show('sl')" id="n-sl">
+  <rect x="360" y="292" width="152" height="52" rx="8" fill="#4a7a4a" stroke="#3a6a3a" stroke-width="1.4"/>
+  <text x="436" y="312" text-anchor="middle" dominant-baseline="central" fill="#fff" font-size="12" font-weight="600">Falsif. selos/sinais</text>
+  <text x="436" y="330" text-anchor="middle" dominant-baseline="central" fill="rgba(255,255,255,0.72)" font-size="10">Art. 296 CP</text>
+</g>
+
+<!-- PRESSUPOSTO -->
+<g class="cnode" onclick="show('pp')" id="n-pp">
+  <rect x="448" y="292" width="224" height="52" rx="8" fill="#1F497D" stroke="#162f52" stroke-width="1.4"/>
+  <text x="560" y="312" text-anchor="middle" dominant-baseline="central" fill="#fff" font-size="12" font-weight="600">Pressuposto do falso</text>
+  <text x="560" y="330" text-anchor="middle" dominant-baseline="central" fill="rgba(255,255,255,0.72)" font-size="10">capacidade de iludir + relevância jurídica</text>
+</g>
+
+<!-- FALSO IDEAL -->
+<g class="cnode" onclick="show('fid')" id="n-fid">
+  <rect x="714" y="292" width="182" height="52" rx="8" fill="#4a7a4a" stroke="#3a6a3a" stroke-width="1.4"/>
+  <text x="805" y="312" text-anchor="middle" dominant-baseline="central" fill="#fff" font-size="12" font-weight="600">Falso ideal/intelectual</text>
+  <text x="805" y="330" text-anchor="middle" dominant-baseline="central" fill="rgba(255,255,255,0.72)" font-size="10">ideia falsa em doc. verdadeiro</text>
+</g>
+
+<!-- ART 299 -->
+<g class="cnode" onclick="show('a299')" id="n-a299">
+  <rect x="858" y="292" width="168" height="52" rx="8" fill="#4a7a4a" stroke="#3a6a3a" stroke-width="1.4"/>
+  <text x="942" y="312" text-anchor="middle" dominant-baseline="central" fill="#fff" font-size="12" font-weight="600">Art. 299 CP</text>
+  <text x="942" y="330" text-anchor="middle" dominant-baseline="central" fill="rgba(255,255,255,0.72)" font-size="10">omissão ou inserção falsa</text>
+</g>
+
+<!-- GROSSEIRO -->
+<g class="cnode" onclick="show('gr')" id="n-gr">
+  <rect x="106" y="452" width="176" height="52" rx="8" fill="#C9A84C" stroke="#a07a28" stroke-width="1.4"/>
+  <text x="194" y="472" text-anchor="middle" dominant-baseline="central" fill="#1a1200" font-size="12" font-weight="600">Falso grosseiro</text>
+  <text x="194" y="490" text-anchor="middle" dominant-baseline="central" fill="rgba(26,18,0,0.68)" font-size="10">estelionato · Súm. 73 STJ</text>
+</g>
+
+<!-- PETRECHOS -->
+<g class="cnode" onclick="show('pet')" id="n-pet">
+  <rect x="106" y="700" width="180" height="52" rx="8" fill="#8b3a3a" stroke="#6a2828" stroke-width="1.4"/>
+  <text x="196" y="720" text-anchor="middle" dominant-baseline="central" fill="#fff" font-size="12" font-weight="600">Petrechos</text>
+  <text x="196" y="738" text-anchor="middle" dominant-baseline="central" fill="rgba(255,255,255,0.72)" font-size="10">arts. 291/294 · crime autônomo</text>
+</g>
+
+<!-- USO DOC FALSO -->
+<g class="cnode" onclick="show('udf')" id="n-udf">
+  <rect x="236" y="452" width="180" height="52" rx="8" fill="#8b3a3a" stroke="#6a2828" stroke-width="1.4"/>
+  <text x="326" y="472" text-anchor="middle" dominant-baseline="central" fill="#fff" font-size="12" font-weight="600">Uso de doc. falso</text>
+  <text x="326" y="490" text-anchor="middle" dominant-baseline="central" fill="rgba(255,255,255,0.72)" font-size="10">art. 304 CP</text>
+</g>
+
+<!-- ANTEFATO -->
+<g class="cnode" onclick="show('ant')" id="n-ant">
+  <rect x="380" y="452" width="168" height="52" rx="8" fill="#C9A84C" stroke="#a07a28" stroke-width="1.4"/>
+  <text x="464" y="472" text-anchor="middle" dominant-baseline="central" fill="#1a1200" font-size="12" font-weight="600">Antefato impunível</text>
+  <text x="464" y="490" text-anchor="middle" dominant-baseline="central" fill="rgba(26,18,0,0.68)" font-size="10">falsif. absorvida pelo uso</text>
+</g>
+
+<!-- RELEVÂNCIA -->
+<g class="cnode" onclick="show('rel')" id="n-rel">
+  <rect x="448" y="452" width="224" height="52" rx="8" fill="#8b3a3a" stroke="#6a2828" stroke-width="1.4"/>
+  <text x="560" y="472" text-anchor="middle" dominant-baseline="central" fill="#fff" font-size="12" font-weight="600">Relevância jurídica</text>
+  <text x="560" y="490" text-anchor="middle" dominant-baseline="central" fill="rgba(255,255,255,0.72)" font-size="10">exigida · falso sem relevância = atípico</text>
+</g>
+
+<!-- FALSO × ESTELIONATO -->
+<g class="cnode" onclick="show('fe2')" id="n-fe2">
+  <rect x="840" y="452" width="200" height="52" rx="8" fill="#C9A84C" stroke="#a07a28" stroke-width="1.4"/>
+  <text x="940" y="472" text-anchor="middle" dominant-baseline="central" fill="#1a1200" font-size="12" font-weight="600">Falso × estelionato</text>
+  <text x="940" y="490" text-anchor="middle" dominant-baseline="central" fill="rgba(26,18,0,0.68)" font-size="10">Súm. 17 STJ – exaurimento</text>
+</g>
+
+<!-- COMPETÊNCIA -->
+<g class="cnode" onclick="show('comp')" id="n-comp">
+  <rect x="450" y="572" width="220" height="52" rx="8" fill="#2c5f9e" stroke="#1F497D" stroke-width="1.4"/>
+  <text x="560" y="592" text-anchor="middle" dominant-baseline="central" fill="#fff" font-size="12" font-weight="600">Competência</text>
+  <text x="560" y="610" text-anchor="middle" dominant-baseline="central" fill="rgba(255,255,255,0.72)" font-size="10">definida pela ofensa ao interesse</text>
+</g>
+
+<!-- JUSTIÇA FEDERAL -->
+<g class="cnode" onclick="show('jf')" id="n-jf">
+  <rect x="340" y="700" width="188" height="52" rx="8" fill="#4a7a4a" stroke="#3a6a3a" stroke-width="1.4"/>
+  <text x="434" y="720" text-anchor="middle" dominant-baseline="central" fill="#fff" font-size="12" font-weight="600">Justiça Federal</text>
+  <text x="434" y="738" text-anchor="middle" dominant-baseline="central" fill="rgba(255,255,255,0.72)" font-size="10">moeda falsa, doc. federal · CF art. 109</text>
+</g>
+
+<!-- JUSTIÇA ESTADUAL -->
+<g class="cnode" onclick="show('je')" id="n-je">
+  <rect x="594" y="700" width="200" height="52" rx="8" fill="#8b3a3a" stroke="#6a2828" stroke-width="1.4"/>
+  <text x="694" y="720" text-anchor="middle" dominant-baseline="central" fill="#fff" font-size="12" font-weight="600">Justiça Estadual</text>
+  <text x="694" y="738" text-anchor="middle" dominant-baseline="central" fill="rgba(255,255,255,0.72)" font-size="10">falso grosseiro (estelionato)</text>
+</g>
+
+<!-- Relation labels on edges -->
+<text x="360" y="145" text-anchor="middle" font-size="10" fill="#5a6478" font-style="italic">classifica-se em</text>
+<text x="760" y="145" text-anchor="middle" font-size="10" fill="#5a6478" font-style="italic">classifica-se em</text>
+<text x="582" y="145" text-anchor="middle" font-size="10" fill="#5a6478" font-style="italic">pressupõe</text>
+<text x="152" y="430" text-anchor="middle" font-size="10" fill="#a07a28" font-style="italic">falso grosseiro →</text>
+<text x="362" y="430" text-anchor="middle" font-size="10" fill="#5a6478" font-style="italic">gera</text>
+<text x="580" y="555" text-anchor="middle" font-size="10" fill="#5a6478" font-style="italic">determina</text>
+
+</svg>
+  </div>
+
+  <!-- Detail panel -->
+  <div id="detail">
+    <h3 id="d-title"></h3>
+    <p id="d-body"></p>
+    <div id="d-tags"></div>
+  </div>
+</main>
+
+<script>
+const INFO = {
+  fe:  {title:"Fé Pública – Bem Jurídico Precipuamente Protegido", body:"Título X do CP. Segundo Noronha: 'a fé pública é uma realidade e é um interesse que a lei deve proteger. Sem ela seria impossível a vida em sociedade.' O falso é sempre o meio utilizado pelo agente. O bem jurídico pode ser protegido de forma secundária junto com outros bens (ex.: patrimônio, no delito de moeda falsa).", tags:["CP – Título X, arts. 289–311"]},
+  bj:  {title:"Confiança coletiva nos atos e documentos", body:"A fé pública protege a confiança que a sociedade deposita na autenticidade e veracidade dos documentos, moedas, selos e sinais que circulam nas relações jurídicas e sociais. Não é apenas o Estado que é sujeito passivo: qualquer prejudicado também o é.", tags:["Título X – Parte Especial do CP"]},
+  fm:  {title:"Falsidade material", body:"Recai sobre o próprio suporte físico do documento ou da moeda: o agente cria o objeto falso (contrafação) ou modifica o verdadeiro (alteração). Exemplos: fabricar cédula falsa, alterar valor de cheque, falsificar documento público.", tags:["Arts. 289, 293, 296, 297, 298 CP"]},
+  fi:  {title:"Falsidade ideológica", body:"O documento em si é formalmente perfeito (suporte verdadeiro), mas o conteúdo (ideia) nele inserido é falso. Também chamada de falso ideal, falso intelectual ou falso moral. O agente insere declaração falsa ou omite declaração que devia constar.", tags:["Art. 299 CP", "Falso ideal · falso intelectual · falso moral"]},
+  mf:  {title:"Moeda falsa – Art. 289 CP", body:"Falsificar, fabricando ou alterando, moeda metálica ou papel-moeda de curso legal no país ou no estrangeiro. Reclusão de 3 a 12 anos e multa. Quatro modalidades no caput e §§: fabricação, circulação (§1.º – tipo misto alternativo), boa-fé posterior (§2.º – privilegiado), funcionário de banco (§3.º – qualificado). Ação penal pública incondicionada.", tags:["Art. 289 CP", "Reclusão 3–12 anos + multa", "Competência: Justiça Federal"]},
+  dp:  {title:"Falsificação de documento público – Art. 297 CP", body:"Falsificar no todo ou em parte, ou alterar documento público verdadeiro. Para fins penais, equiparam-se a documento público: emanado de entidade paraestatal, título ao portador, ações de S.A., livros mercantis e testamento particular. Funcionário público que prevalece do cargo: +1/6. Súmula Vinculante 36: competência da Justiça Federal para falsificação de CIR e CHA da Marinha.", tags:["Art. 297 CP", "Reclusão 2–6 anos + multa", "Súm. Vinculante 36 STF"]},
+  sl:  {title:"Falsificação de selos ou sinais públicos – Art. 296 CP", body:"Falsificar selos destinados a autenticar atos oficiais, sinais de entidades de direito público ou sinais de tabelião. Inclui uso indevido de sinal verdadeiro e falsificação de logotipos/marcas de órgãos públicos. Funcionário público: +1/6.", tags:["Art. 296 CP", "Reclusão 2–6 anos + multa"]},
+  pp:  {title:"Pressuposto do falso: capacidade de iludir + relevância jurídica", body:"O falso deve reunir dois pressupostos: (1) capacidade de iludir – falsificação grosseira, incapaz de enganar, não ofende a fé pública; (2) relevância jurídica – o falso deve produzir efeitos no mundo do direito. Sem esses dois elementos, o fato é atípico (ou configura outro crime, como estelionato).", tags:["Princípio da ofensividade aplicado ao falso"]},
+  fid: {title:"Falso ideal / intelectual / moral", body:"Sinônimos doutrinários para a falsidade ideológica (art. 299 CP). A expressão 'falso moral' realça que a falsidade está no conteúdo moral/ético do ato, não em sua forma. Rogério Greco e Cezar Bitencourt usam essas expressões como equivalentes.", tags:["Art. 299 CP"]},
+  a299:{title:"Art. 299 CP – Falsidade ideológica", body:"Omitir, em documento público ou particular, declaração que dele devia constar, ou nele inserir ou fazer inserir declaração falsa ou diversa da que devia ser escrita, com o fim de prejudicar direito, criar obrigação ou alterar a verdade sobre fato juridicamente relevante. Elemento subjetivo especial: finalidade específica (dolo + fim especial). Funcionário público que prevalece do cargo ou falsificação de registro civil: +1/6.", tags:["Art. 299 CP", "Reclusão 1–5 anos (doc. público) / 1–3 anos (particular) + multa"]},
+  gr:  {title:"Falso grosseiro – Súmula 73 STJ", body:"'A utilização de papel-moeda grosseiramente falsificado configura, em tese, o crime de estelionato, de competência da Justiça Estadual.' O falso grosseiro não ofende a fé pública (ausência de capacidade de iludir). A conduta pode configurar tentativa ou consumação de estelionato, conforme a intenção e o resultado patrimonial.", tags:["STJ – Súmula 73", "Competência: Justiça Estadual"]},
+  pet: {title:"Petrechos de falsificação – Arts. 291 e 294 CP", body:"Art. 291: fabricar, adquirir, fornecer, possuir ou guardar maquinismo destinado à falsificação de moeda. Art. 294: idem para papéis públicos. São infrações penais autônomas, não simples atos preparatórios. Rogério Greco: concurso real com o crime-fim (moeda falsa), afastando o antefato impunível. Para papéis públicos (art. 294), a doutrina majoritária aplica o antefato impunível.", tags:["Art. 291 CP – Reclusão 2–6 anos + multa", "Art. 294 CP – Reclusão 1–3 anos + multa"]},
+  udf: {title:"Uso de documento falso – Art. 304 CP", body:"Fazer uso de qualquer dos papéis falsificados ou alterados a que se referem os arts. 297 a 302. Se o próprio agente falsificou o documento, aplica-se o princípio do antefato impunível: o falso é absorvido pelo uso. Crime idêntico ao da falsificação quanto à pena.", tags:["Art. 304 CP", "Mesmas penas da falsificação utilizada"]},
+  ant: {title:"Antefato impunível", body:"O crime-meio (falsificação) é absorvido pelo crime-fim (uso do documento). Fundamento: o falso é um simples meio para alcançar o uso, que é o resultado final desejado. Exceção: Súmula 17 STJ – quando o falso ainda tem potencialidade lesiva além do estelionato, não é absorvido.", tags:["Aplicação: arts. 297/298/304 CP", "Exceção: STJ Súm. 17"]},
+  rel: {title:"Relevância jurídica – exigência do falso", body:"O falso deve incidir sobre elemento juridicamente relevante. Fato sem relevância jurídica = fato atípico. Exemplo: alterar data de documento sem eficácia jurídica própria pode ser atípico se não prejudicar direito nem criar obrigação.", tags:["Princípio da lesividade/ofensividade", "Art. 299 CP – 'fato juridicamente relevante'"]},
+  fe2: {title:"Relação falso × estelionato – Súmula 17 STJ", body:"'Quando o falso se exaure no estelionato, sem mais potencialidade lesiva, é por este absorvido.' (STJ – Súmula 17). Ou seja: se após ser usado no estelionato o documento falso não pode mais prejudicar, o falso é absorvido; caso contrário, há concurso (discute-se se formal ou material).", tags:["STJ – Súmula 17", "Falso absorvido = sem mais potencialidade"]},
+  comp:{title:"Competência nos crimes contra a fé pública", body:"Regra geral: Justiça Federal (CF, art. 109, IV) quando o crime ofende bens, serviços ou interesses da União, suas autarquias ou empresas públicas. Exemplo: falsificação de moeda (art. 289) e documentos federais. Exceção: falso grosseiro que configura estelionato → Justiça Estadual (STJ, Súm. 73).", tags:["CF, art. 109, IV", "STJ – Súmula 73"]},
+  jf:  {title:"Justiça Federal – competência", body:"Crimes que ofendem diretamente interesse ou serviço da União: moeda falsa (art. 289), falsificação de documentos federais, selos de controle tributário federal, CIR/CHA da Marinha (Súm. Vinculante 36 STF). Inquérito: Polícia Federal.", tags:["CF, art. 109, IV", "Súm. Vinculante 36 STF"]},
+  je:  {title:"Justiça Estadual – exceção", body:"Falso grosseiro incapaz de iludir: configura estelionato ou tentativa, de competência da Justiça Estadual. Fundamento: STJ, Súmula 73. O objeto jurídico violado é o patrimônio, não a fé pública.", tags:["STJ – Súmula 73", "Estelionato: art. 171 CP"]}
+};
+
+function show(id) {
+  const data = INFO[id];
+  if (!data) return;
+  const d = document.getElementById('detail');
+  document.getElementById('d-title').textContent = data.title;
+  document.getElementById('d-body').textContent = data.body;
+  const tags = document.getElementById('d-tags');
+  tags.innerHTML = '';
+  (data.tags||[]).forEach(t => {
+    const span = document.createElement('span');
+    span.className = 'tag ' + (t.startsWith('STJ')||t.startsWith('STF')||t.startsWith('Súm') ? 'tag-stj' : 'tag-art');
+    span.textContent = t;
+    tags.appendChild(span);
+  });
+  d.classList.add('show');
+  d.scrollIntoView({behavior:'smooth', block:'nearest'});
+}
+</script>
+</body>
+</html>

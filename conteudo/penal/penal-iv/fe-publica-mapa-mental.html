@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mapa Mental – Crimes contra a Fé Pública</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Source+Sans+3:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --navy: #1F497D;
+  --navy-dark: #162f52;
+  --navy-light: #2c5f9e;
+  --gold: #C9A84C;
+  --gold-light: #e8c96a;
+  --cream: #f5f0e8;
+  --text: #1a1a2e;
+  --text-muted: #4a5568;
+  --bg: #f0f4f8;
+  --white: #ffffff;
+  --shadow: 0 4px 16px rgba(31,73,125,0.15);
+  --shadow-sm: 0 2px 8px rgba(31,73,125,0.12);
+  --node-r: 10;
+  --serif: 'Playfair Display', Georgia, serif;
+  --sans: 'Source Sans 3', system-ui, sans-serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --navy: #4a7fb5;
+    --navy-dark: #3a6494;
+    --navy-light: #6a9fd4;
+    --gold: #e8c96a;
+    --gold-light: #f0d890;
+    --cream: #1e2535;
+    --text: #e8eaf0;
+    --text-muted: #a0aec0;
+    --bg: #111827;
+    --white: #1e2535;
+    --shadow: 0 4px 16px rgba(0,0,0,0.4);
+    --shadow-sm: 0 2px 8px rgba(0,0,0,0.3);
+  }
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: var(--sans);
+  background: var(--bg);
+  color: var(--text);
+  overflow: hidden;
+  height: 100vh;
+  width: 100vw;
+}
+
+/* ── HEADER ── */
+header {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  background: var(--navy);
+  padding: 0 24px;
+  height: 64px;
+  display: flex; align-items: center; justify-content: space-between;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.25);
+}
+.header-title {
+  font-family: var(--serif);
+  color: #fff;
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+.header-sub {
+  font-family: var(--sans);
+  color: var(--gold-light);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  margin-top: 2px;
+}
+.controls {
+  display: flex; gap: 8px; align-items: center;
+}
+.btn {
+  background: rgba(255,255,255,0.12);
+  border: 1px solid rgba(255,255,255,0.22);
+  color: #fff;
+  border-radius: 6px;
+  padding: 6px 12px;
+  font-family: var(--sans);
+  font-size: 13px;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.btn:hover { background: rgba(255,255,255,0.2); }
+.zoom-info {
+  color: rgba(255,255,255,0.7);
+  font-size: 13px;
+  min-width: 44px;
+  text-align: center;
+}
+
+/* ── CANVAS ── */
+#canvas-wrap {
+  position: fixed; top: 64px; left: 0; right: 0; bottom: 0;
+  overflow: hidden; cursor: grab;
+}
+#canvas-wrap:active { cursor: grabbing; }
+#canvas { position: absolute; transform-origin: 0 0; }
+
+/* ── TOOLTIP ── */
+#tooltip {
+  position: fixed; z-index: 200; max-width: 340px;
+  background: var(--white);
+  border: 1.5px solid var(--navy);
+  border-radius: 10px;
+  padding: 14px 16px;
+  box-shadow: var(--shadow);
+  pointer-events: none; opacity: 0;
+  transition: opacity 0.15s;
+  font-family: var(--sans);
+}
+#tooltip.show { opacity: 1; }
+#tooltip .tt-title {
+  font-family: var(--serif);
+  font-size: 15px; font-weight: 700;
+  color: var(--navy);
+  margin-bottom: 8px;
+  border-bottom: 1px solid rgba(31,73,125,0.15);
+  padding-bottom: 6px;
+}
+#tooltip .tt-body {
+  font-size: 13px; line-height: 1.55;
+  color: var(--text);
+}
+#tooltip .tt-art {
+  font-size: 11.5px;
+  color: var(--navy);
+  font-weight: 600;
+  margin-top: 8px;
+  background: var(--cream);
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-family: var(--sans);
+}
+#tooltip .tt-stj {
+  font-size: 11px;
+  color: #7c4d00;
+  margin-top: 6px;
+  padding: 4px 8px;
+  background: #fff8e0;
+  border-left: 3px solid var(--gold);
+  border-radius: 0 4px 4px 0;
+}
+@media (prefers-color-scheme: dark) {
+  #tooltip .tt-stj { background: #2a2000; color: #e8c96a; }
+}
+
+/* ── LEGEND ── */
+.legend {
+  position: fixed; bottom: 16px; left: 16px; z-index: 100;
+  background: var(--white);
+  border: 1px solid rgba(31,73,125,0.18);
+  border-radius: 8px; padding: 10px 14px;
+  font-size: 12px; box-shadow: var(--shadow-sm);
+}
+.legend-row { display: flex; align-items: center; gap: 8px; margin: 3px 0; color: var(--text-muted); }
+.legend-dot { width: 14px; height: 14px; border-radius: 50%; flex-shrink: 0; }
+.legend-line { width: 24px; height: 2px; flex-shrink: 0; }
+
+/* ── INSTRUCTIONS ── */
+.hint {
+  position: fixed; bottom: 16px; right: 16px; z-index: 100;
+  background: var(--white);
+  border: 1px solid rgba(31,73,125,0.15);
+  border-radius: 8px; padding: 8px 12px;
+  font-size: 11px; color: var(--text-muted);
+  box-shadow: var(--shadow-sm);
+  line-height: 1.6;
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div>
+    <div class="header-title">Crimes contra a Fé Pública</div>
+    <div class="header-sub">Título X · CP — Mapa Mental · Direito Penal IV</div>
+  </div>
+  <div class="controls">
+    <span class="zoom-info" id="zoom-label">100%</span>
+    <button class="btn" onclick="zoomBy(0.15)">＋</button>
+    <button class="btn" onclick="zoomBy(-0.15)">－</button>
+    <button class="btn" onclick="resetView()">↺ Reset</button>
+  </div>
+</header>
+
+<div id="canvas-wrap">
+  <svg id="canvas" xmlns="http://www.w3.org/2000/svg" width="2400" height="2000"></svg>
+</div>
+
+<div id="tooltip">
+  <div class="tt-title" id="tt-title"></div>
+  <div class="tt-body" id="tt-body"></div>
+  <div class="tt-art" id="tt-art"></div>
+  <div class="tt-stj" id="tt-stj" style="display:none"></div>
+</div>
+
+<div class="legend">
+  <div class="legend-row"><div class="legend-dot" style="background:#1F497D"></div> Nó central</div>
+  <div class="legend-row"><div class="legend-dot" style="background:#2c5f9e"></div> Capítulo</div>
+  <div class="legend-row"><div class="legend-dot" style="background:#4a7fb5"></div> Crime</div>
+  <div class="legend-row"><div class="legend-dot" style="background:#C9A84C"></div> Jurisprudência</div>
+  <div class="legend-row"><div class="legend-dot" style="background:#6b8e6b"></div> Elemento / pena</div>
+</div>
+
+<div class="hint">
+  🖱 Arraste para navegar &nbsp;|&nbsp; Scroll para zoom<br>
+  Clique nos nós para detalhes
+</div>
+
+<script>
+const DATA = {
+  id:"root", label:"Crimes contra a\nFé Pública", sub:"Título X – CP", type:"root",
+  tip:{title:"Crimes contra a Fé Pública", body:"Título X do Código Penal (arts. 289–311). A fé pública é o bem juridicamente precipuamente protegido. O falso é o meio. Falsificação grosseira, incapaz de enganar, não ofende a fé pública.", art:"CP, arts. 289–311"},
+  children:[
+    {
+      id:"moeda", label:"Moeda Falsa", sub:"Art. 289 CP", type:"chapter",
+      tip:{title:"Moeda Falsa", body:"Falsificar, fabricando-a ou alterando-a, moeda metálica ou papel-moeda de curso legal no país ou no estrangeiro. Reclusão de 3 a 12 anos e multa.", art:"Art. 289, CP"},
+      children:[
+        {id:"m1", label:"Fabricação /\nAlteração", sub:"caput", type:"crime", tip:{title:"Moeda falsa – caput",body:"Falsificar por fabricação (contrafação) ou por alteração de moeda existente. Bem jur.: fé pública; objeto material: moeda metálica ou papel-moeda.",art:"Art. 289, caput – Reclusão 3–12 anos e multa"}},
+        {id:"m2", label:"Circulação", sub:"§ 1.º", type:"crime", tip:{title:"Circulação de moeda falsa",body:"Importar, exportar, adquirir, vender, trocar, ceder, emprestar, guardar ou introduzir na circulação moeda falsa. Tipo misto alternativo.",art:"Art. 289, §1.º – mesmas penas do caput"}},
+        {id:"m3", label:"Boa-fé posterior\n(Privilegiado)", sub:"§ 2.º", type:"elem", tip:{title:"Modalidade privilegiada",body:"Quem recebeu de boa-fé moeda falsa e a restitui à circulação após conhecer a falsidade. Punição mais branda.",art:"Art. 289, §2.º – Detenção 6 meses a 2 anos e multa"}},
+        {id:"m4", label:"Func. Público\nQualificado", sub:"§ 3.º", type:"elem", tip:{title:"Funcionário público qualificado",body:"Funcionário público, diretor, gerente ou fiscal de banco de emissão que fabrica, emite ou autoriza emissão irregular.",art:"Art. 289, §3.º – Reclusão 3–15 anos e multa"}},
+        {id:"m5", label:"Falso grosseiro", sub:"Súmula 73 STJ", type:"juris", tip:{title:"Falsificação grosseira – Súm. 73 STJ",body:"A utilização de papel-moeda grosseiramente falsificado configura, em tese, o crime de estelionato, de competência da Justiça Estadual.",art:"Competência: Justiça Federal (moeda falsa); Estadual (estelionato – falso grosseiro)", stj:"STJ – Súmula 73"}},
+        {id:"m6", label:"Crimes\nAssimilados", sub:"Art. 290", type:"crime", tip:{title:"Crimes assimilados à moeda falsa",body:"Formar cédula com fragmentos verdadeiros; suprimir sinal de inutilização; restituir à circulação cédulas recolhidas. Qualificado se funcionário do local.",art:"Art. 290 – Reclusão 2–8 anos e multa; qualificado: até 12 anos"}},
+        {id:"m7", label:"Petrechos de\nFalsificação", sub:"Art. 291", type:"crime", tip:{title:"Petrechos para falsificação de moeda",body:"Fabricar, adquirir, fornecer, possuir ou guardar maquinismo especialmente destinado à falsificação. Infração penal autônoma (não mero ato preparatório).",art:"Art. 291 – Reclusão 2–6 anos e multa"}}
+      ]
+    },
+    {
+      id:"papeis", label:"Falsificação de\nPapéis Públicos", sub:"Arts. 292–295 CP", type:"chapter",
+      tip:{title:"Falsificação de papéis públicos",body:"Capítulo II. Tutela documentos como selos tributários, papéis de crédito público, vale postal, guias de arrecadação. Funcionário público que prevalece do cargo: +1/6 de pena.",art:"Arts. 292–295, CP"},
+      children:[
+        {id:"p1", label:"Emissão de Título\nsem Permissão", sub:"Art. 292", type:"crime", tip:{title:"Emissão de título ao portador",body:"Emitir, sem permissão legal, nota, bilhete, ficha, vale ou título com promessa de pagamento ao portador ou sem indicação do beneficiário.",art:"Art. 292 – Detenção 1–6 meses ou multa"}},
+        {id:"p2", label:"Falsificação de\nPapéis Públicos", sub:"Art. 293", type:"crime", tip:{title:"Falsificação de papéis públicos",body:"Selos tributários, papéis de crédito público, vale postal, cautela de penhor, guias de arrecadação, bilhetes de transporte público. Tipo misto alternativo no §1.º.",art:"Art. 293 – Reclusão 2–8 anos e multa"}},
+        {id:"p3", label:"Petrechos de\nFalsificação", sub:"Art. 294", type:"crime", tip:{title:"Petrechos (papéis públicos)",body:"Fabricar, adquirir, fornecer, possuir ou guardar objeto especialmente destinado à falsificação dos papéis do art. 293. Dolo exigido; modalidade culposa inexiste.",art:"Art. 294 – Reclusão 1–3 anos e multa"}},
+        {id:"p4", label:"Causa de Aumento\nFunc. Público", sub:"Art. 295", type:"elem", tip:{title:"Aumento por função pública",body:"Se o agente é funcionário público e comete o crime prevalecendo-se do cargo, a pena é aumentada de sexta parte.",art:"Art. 295, CP"}}
+      ]
+    },
+    {
+      id:"selos", label:"Falsificação de\nSelo ou Sinal Público", sub:"Art. 296 CP", type:"chapter",
+      tip:{title:"Falsificação de selo ou sinal público",body:"Protege a autenticidade dos atos oficiais. Inclui uso indevido de sinal verdadeiro e falsificação de símbolos de órgãos públicos. Funcionário público: +1/6.",art:"Art. 296, CP"},
+      children:[
+        {id:"s1", label:"Selos Oficiais\nFalsificados", sub:"Caput", type:"crime", tip:{title:"Selos públicos falsos",body:"Falsificar selo público destinado a autenticar atos oficiais da União, Estado ou Município, ou sinal de entidade de direito público ou tabelião.",art:"Art. 296, caput – Reclusão 2–6 anos e multa"}},
+        {id:"s2", label:"Uso Indevido de\nSinal Verdadeiro", sub:"§ 1.º, II", type:"crime", tip:{title:"Uso indevido de sinal verdadeiro",body:"Utilizar indevidamente sinal verdadeiro em prejuízo de outrem ou em proveito próprio ou alheio.",art:"Art. 296, §1.º, II"}},
+        {id:"s3", label:"Símbolos de\nÓrgãos Públicos", sub:"§ 1.º, III", type:"crime", tip:{title:"Marcas e logotipos de órgãos públicos",body:"Alterar, falsificar ou usar indevidamente marcas, logotipos, siglas ou símbolos de órgãos ou entidades da Administração Pública.",art:"Art. 296, §1.º, III"}}
+      ]
+    },
+    {
+      id:"docs", label:"Falsidade\nDocumental", sub:"Arts. 297–305 CP", type:"chapter",
+      tip:{title:"Falsidade documental",body:"Capítulo III. Falsidade material (arts. 297–298), ideológica (art. 299), uso de documento falso (art. 304), supressão de documentos (art. 305). Distinção central: falsidade material × ideológica.",art:"Arts. 297–305, CP"},
+      children:[
+        {id:"d1", label:"Falsificação de\nDoc. Público", sub:"Art. 297", type:"crime", tip:{title:"Falsificação de documento público",body:"Falsificar no todo ou em parte, ou alterar documento público verdadeiro. Para fins penais: equivalem a documento público o emanado de entidade paraestatal, título ao portador, ações de S.A., livros mercantis e testamento particular.",art:"Art. 297 – Reclusão 2–6 anos e multa. +1/6 se func. público"}},
+        {id:"d2", label:"Falsificação de\nDoc. Particular", sub:"Art. 298", type:"crime", tip:{title:"Falsificação de documento particular",body:"Falsificar no todo ou em parte, ou alterar documento particular verdadeiro. Cartão de crédito ou débito equipara-se a documento particular (parágrafo único).",art:"Art. 298 – Reclusão 1–5 anos e multa"}},
+        {id:"d3", label:"Falsidade\nIdeológica", sub:"Art. 299", type:"crime", tip:{title:"Falsidade ideológica",body:"O documento em si é perfeito; a ideia nele lançada é falsa. Omitir declaração que devia constar, ou inserir declaração falsa com fim de prejudicar direito, criar obrigação ou alterar verdade sobre fato juridicamente relevante.",art:"Art. 299 – Reclusão 1–5 anos (doc. público) ou 1–3 anos (particular) + multa"}},
+        {id:"d4", label:"Uso de Doc. Falso", sub:"Art. 304", type:"crime", tip:{title:"Uso de documento falso",body:"Fazer uso de qualquer dos papéis falsificados ou alterados a que se referem os arts. 297 a 302. Se o próprio autor da falsificação usa o documento: antefato impunível (absorção).",art:"Art. 304 – mesmas penas da falsificação usada"}},
+        {id:"d5", label:"Antefato\nImpunível", sub:"Absorção", type:"elem", tip:{title:"Antefato impunível – regra geral",body:"Quem falsifica e depois usa o documento responde apenas pelo uso. Exceção: Súmula 17 STJ – o falso só é absorvido pelo estelionato quando exaurido nele, sem mais potencialidade lesiva.",art:"STJ – Súmula 17"}},
+        {id:"d6", label:"Falso ×\nEstelionato", sub:"Súmula 17 STJ", type:"juris", tip:{title:"Súmula 17 STJ – Falso e estelionato",body:"Quando o falso se exaure no estelionato, sem mais potencialidade lesiva, é por este absorvido.",art:"STJ – Súmula 17", stj:"Aplicação: se o documento falso ainda pode ser usado novamente, há concurso de crimes."}}
+      ]
+    },
+    {
+      id:"outras", label:"Demais\nFalsidades", sub:"Arts. 300–311 CP", type:"chapter",
+      tip:{title:"Demais falsidades",body:"Inclui: falsa identidade (art. 307), falso reconhecimento de firma ou letra (art. 300), certidão ou atestado ideologicamente falso (art. 301), falsidade de atestado médico (art. 302), reprodução ou adulteração de selo ou peça filatélica (art. 303), supressão de documentos (art. 305).",art:"Arts. 300–311, CP"},
+      children:[
+        {id:"o1", label:"Falso\nReconhecimento", sub:"Art. 300", type:"crime", tip:{title:"Falso reconhecimento de firma ou letra",body:"Reconhecer, como verdadeira, firma ou letra falsas; negar reconhecimento a firma ou letra verdadeira.",art:"Art. 300 – Reclusão 1–5 anos e multa"}},
+        {id:"o2", label:"Certidão Falsa", sub:"Arts. 301–302", type:"crime", tip:{title:"Certidão ou atestado ideologicamente falso",body:"Funcionário público que certifica falsamente; médico que fornece atestado falso. Tipo especial de falsidade ideológica.",art:"Art. 301 (func. público) – Detenção 3 meses–2 anos; Art. 302 (médico) – Detenção 1 mês–1 ano"}},
+        {id:"o3", label:"Falsa\nIdentidade", sub:"Art. 307", type:"crime", tip:{title:"Falsa identidade",body:"Atribuir-se ou atribuir a terceiro falsa identidade para obter vantagem, em proveito próprio ou alheio, ou para causar dano a outrem.",art:"Art. 307 – Detenção 3 meses–1 ano, se o fato não constitui elemento de crime mais grave"}},
+        {id:"o4", label:"Supressão de\nDocumento", sub:"Art. 305", type:"crime", tip:{title:"Supressão de documento",body:"Destruir, suprimir ou ocultar, em benefício próprio ou de outrem, ou em prejuízo alheio, documento público ou particular verdadeiro de que não podia dispor.",art:"Art. 305 – Reclusão 2–6 anos (doc. público) ou 1–5 anos (particular) + multa"}}
+      ]
+    },
+    {
+      id:"princ", label:"Princípios\nGerais", sub:"Teoria do Falso", type:"chapter",
+      tip:{title:"Teoria geral do falso",body:"1. Falsificação grosseira não ofende a fé pública. 2. O falso deve ter relevância jurídica. 3. Distinção entre falsidade material (alteração do suporte) e falsidade ideológica (conteúdo falso em documento formalmente verdadeiro).",art:"Arts. 289 e ss., CP – Título X"},
+      children:[
+        {id:"pr1", label:"Falsidade\nMaterial", sub:"Estrutura", type:"elem", tip:{title:"Falsidade material",body:"Recai sobre o próprio suporte do documento: contrafação (criação total) ou alteração (modificação parcial). Arts. 289, 293, 296, 297, 298.",art:"Falsidade material – recai no documento em si"}},
+        {id:"pr2", label:"Falsidade\nIdeológica", sub:"Conteúdo", type:"elem", tip:{title:"Falsidade ideológica",body:"O documento é formalmente perfeito, mas o conteúdo/ideia nele inserida é falso. Art. 299.",art:"Falsidade ideológica – recai no conteúdo (ideia)"}},
+        {id:"pr3", label:"Falso grosseiro\nnão é crime", sub:"Atipicidade", type:"elem", tip:{title:"Falso grosseiro – atipicidade",body:"Se a falsificação é grosseira, incapaz de iludir, não há ofensa à fé pública e, portanto, inexiste crime. Pode configurar estelionato tentado.",art:"Princípio da ofensividade aplicado ao falso"}},
+        {id:"pr4", label:"Competência\nJustiça Federal", sub:"Regra geral", type:"elem", tip:{title:"Competência – regra geral",body:"Crimes contra a fé pública que ofendam bens, serviços ou interesses da União, autarquias ou empresas públicas federais são de competência da Justiça Federal. Falsificação grosseira (estelionato): Justiça Estadual.",art:"CF, art. 109, IV; STJ Súm. 73"}}
+      ]
+    }
+  ]
+};
+
+const COLORS = {
+  root:   { fill:"#1F497D", stroke:"#162f52", text:"#ffffff" },
+  chapter:{ fill:"#2c5f9e", stroke:"#1F497D", text:"#ffffff" },
+  crime:  { fill:"#4a7fb5", stroke:"#2c5f9e", text:"#ffffff" },
+  elem:   { fill:"#6b8e6b", stroke:"#4a7360", text:"#ffffff" },
+  juris:  { fill:"#C9A84C", stroke:"#a07a28", text:"#1a1a00" }
+};
+
+const W = 2400, H = 2000;
+const svg = document.getElementById("canvas");
+svg.setAttribute("width", W);
+svg.setAttribute("height", H);
+
+let zoom = 1, panX = 0, panY = 0;
+let dragging = false, lastX = 0, lastY = 0;
+
+const wrap = document.getElementById("canvas-wrap");
+wrap.addEventListener("mousedown", e => { dragging = true; lastX = e.clientX; lastY = e.clientY; });
+window.addEventListener("mouseup", () => { dragging = false; });
+window.addEventListener("mousemove", e => {
+  if (!dragging) return;
+  panX += e.clientX - lastX; panY += e.clientY - lastY;
+  lastX = e.clientX; lastY = e.clientY;
+  applyTransform();
+});
+wrap.addEventListener("wheel", e => {
+  e.preventDefault();
+  const delta = e.deltaY > 0 ? -0.08 : 0.08;
+  zoomBy(delta, e.clientX, e.clientY);
+}, { passive: false });
+
+function applyTransform() {
+  svg.style.transform = `translate(${panX}px,${panY}px) scale(${zoom})`;
+  document.getElementById("zoom-label").textContent = Math.round(zoom * 100) + "%";
+}
+function zoomBy(delta, cx, cy) {
+  const old = zoom;
+  zoom = Math.max(0.3, Math.min(2.5, zoom + delta));
+  if (cx !== undefined) {
+    panX = cx - (cx - panX) * (zoom / old);
+    panY = cy - (cy - panY) * (zoom / old);
+  }
+  applyTransform();
+}
+function resetView() {
+  zoom = 1; panX = 0; panY = 0; applyTransform();
+}
+
+// ── LAYOUT ──
+function layoutTree(node, cx, cy, angle, spread, depth) {
+  node.x = cx; node.y = cy;
+  if (!node.children || node.children.length === 0) return;
+  const n = node.children.length;
+  const radii = [0, 280, 195, 185, 180];
+  const r = radii[Math.min(depth, radii.length - 1)];
+  const startA = angle - spread / 2;
+  node.children.forEach((ch, i) => {
+    const a = n === 1 ? angle : startA + (spread / (n - 1)) * i;
+    const rad = a * Math.PI / 180;
+    const nx = cx + Math.cos(rad) * r;
+    const ny = cy + Math.sin(rad) * r;
+    const childSpread = depth === 0 ? 45 : 55;
+    layoutTree(ch, nx, ny, a, childSpread, depth + 1);
+  });
+}
+
+// Six chapters spread evenly around root
+const ROOT_X = W / 2, ROOT_Y = H / 2;
+const nCh = DATA.children.length;
+DATA.children.forEach((ch, i) => {
+  const a = -90 + (360 / nCh) * i;
+  const rad = a * Math.PI / 180;
+  const r = 380;
+  ch._baseAngle = a;
+  ch.x = ROOT_X + Math.cos(rad) * r;
+  ch.y = ROOT_Y + Math.sin(rad) * r;
+  if (ch.children) {
+    const spread = ch.children.length <= 2 ? 50 : ch.children.length <= 4 ? 70 : 90;
+    layoutTree(ch, ch.x, ch.y, a, spread, 1);
+  }
+});
+DATA.x = ROOT_X; DATA.y = ROOT_Y;
+
+// ── DRAW ──
+function mkEl(tag, attrs) {
+  const el = document.createElementNS("http://www.w3.org/2000/svg", tag);
+  for (const [k, v] of Object.entries(attrs)) el.setAttribute(k, v);
+  return el;
+}
+
+function drawEdge(x1, y1, x2, y2, col) {
+  const mx = (x1 + x2) / 2, my = (y1 + y2) / 2;
+  const path = mkEl("path", {
+    d: `M${x1},${y1} Q${mx},${y1} ${x2},${y2}`,
+    fill: "none", stroke: col || "#94a3b8",
+    "stroke-width": "1.5", opacity: "0.55",
+    "stroke-dasharray": ""
+  });
+  svg.appendChild(path);
+}
+
+function drawNode(node, isRoot) {
+  const c = COLORS[node.type] || COLORS.crime;
+  const lines = node.label.split("\n");
+  const fw = isRoot ? 120 : (node.type === "chapter" ? 105 : 88);
+  const fh = isRoot ? 62 : (node.type === "chapter" ? 54 : lines.length > 1 ? 50 : 40);
+  const rx = node.x - fw / 2, ry = node.y - fh / 2;
+
+  const g = mkEl("g", { "data-id": node.id, style: "cursor:pointer" });
+
+  // Shadow
+  const sh = mkEl("rect", {
+    x: rx + 2, y: ry + 3, width: fw, height: fh,
+    rx: 9, fill: "rgba(0,0,0,0.18)"
+  });
+  g.appendChild(sh);
+
+  // Box
+  const rect = mkEl("rect", {
+    x: rx, y: ry, width: fw, height: fh,
+    rx: 9, fill: c.fill, stroke: c.stroke,
+    "stroke-width": isRoot ? 2.5 : 1.5
+  });
+  g.appendChild(rect);
+
+  // Text
+  const lineH = 16;
+  const totalH = lines.length * lineH;
+  lines.forEach((line, i) => {
+    const ty = node.y - totalH / 2 + i * lineH + lineH / 2;
+    const t = mkEl("text", {
+      x: node.x, y: ty,
+      "text-anchor": "middle",
+      "dominant-baseline": "central",
+      fill: c.text,
+      "font-size": isRoot ? "13" : (node.type === "chapter" ? "12" : "11"),
+      "font-weight": isRoot ? "700" : (node.type === "chapter" ? "600" : "500"),
+      "font-family": isRoot ? "var(--serif, 'Playfair Display', serif)" : "var(--sans, 'Source Sans 3', sans-serif)"
+    });
+    t.textContent = line;
+    g.appendChild(t);
+  });
+
+  // Sub-label
+  if (node.sub && !isRoot) {
+    const sub = mkEl("text", {
+      x: node.x, y: node.y + fh / 2 - 8,
+      "text-anchor": "middle",
+      "dominant-baseline": "central",
+      fill: "rgba(255,255,255,0.7)",
+      "font-size": "9",
+      "font-family": "var(--sans, 'Source Sans 3', sans-serif)"
+    });
+    sub.textContent = node.sub;
+    g.appendChild(sub);
+  }
+
+  // Hover & click
+  g.addEventListener("mouseenter", e => showTip(e, node));
+  g.addEventListener("mouseleave", hideTip);
+  g.addEventListener("mousemove", e => moveTip(e));
+
+  svg.appendChild(g);
+}
+
+// Edges first (below nodes)
+const edgeLayer = mkEl("g", {});
+svg.appendChild(edgeLayer);
+
+function drawEdges(node) {
+  if (!node.children) return;
+  node.children.forEach(ch => {
+    const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+    const mx = (node.x + ch.x) / 2;
+    path.setAttribute("d", `M${node.x},${node.y} Q${mx},${node.y} ${ch.x},${ch.y}`);
+    path.setAttribute("fill", "none");
+    path.setAttribute("stroke", "#94a3b8");
+    path.setAttribute("stroke-width", "1.2");
+    path.setAttribute("opacity", "0.45");
+    edgeLayer.appendChild(path);
+    drawEdges(ch);
+  });
+}
+drawEdges(DATA);
+
+// Draw all nodes
+function drawAll(node, isRoot) {
+  drawNode(node, isRoot);
+  if (node.children) node.children.forEach(ch => drawAll(ch, false));
+}
+drawAll(DATA, true);
+
+// ── TOOLTIP ──
+const tt = document.getElementById("tooltip");
+const ttTitle = document.getElementById("tt-title");
+const ttBody = document.getElementById("tt-body");
+const ttArt = document.getElementById("tt-art");
+const ttStj = document.getElementById("tt-stj");
+
+function showTip(e, node) {
+  if (!node.tip) return;
+  ttTitle.textContent = node.tip.title;
+  ttBody.textContent = node.tip.body;
+  ttArt.textContent = node.tip.art || "";
+  ttArt.style.display = node.tip.art ? "" : "none";
+  if (node.tip.stj) {
+    ttStj.textContent = node.tip.stj;
+    ttStj.style.display = "";
+  } else {
+    ttStj.style.display = "none";
+  }
+  moveTip(e);
+  tt.classList.add("show");
+}
+function hideTip() { tt.classList.remove("show"); }
+function moveTip(e) {
+  const x = e.clientX + 14;
+  const y = e.clientY - 10;
+  const maxX = window.innerWidth - 360;
+  tt.style.left = Math.min(x, maxX) + "px";
+  tt.style.top = Math.max(y, 70) + "px";
+}
+
+// Centre view
+panX = (window.innerWidth - W) / 2;
+panY = ((window.innerHeight - 64) - H) / 2 + 64;
+applyTransform();
+</script>
+</body>
+</html>

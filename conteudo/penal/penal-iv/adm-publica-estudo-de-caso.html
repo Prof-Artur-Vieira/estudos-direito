@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Estudo de Caso – Operação Erário Limpo · Crimes contra a Administração Pública</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Source+Sans+3:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#1F497D;--navy2:#2c5f9e;--navy3:#e8f0f8;--gold:#C9A84C;--gold2:#fff8e0;--green:#2e7d32;--green2:#e8f5e9;--red:#8b2020;--red2:#fdecea;--text:#1a2030;--muted:#5a6478;--border:#d0dcea;--surface:#fff;--bg:#f0f4f8;--serif:'Playfair Display',Georgia,serif;--sans:'Source Sans 3',system-ui,sans-serif;}
+@media(prefers-color-scheme:dark){:root{--navy:#4a7fb5;--navy2:#6a9fd4;--navy3:#1a2840;--gold:#e8c96a;--gold2:#2a2000;--green:#66bb6a;--green2:#1a2e1a;--red:#ef9a9a;--red2:#2a1414;--text:#dde4f0;--muted:#8a98b8;--border:#2a3a52;--surface:#1a2235;--bg:#0f1623;}}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:var(--sans);background:var(--bg);color:var(--text);}
+header{background:var(--navy);padding:0 28px;height:60px;display:flex;align-items:center;box-shadow:0 2px 10px rgba(0,0,0,.22);}
+.h-title{font-family:var(--serif);color:#fff;font-size:17px;font-weight:700;}
+.h-sub{color:var(--gold);font-size:11px;font-weight:500;letter-spacing:.07em;text-transform:uppercase;margin-top:2px;}
+.page{max-width:820px;margin:0 auto;padding:32px 20px 60px;}
+.case-header{background:var(--navy);border-radius:12px;padding:26px 30px;color:#fff;margin-bottom:28px;}
+.case-header .op-label{font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);margin-bottom:6px;}
+.case-header h2{font-family:var(--serif);font-size:24px;margin-bottom:10px;}
+.case-header .case-meta{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px;}
+.case-header .meta-tag{background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.22);border-radius:6px;padding:4px 12px;font-size:12px;}
+.sec{margin-bottom:28px;}
+.sec-title{font-family:var(--serif);font-size:17px;color:var(--navy);margin-bottom:14px;padding-bottom:8px;border-bottom:2px solid var(--navy);display:flex;align-items:center;gap:10px;}
+.sec-title .badge{font-family:var(--sans);font-size:11px;background:var(--navy);color:#fff;padding:2px 10px;border-radius:4px;font-weight:600;}
+.narrative{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:22px 26px;font-size:14px;line-height:1.75;margin-bottom:20px;box-shadow:0 1px 6px rgba(0,0,0,.05);}
+.narrative p{margin-bottom:12px;}
+.narrative p:last-child{margin-bottom:0;}
+.doc-sim{background:var(--surface);border:1.5px solid var(--border);border-radius:8px;padding:18px 22px;margin-bottom:16px;font-size:13px;line-height:1.65;}
+.doc-sim .doc-title{font-weight:700;font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--navy);margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid var(--border);}
+.doc-sim table{width:100%;font-size:12.5px;}
+.doc-sim td{padding:3px 6px;vertical-align:top;}
+.doc-sim td:first-child{color:var(--muted);width:38%;font-weight:500;}
+.q-list{display:flex;flex-direction:column;gap:16px;}
+.q-item{background:var(--surface);border:1.5px solid var(--border);border-radius:10px;overflow:hidden;box-shadow:0 1px 6px rgba(0,0,0,.05);}
+.q-head{display:flex;align-items:flex-start;gap:12px;padding:16px 18px;cursor:pointer;}
+.q-num{width:32px;height:32px;border-radius:50%;background:var(--navy);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px;flex-shrink:0;}
+.q-text{font-size:14px;line-height:1.5;flex:1;font-weight:500;}
+.q-bloom{font-size:11px;color:var(--muted);margin-top:3px;font-weight:400;}
+.q-arrow{color:var(--muted);font-size:16px;padding-top:2px;flex-shrink:0;transition:transform .2s;}
+.q-arrow.open{transform:rotate(180deg);}
+.q-body{display:none;padding:0 18px 18px 62px;border-top:1px solid var(--border);}
+.q-body.open{display:block;}
+.q-body p{font-size:13px;line-height:1.65;margin-bottom:10px;}
+.q-body ul{margin-left:16px;font-size:13px;line-height:1.7;}
+.q-body li{margin-bottom:5px;}
+.art-ref{background:var(--navy3);border-left:3px solid var(--navy);border-radius:0 5px 5px 0;padding:8px 12px;margin:8px 0;font-size:12.5px;font-style:italic;line-height:1.55;}
+.stj-ref{background:var(--gold2);border-left:3px solid var(--gold);border-radius:0 5px 5px 0;padding:8px 12px;margin:8px 0;font-size:12.5px;line-height:1.55;}
+.stj-ref strong{color:#7a5800;font-weight:600;}
+@media(prefers-color-scheme:dark){.stj-ref strong{color:var(--gold);}}
+.q-show-btn{margin-top:10px;padding:7px 18px;background:transparent;border:1.5px solid var(--border);border-radius:6px;color:var(--muted);font-size:12.5px;cursor:pointer;font-family:var(--sans);transition:all .15s;}
+.q-show-btn:hover{border-color:var(--navy);color:var(--navy);}
+.answer{display:none;margin-top:12px;padding:12px 14px;background:var(--green2);border-radius:8px;font-size:13px;line-height:1.65;}
+.answer.show{display:block;}
+.answer strong{color:var(--green);font-weight:600;}
+@media(prefers-color-scheme:dark){.answer strong{color:var(--green);}}
+.bl{display:inline-block;padding:1px 8px;border-radius:3px;font-size:11px;font-weight:600;margin-right:4px;}
+.bl-1{background:#e8f0f8;color:#1F497D;}
+.bl-2{background:#e8f5e9;color:#2e7d32;}
+.bl-3{background:#fdecea;color:#8b2020;}
+.bl-4{background:#fff8e0;color:#7a5800;}
+@media(prefers-color-scheme:dark){.bl-1{background:#1a2840;color:#6a9fd4;}.bl-2{background:#1a2e1a;color:#66bb6a;}.bl-3{background:#2a1414;color:#ef9a9a;}.bl-4{background:#2a2000;color:#e8c96a;}}
+</style>
+</head>
+<body>
+<header>
+  <div><div class="h-title">Estudo de Caso — Operação Erário Limpo</div><div class="h-sub">Crimes contra a Administração Pública · Título XI CP · Direito Penal IV</div></div>
+</header>
+<div class="page">
+
+  <div class="case-header">
+    <div class="op-label">Operação Erário Limpo</div>
+    <h2>O caso do auditor, do prefeito e do médico conveniado</h2>
+    <p style="font-size:13.5px;opacity:.88;line-height:1.6;">Estudo de caso fictício para análise integrada dos crimes contra a Administração Pública (CP, Título XI). Personagens e fatos inteiramente fictícios.</p>
+    <div class="case-meta">
+      <span class="meta-tag">Arts. 312, 316, 317, 319, 333 CP</span>
+      <span class="meta-tag">Art. 327, §1.º CP (equiparado)</span>
+      <span class="meta-tag">Súmula 599 STJ</span>
+      <span class="meta-tag">Competência J. Federal × Estadual</span>
+      <span class="meta-tag">Pós-graduação · Direito Penal IV</span>
+    </div>
+  </div>
+
+  <!-- NARRATIVA -->
+  <div class="sec">
+    <div class="sec-title">Narrativa dos fatos <span class="badge">LEIA ATENTAMENTE</span></div>
+    <div class="narrative">
+      <p><strong>Fato 1 — O auditor federal.</strong> Rodrigo Menezes, auditor fiscal da Receita Federal, durante fiscalização em empresa privada, exigiu do sócio-diretor Fábio Lins o pagamento de R$ 30.000,00 em espécie, sob a ameaça velada de que, caso não recebesse o valor, lavraria auto de infração milionário por irregularidades "que poderiam ser encontradas". Fábio Lins, temeroso, combinou a entrega para a semana seguinte. Ainda que não tenha recebido o dinheiro, a Corregedoria da Receita foi alertada por Fábio antes da entrega.</p>
+      <p><strong>Fato 2 — O prefeito e o desvio de verbas.</strong> Marcelo Aguiar, prefeito do município de Rio Vermelho/MG, responsável pela gestão de verbas municipais de saúde, desviou R$ 180.000,00 de recurso próprio municipal (não federal) para conta de empresa de sua esposa, utilizando nota fiscal fria. Seu secretário de saúde, Eduardo Pires, ciente do esquema e responsável pelo controle dos pagamentos, autorizou as transferências sem qualquer verificação — por comodidade administrativa, sem motivação pessoal identificada.</p>
+      <p><strong>Fato 3 — O médico conveniado.</strong> Dr. Paulo Régis, médico conveniado ao SUS por meio de contrato com o município de Rio Vermelho/MG, passou a exigir de seus pacientes o pagamento de R$ 200,00 por consulta coberta pelo sistema, sob a justificativa de que "o SUS demora a repassar". Os pacientes, intimidados, pagavam sem denunciar. Um paciente finalmente registrou boletim de ocorrência na Polícia Civil.</p>
+      <p><strong>Fato 4 — A proposta recusada.</strong> Fábio Lins, antes de acionar a Corregedoria, havia dito ao auditor Rodrigo: "se o senhor não lavrar o auto e me deixar em paz, eu pago os R$ 30.000,00". O MP avaliou esse trecho da conversa como possível crime do próprio Fábio.</p>
+    </div>
+  </div>
+
+  <!-- DOCUMENTOS -->
+  <div class="sec">
+    <div class="sec-title">Documentos simulados</div>
+    <div class="doc-sim">
+      <div class="doc-title">Termo de Depoimento — Fábio Lins (perante a Corregedoria da Receita Federal)</div>
+      <table>
+        <tr><td>Data:</td><td>22/04/2024</td></tr>
+        <tr><td>Depoente:</td><td>Fábio Lins Cavalcante, sócio-diretor, CPF ***.***.</td></tr>
+        <tr><td>Relato:</td><td>"O auditor Rodrigo me disse que poderia encontrar irregularidades sérias se eu não colaborasse. Combinamos a entrega de R$ 30.000,00 para sexta-feira. Antes disso, procurei a Corregedoria." </td></tr>
+        <tr><td>Observação:</td><td>Fábio também relatou ter sugerido o pagamento ao auditor antes de ser exigido. O MP anotou essa declaração.</td></tr>
+      </table>
+    </div>
+    <div class="doc-sim">
+      <div class="doc-title">Relatório de Controladoria — Município de Rio Vermelho/MG</div>
+      <table>
+        <tr><td>Período auditado:</td><td>Jan/2023 – Dez/2023</td></tr>
+        <tr><td>Irregularidade:</td><td>Transferências de R$ 180.000,00 a empresa "Saúde & Vida Ltda." sem comprovação de serviço prestado.</td></tr>
+        <tr><td>Origem dos recursos:</td><td>Verba municipal própria (não federal).</td></tr>
+        <tr><td>Responsável direto:</td><td>Prefeito Marcelo Aguiar.</td></tr>
+        <tr><td>Responsável autorização:</td><td>Secretário Eduardo Pires (assinou ordens de pagamento).</td></tr>
+        <tr><td>Conclusão:</td><td>Indícios de desvio doloso. Eduardo Pires não apresentou motivação para as autorizações além de "confiança no chefe".</td></tr>
+      </table>
+    </div>
+    <div class="doc-sim">
+      <div class="doc-title">Boletim de Ocorrência — Dr. Paulo Régis</div>
+      <table>
+        <tr><td>Data:</td><td>15/05/2024</td></tr>
+        <tr><td>Vítima:</td><td>José Geraldo Tavares, 58 anos, paciente do SUS.</td></tr>
+        <tr><td>Narração:</td><td>"O Dr. Paulo Régis exigiu R$ 200,00 por consulta, dizendo que sem pagamento não me atenderia. Paguei com medo de ficar sem atendimento."</td></tr>
+        <tr><td>Local:</td><td>Clínica particular conveniada ao SUS — município de Rio Vermelho/MG.</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- PERGUNTAS -->
+  <div class="sec">
+    <div class="sec-title">Perguntas para análise</div>
+    <div class="q-list">
+
+      <div class="q-item" id="q1">
+        <div class="q-head" onclick="tog('q1')">
+          <div class="q-num">1</div>
+          <div style="flex:1">
+            <div class="q-text">Rodrigo (auditor) já praticou algum crime com a exigência, mesmo não tendo recebido o dinheiro? Qual a natureza jurídica do crime e qual o momento da consumação?</div>
+            <div class="q-bloom"><span class="bl bl-1">Aplicar</span> Art. 316 CP · Crime formal · Exaurimento</div>
+          </div>
+          <span class="q-arrow" id="arr-q1">▾</span>
+        </div>
+        <div class="q-body" id="qb-q1">
+          <p>Analise: (a) qual o tipo penal aplicável; (b) o momento da consumação; (c) se o não recebimento interfere na tipicidade; (d) a competência.</p>
+          <div class="art-ref">Art. 316 CP (concussão) · Crime formal · Competência: Justiça Federal (servidor federal)</div>
+          <button class="q-show-btn" onclick="showAns('a1')">Revelar gabarito comentado</button>
+          <div class="answer" id="a1">
+            <strong>Resposta:</strong> Sim. Rodrigo pratica concussão (art. 316 CP) no momento em que EXIGE a vantagem indevida. A concussão é crime FORMAL: consuma-se com a exigência, independentemente do recebimento. O recebimento seria mero exaurimento. Por isso, ainda que Fábio tenha acionado a Corregedoria antes da entrega, o crime já estava consumado. Rodrigo é auditor da Receita Federal — servidor público federal — logo a competência é da Justiça Federal (CF, art. 109, IV). Súmula 599 STJ: insignificância inaplicável. Pena: reclusão 2–8 anos + multa.
+          </div>
+        </div>
+      </div>
+
+      <div class="q-item" id="q2">
+        <div class="q-head" onclick="tog('q2')">
+          <div class="q-num">2</div>
+          <div style="flex:1">
+            <div class="q-text">A frase de Fábio Lins — "se o senhor não lavrar o auto e me deixar em paz, eu pago os R$ 30.000,00" — configura corrupção ativa? Justifique à luz do art. 333 CP.</div>
+            <div class="q-bloom"><span class="bl bl-2">Analisar</span> Art. 333 CP · 'oferecer ou prometer' · atipicidade de 'dar'</div>
+          </div>
+          <span class="q-arrow" id="arr-q2">▾</span>
+        </div>
+        <div class="q-body" id="qb-q2">
+          <p>O art. 333 prevê: "oferecer ou prometer". Fábio ainda não pagou — mas prometeu. Analise se a conduta se enquadra no tipo e se o contexto (reagindo à exigência ou tomando iniciativa) interfere na tipificação.</p>
+          <div class="art-ref">Art. 333 CP — Oferecer ou prometer vantagem indevida a funcionário público</div>
+          <button class="q-show-btn" onclick="showAns('a2')">Revelar gabarito comentado</button>
+          <div class="answer" id="a2">
+            <strong>Resposta:</strong> A questão é controvertida. O art. 333 prevê "oferecer ou prometer". Fábio PROMETEU pagar. Em tese, o ato se enquadra na letra da lei. No entanto, parte da doutrina e da jurisprudência distingue: (a) se Fábio toma a iniciativa de oferecer/prometer para corromper o agente = corrupção ativa consumada; (b) se Fábio apenas cede à exigência do agente sem ter antes oferecido = pode ser atípico quanto ao art. 333. No caso, a exigência partiu de Rodrigo (concussão). A frase de Fábio veio em resposta à exigência — é discutível se configura corrupção ativa ou mera resposta à coação. A posição do STJ é de que quem apenas dá após solicitação, sem antes oferecer, é atípico no art. 333 (tipo não prevê 'dar'). Aqui, Fábio prometeu — mas a iniciativa foi do auditor. A melhor solução é a atipicidade ou, no mínimo, a discussão como coação no processo de avaliação do dolo.
+          </div>
+        </div>
+      </div>
+
+      <div class="q-item" id="q3">
+        <div class="q-head" onclick="tog('q3')">
+          <div class="q-head" onclick="tog('q3')"></div>
+          <div class="q-num">3</div>
+          <div style="flex:1">
+            <div class="q-text">Qual o crime do prefeito Marcelo Aguiar? E do secretário Eduardo Pires, que autorizou os pagamentos "por comodidade, sem motivação pessoal identificada"?</div>
+            <div class="q-bloom"><span class="bl bl-2">Analisar</span> Art. 312 CP · peculato-desvio · prevaricação · elemento subjetivo especial</div>
+          </div>
+          <span class="q-arrow" id="arr-q3">▾</span>
+        </div>
+        <div class="q-body" id="qb-q3">
+          <p>Analise separadamente: (a) a conduta do prefeito — qual modalidade de peculato; (b) a conduta do secretário — é peculato doloso, peculato culposo ou prevaricação? Considere especialmente o elemento subjetivo especial da prevaricação e a competência.</p>
+          <div class="art-ref">Art. 312 CP (peculato-desvio · caput) · Art. 319 CP (prevaricação) · Art. 312, §2.º (peculato culposo)</div>
+          <button class="q-show-btn" onclick="showAns('a3')">Revelar gabarito comentado</button>
+          <div class="answer" id="a3">
+            <strong>Resposta:</strong> (a) Marcelo Aguiar: peculato-desvio (art. 312, caput, 2.ª parte) — desviou verba municipal de que tinha a posse em razão do cargo de prefeito. A verba é municipal (não federal): competência da Justiça Estadual. Súmula 599 STJ: insignificância inaplicável. (b) Eduardo Pires: a análise é mais complexa. Para prevaricação (art. 319), exige-se demonstração concreta de 'interesse ou sentimento pessoal' — o STJ pacificou que mera negligência ou comodismo NÃO configura prevaricação. Logo, Eduardo não pratica prevaricação. Mas autorizou os desvios: se ciente do desvio e dolosamente conivente, responde por peculato-desvio na condição de coautor (art. 30 CP — elementar comunicável). Se genuinamente negligente, poderia ser peculato culposo (§2.º). No caso, o fato de assinar as ordens de pagamento sem qualquer verificação, sendo responsável direto pelo controle, aponta para coautoria dolosa ou, ao menos, culpa grave. A tipificação correta depende da prova do dolo.
+          </div>
+        </div>
+      </div>
+
+      <div class="q-item" id="q4">
+        <div class="q-head" onclick="tog('q4')">
+          <div class="q-num">4</div>
+          <div style="flex:1">
+            <div class="q-text">Dr. Paulo Régis, médico conveniado ao SUS, que exige pagamento de consulta coberta pelo sistema: qual crime pratica? Qual a competência?</div>
+            <div class="q-bloom"><span class="bl bl-3">Avaliar</span> Art. 316 CP · Art. 327, §1.º CP · Competência · Súm. 599 STJ</div>
+          </div>
+          <span class="q-arrow" id="arr-q4">▾</span>
+        </div>
+        <div class="q-body" id="qb-q4">
+          <p>O médico não é servidor público. É conveniado ao SUS por contrato com o município. Analise: (a) se ele é funcionário público para fins penais; (b) qual crime pratica; (c) a competência; (d) a aplicabilidade da Súmula 599 STJ.</p>
+          <div class="art-ref">Art. 327, §1.º CP — Equiparado a funcionário público · Art. 316 CP (concussão)</div>
+          <div class="stj-ref"><strong>STJ — AgRg no RHC 87.068/SP:</strong> A cobrança indevida por médico do SUS acarreta prejuízo apenas ao paciente, não ao sistema de saúde federal. Competência: Justiça Estadual.</div>
+          <button class="q-show-btn" onclick="showAns('a4')">Revelar gabarito comentado</button>
+          <div class="answer" id="a4">
+            <strong>Resposta:</strong> (a) Dr. Paulo Régis é equiparado a funcionário público pelo art. 327, §1.º CP — exerce função em empresa prestadora de serviço contratada/conveniada para atividade típica da Administração (serviço de saúde pública). (b) Pratica concussão (art. 316 CP): EXIGE vantagem indevida em razão da função, ainda que esta seja exercida em clínica conveniada. Crime formal — consumado com a exigência. (c) Competência: Justiça ESTADUAL. Fundamento: STJ, AgRg no RHC 87.068/SP — a cobrança indevida causa prejuízo financeiro apenas ao particular (paciente), não ao sistema de saúde administrado pela União. O convênio é com o município. (d) Súmula 599 STJ: inaplicável ao caso — a exigência de R$ 200,00 não pode ser considerada insignificante nos crimes contra a Administração.
+          </div>
+        </div>
+      </div>
+
+      <div class="q-item" id="q5">
+        <div class="q-head" onclick="tog('q5')">
+          <div class="q-num">5</div>
+          <div style="flex:1">
+            <div class="q-text">Sintetize em um quadro-argumento: quais crimes foram praticados, por quem, qual a competência e qual a principal discussão jurídica de cada conduta.</div>
+            <div class="q-bloom"><span class="bl bl-4">Criar</span> Síntese analítica · argumentação forense</div>
+          </div>
+          <span class="q-arrow" id="arr-q5">▾</span>
+        </div>
+        <div class="q-body" id="qb-q5">
+          <p>Esta questão pede síntese e argumentação. Elabore um quadro completo com: agente, conduta, tipificação, competência e a principal controvérsia jurídica de cada caso.</p>
+          <button class="q-show-btn" onclick="showAns('a5')">Revelar gabarito comentado</button>
+          <div class="answer" id="a5">
+            <strong>Síntese:</strong> (1) Rodrigo — Concussão (art. 316), Justiça Federal. Controvérsia: distinção com extorsão e o momento de consumação. (2) Fábio — Possivelmente atípico quanto ao art. 333 (prometeu em resposta à exigência, sem iniciativa). Controvérsia: se a promessa diante de coação configura corrupção ativa. (3) Marcelo — Peculato-desvio (art. 312, caput), Justiça Estadual (verba municipal). Controvérsia: incidência do DL 201/67 ou do CP (prevalece o CP para peculato, DL 201 para crimes de responsabilidade de prefeito). (4) Eduardo — Coautoria no peculato-desvio (se dolo demonstrado) ou peculato culposo (se negligência). Controvérsia: ausência de elemento subjetivo especial afasta prevaricação; o dolo do secretário precisa ser provado. (5) Dr. Paulo Régis — Concussão (art. 316 c/c art. 327, §1.º), Justiça Estadual. Controvérsia: enquadramento como equiparado; competência estadual em detrimento do interesse federal (STJ).
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- SÍNTESE FINAL -->
+  <div class="sec">
+    <div class="sec-title">Síntese — quadro dos crimes identificados</div>
+    <div style="overflow-x:auto;border-radius:10px;box-shadow:0 2px 10px rgba(31,73,125,.1);">
+    <table style="width:100%;border-collapse:collapse;background:var(--surface);font-size:13px;min-width:620px;">
+      <thead>
+        <tr>
+          <th style="background:var(--navy);color:#fff;padding:10px 14px;text-align:left;font-size:12px;font-weight:600;">Agente</th>
+          <th style="background:var(--navy);color:#fff;padding:10px 14px;text-align:left;font-size:12px;font-weight:600;">Conduta</th>
+          <th style="background:var(--navy);color:#fff;padding:10px 14px;text-align:left;font-size:12px;font-weight:600;">Tipo</th>
+          <th style="background:var(--navy);color:#fff;padding:10px 14px;text-align:left;font-size:12px;font-weight:600;">Pena</th>
+          <th style="background:var(--navy);color:#fff;padding:10px 14px;text-align:left;font-size:12px;font-weight:600;">Competência</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr style="border-bottom:1px solid var(--border);">
+          <td style="padding:10px 14px;font-weight:600;color:var(--navy);">Rodrigo (auditor)</td>
+          <td style="padding:10px 14px;">Exigiu vantagem em razão do cargo (ameaça velada de autuação)</td>
+          <td style="padding:10px 14px;">Concussão — Art. 316 CP</td>
+          <td style="padding:10px 14px;">Rec. 2–8 anos + multa</td>
+          <td style="padding:10px 14px;">Justiça Federal</td>
+        </tr>
+        <tr style="border-bottom:1px solid var(--border);background:var(--navy3);">
+          <td style="padding:10px 14px;font-weight:600;color:var(--navy);">Fábio (particular)</td>
+          <td style="padding:10px 14px;">Prometeu pagar em resposta à exigência do auditor</td>
+          <td style="padding:10px 14px;">Discussão: atípico (art. 333 não prevê 'dar'; iniciativa foi do auditor)</td>
+          <td style="padding:10px 14px;">—</td>
+          <td style="padding:10px 14px;">—</td>
+        </tr>
+        <tr style="border-bottom:1px solid var(--border);">
+          <td style="padding:10px 14px;font-weight:600;color:var(--navy);">Marcelo (prefeito)</td>
+          <td style="padding:10px 14px;">Desviou R$ 180.000,00 de verba municipal para empresa da esposa</td>
+          <td style="padding:10px 14px;">Peculato-desvio — Art. 312, caput, 2.ª p., CP</td>
+          <td style="padding:10px 14px;">Rec. 2–12 anos + multa</td>
+          <td style="padding:10px 14px;">Justiça Estadual</td>
+        </tr>
+        <tr style="border-bottom:1px solid var(--border);background:var(--navy3);">
+          <td style="padding:10px 14px;font-weight:600;color:var(--navy);">Eduardo (secretário)</td>
+          <td style="padding:10px 14px;">Autorizou desvios sem verificação — dolo a ser provado</td>
+          <td style="padding:10px 14px;">Coautoria peculato-desvio (se dolo) ou Peculato culposo §2.º (se culpa)</td>
+          <td style="padding:10px 14px;">Rec. 2–12 anos ou Det. 3m–1 ano</td>
+          <td style="padding:10px 14px;">Justiça Estadual</td>
+        </tr>
+        <tr>
+          <td style="padding:10px 14px;font-weight:600;color:var(--navy);">Dr. Paulo Régis</td>
+          <td style="padding:10px 14px;">Exigiu pagamento de consultas cobertas pelo SUS</td>
+          <td style="padding:10px 14px;">Concussão — Art. 316 c/c Art. 327, §1.º, CP</td>
+          <td style="padding:10px 14px;">Rec. 2–8 anos + multa</td>
+          <td style="padding:10px 14px;">Justiça Estadual (STJ)</td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+</div>
+<script>
+function tog(id){const b=document.getElementById('qb-'+id);const a=document.getElementById('arr-'+id);const open=b.classList.contains('open');b.classList.toggle('open',!open);a.classList.toggle('open',!open);}
+function showAns(id){const a=document.getElementById(id);a.classList.toggle('show');a.previousElementSibling.textContent=a.classList.contains('show')?'Ocultar resposta':'Revelar gabarito comentado';}
+</script>
+</body>
+</html>

@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quadro Sinóptico – Crimes contra a Administração Pública</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Source+Sans+3:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#1F497D;--navy2:#2c5f9e;--navy3:#e8f0f8;--navy4:#d0e0f0;--gold:#C9A84C;--gold2:#fff8e0;--green:#2e7d32;--green2:#e8f5e9;--red:#8b2020;--red2:#fdecea;--text:#1a2030;--muted:#5a6478;--border:#d0dcea;--surface:#fff;--bg:#f0f4f8;--serif:'Playfair Display',Georgia,serif;--sans:'Source Sans 3',system-ui,sans-serif;}
+@media(prefers-color-scheme:dark){:root{--navy:#4a7fb5;--navy2:#6a9fd4;--navy3:#1a2840;--navy4:#1e3050;--gold:#e8c96a;--gold2:#2a2000;--green:#66bb6a;--green2:#1a2e1a;--red:#ef9a9a;--red2:#2a1414;--text:#dde4f0;--muted:#8a98b8;--border:#2a3a52;--surface:#1a2235;--bg:#0f1623;}}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:var(--sans);background:var(--bg);color:var(--text);}
+header{background:var(--navy);padding:0 28px;height:60px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 2px 10px rgba(0,0,0,.22);}
+.h-title{font-family:var(--serif);color:#fff;font-size:17px;font-weight:700;}
+.h-sub{color:var(--gold);font-size:11px;font-weight:500;letter-spacing:.07em;text-transform:uppercase;margin-top:2px;}
+.page{max-width:1240px;margin:0 auto;padding:32px 20px 60px;}
+.section-title{font-family:var(--serif);font-size:19px;color:var(--navy);margin:36px 0 16px;padding-bottom:8px;border-bottom:2px solid var(--navy);display:flex;align-items:center;gap:10px;}
+.section-title span{font-family:var(--sans);font-size:11px;font-weight:600;background:var(--navy);color:#fff;padding:2px 9px;border-radius:4px;letter-spacing:.05em;}
+.filter-bar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px;}
+.fbtn{padding:6px 14px;border-radius:6px;border:1.5px solid var(--border);background:var(--surface);color:var(--muted);font-size:12.5px;font-weight:500;cursor:pointer;transition:all .15s;font-family:var(--sans);}
+.fbtn:hover,.fbtn.active{background:var(--navy);border-color:var(--navy);color:#fff;}
+.tbl-wrap{overflow-x:auto;border-radius:10px;box-shadow:0 2px 12px rgba(31,73,125,.1);margin-bottom:32px;}
+table{width:100%;border-collapse:collapse;background:var(--surface);font-size:13px;min-width:960px;}
+thead tr th{background:var(--navy);color:#fff;padding:11px 14px;text-align:left;font-weight:600;font-size:12px;letter-spacing:.04em;white-space:nowrap;position:sticky;top:0;}
+thead tr th:first-child{border-radius:10px 0 0 0;}thead tr th:last-child{border-radius:0 10px 0 0;}
+tbody tr{border-bottom:1px solid var(--border);transition:background .12s;}
+tbody tr:hover{background:var(--navy3);}
+tbody tr:last-child{border-bottom:none;}
+td{padding:11px 14px;vertical-align:top;line-height:1.5;}
+td:first-child{font-weight:600;color:var(--navy);}
+td.art{font-size:11.5px;color:var(--muted);font-style:italic;white-space:nowrap;}
+.badge{display:inline-block;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:600;white-space:nowrap;margin-bottom:2px;}
+.b-rec{background:#e3edf8;color:#1a3a6a;}
+.b-det{background:#e8f5e9;color:#1a4020;}
+.b-jf{background:var(--navy3);color:var(--navy);}
+.b-je{background:var(--red2);color:var(--red);}
+.b-stj{background:var(--gold2);color:#7a5800;}
+@media(prefers-color-scheme:dark){.b-rec{background:#1a2840;color:#8ab9e0;}.b-det{background:#1a2e1a;color:#8bbf8b;}.b-jf{background:#1a2535;color:var(--navy2);}.b-je{background:#2a1414;color:#ef9a9a;}.b-stj{background:#2a2000;color:var(--gold);}}
+.chip{display:inline-block;padding:2px 7px;border-radius:3px;font-size:10.5px;margin:1px 2px 1px 0;}
+.ch-p{background:rgba(31,73,125,.08);color:var(--navy);}
+.ch-c{background:rgba(139,32,32,.08);color:var(--red);}
+.ch-g{background:rgba(46,125,50,.1);color:var(--green);}
+@media(prefers-color-scheme:dark){.ch-p{background:rgba(74,127,181,.2);color:var(--navy2);}.ch-c{background:rgba(239,154,154,.1);color:var(--red);}.ch-g{background:rgba(102,187,106,.15);color:var(--green);}}
+.dist-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:18px;margin-bottom:32px;}
+.dist-card{background:var(--surface);border:1.5px solid var(--border);border-radius:10px;padding:18px 20px;box-shadow:0 2px 8px rgba(31,73,125,.08);}
+.dist-card h4{font-family:var(--serif);font-size:15px;color:var(--navy);margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid var(--border);}
+.vs-row{display:flex;gap:12px;}
+.vs-col{flex:1;background:var(--navy3);border-radius:7px;padding:10px 12px;}
+.vs-col h5{font-size:12px;font-weight:700;color:var(--navy);margin-bottom:6px;}
+@media(prefers-color-scheme:dark){.vs-col h5{color:var(--navy2);}}
+.vs-col p{font-size:12px;color:var(--muted);line-height:1.55;}
+.juris-list{display:flex;flex-direction:column;gap:12px;margin-bottom:32px;}
+.juris-card{background:var(--surface);border-left:4px solid var(--gold);border-radius:0 8px 8px 0;padding:14px 18px;box-shadow:0 1px 6px rgba(0,0,0,.06);}
+.juris-card .j-source{font-size:11.5px;font-weight:700;color:var(--gold);margin-bottom:4px;letter-spacing:.03em;}
+.juris-card .j-text{font-size:13px;line-height:1.6;color:var(--text);}
+.juris-card .j-obs{font-size:12px;color:var(--muted);margin-top:6px;padding-top:6px;border-top:1px solid var(--border);}
+.alert{background:var(--gold2);border:1px solid var(--gold);border-radius:8px;padding:14px 18px;font-size:13px;line-height:1.6;color:var(--text);margin-bottom:24px;}
+.alert strong{color:#7a5800;font-weight:600;}
+@media(prefers-color-scheme:dark){.alert strong{color:var(--gold);}}
+</style>
+</head>
+<body>
+<header>
+  <div>
+    <div class="h-title">Crimes contra a Administração Pública — Quadro Sinóptico</div>
+    <div class="h-sub">Título XI · CP, arts. 312–359 · Direito Penal IV</div>
+  </div>
+</header>
+<div class="page">
+
+  <div class="filter-bar">
+    <button class="fbtn active" onclick="filter('all',this)">Todos</button>
+    <button class="fbtn" onclick="filter('cap1',this)">Cap. I — Func. Público (312–326)</button>
+    <button class="fbtn" onclick="filter('cap2',this)">Cap. II — Particular (328–337)</button>
+    <button class="fbtn" onclick="filter('cap3',this)">Adm. Judiciária (338–359)</button>
+  </div>
+
+  <div class="tbl-wrap">
+  <table id="main-table">
+    <thead>
+      <tr>
+        <th>Crime</th>
+        <th>Art.</th>
+        <th>Conduta nuclear</th>
+        <th>Pena base</th>
+        <th>Sujeito ativo</th>
+        <th>Consumação</th>
+        <th>Competência</th>
+        <th>Ponto crítico / Jurisprudência</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- CAP 1 -->
+      <tr data-cat="cap1">
+        <td>Peculato-apropriação</td><td class="art">Art. 312, <em>caput</em> 1.ª p.</td>
+        <td>Apropriar-se de dinheiro, valor ou bem móvel público ou particular, de que tem a posse em razão do cargo</td>
+        <td><span class="badge b-rec">Rec. 2–12 anos</span> + multa</td>
+        <td><span class="chip ch-p">Próprio</span></td>
+        <td>Com a apropriação</td>
+        <td><span class="badge b-jf">J. Federal</span> ou Estadual</td>
+        <td>Não pune o 'peculato de uso'. Súm. 599 STJ: insignificância inaplicável.</td>
+      </tr>
+      <tr data-cat="cap1">
+        <td>Peculato-desvio</td><td class="art">Art. 312, <em>caput</em> 2.ª p.</td>
+        <td>Desviar, em proveito próprio ou alheio, o bem de que tem a posse em razão do cargo</td>
+        <td><span class="badge b-rec">Rec. 2–12 anos</span> + multa</td>
+        <td><span class="chip ch-p">Próprio</span></td>
+        <td>Com o desvio</td>
+        <td><span class="badge b-jf">J. Federal</span> ou Estadual</td>
+        <td>Desvio: destino diverso do correto, sem necessariamente apropriar-se.</td>
+      </tr>
+      <tr data-cat="cap1">
+        <td>Peculato-furto (impróprio)</td><td class="art">Art. 312, §1.º</td>
+        <td>Subtrair ou concorrer para a subtração, valendo-se das facilidades do cargo</td>
+        <td><span class="badge b-rec">Rec. 2–12 anos</span> + multa</td>
+        <td><span class="chip ch-p">Próprio</span></td>
+        <td>Com a subtração</td>
+        <td><span class="badge b-jf">J. Federal</span> ou Estadual</td>
+        <td>Não tem a posse do bem — distingue do peculato-apropriação. Art. 30: coautor civil ciente da qualidade responde pelo mesmo crime.</td>
+      </tr>
+      <tr data-cat="cap1">
+        <td>Peculato culposo</td><td class="art">Art. 312, §2.º</td>
+        <td>Concorrer culposamente para que terceiro pratique o crime</td>
+        <td><span class="badge b-det">Det. 3m–1 ano</span></td>
+        <td><span class="chip ch-p">Próprio</span></td>
+        <td>Com a contribuição culposa</td>
+        <td><span class="badge b-jf">J. Federal</span> ou Estadual</td>
+        <td>Reparação antes da sentença irrecorrível: extingue punibilidade. Reparação depois: reduz pena à metade (§3.º).</td>
+      </tr>
+      <tr data-cat="cap1">
+        <td>Peculato mediante erro de outrem</td><td class="art">Art. 313</td>
+        <td>Apropriar-se de dinheiro ou utilidade recebida por erro de outrem, no exercício do cargo</td>
+        <td><span class="badge b-rec">Rec. 1–4 anos</span> + multa</td>
+        <td><span class="chip ch-p">Próprio</span></td>
+        <td>Com a apropriação</td>
+        <td><span class="badge b-jf">J. Federal</span> ou Estadual</td>
+        <td>O erro deve ser espontâneo (majoritário). Se o agente provocou o erro: concussão ou estelionato.</td>
+      </tr>
+      <tr data-cat="cap1">
+        <td>Peculato eletrônico</td><td class="art">Art. 313-A</td>
+        <td>Inserir/facilitar dados falsos ou alterar/excluir dados corretos em sistemas informatizados da Adm. Pública para obter vantagem</td>
+        <td><span class="badge b-rec">Rec. 2–12 anos</span> + multa</td>
+        <td><span class="chip ch-p">Próprio</span> (func. autorizado)</td>
+        <td>Com a inserção/alteração</td>
+        <td><span class="badge b-jf">J. Federal</span> ou Estadual</td>
+        <td>Exige finalidade especial (vantagem indevida ou dano). Aumento de 1/3 se comissionado ou diretor.</td>
+      </tr>
+      <tr data-cat="cap1">
+        <td>Emprego irregular de verbas</td><td class="art">Art. 315</td>
+        <td>Dar às verbas ou rendas públicas aplicação diversa da estabelecida em lei</td>
+        <td><span class="badge b-det">Det. 1–3 meses</span></td>
+        <td><span class="chip ch-p">Próprio</span></td>
+        <td>Com a aplicação irregular</td>
+        <td>Conforme a esfera</td>
+        <td>Se praticado por prefeito: aplica-se o Decreto-Lei 201/67 (art. 1.º, III), por especialidade.</td>
+      </tr>
+      <tr data-cat="cap1">
+        <td>Concussão</td><td class="art">Art. 316</td>
+        <td>Exigir, para si ou para outrem, vantagem indevida em razão da função (ainda que fora dela)</td>
+        <td><span class="badge b-rec">Rec. 2–8 anos</span> + multa</td>
+        <td><span class="chip ch-p">Próprio</span></td>
+        <td>Com a exigência (crime formal)</td>
+        <td><span class="badge b-jf">J. Federal</span> ou Estadual</td>
+        <td>Consumação = exigência. Recebimento = exaurimento. Médico SUS: concussão; competência Estadual (STJ). Exação vexatória: §1.º (Det. 3m–1 ano).</td>
+      </tr>
+      <tr data-cat="cap1">
+        <td>Corrupção passiva</td><td class="art">Art. 317</td>
+        <td>Solicitar ou receber vantagem indevida, ou aceitar promessa de tal vantagem, em razão da função</td>
+        <td><span class="badge b-rec">Rec. 2–12 anos</span> + multa</td>
+        <td><span class="chip ch-p">Próprio</span></td>
+        <td>Com o ato de solicitar/receber/aceitar</td>
+        <td><span class="badge b-jf">J. Federal</span> ou Estadual</td>
+        <td>§1.º: +1/3 se o ato é retardado/omitido/praticado com infração. §2.º: corrupção passiva privilegiada (ceder a pedido).</td>
+      </tr>
+      <tr data-cat="cap1">
+        <td>Prevaricação</td><td class="art">Art. 319</td>
+        <td>Retardar, omitir ou praticar ato de ofício contra lei, para satisfazer interesse ou sentimento pessoal</td>
+        <td><span class="badge b-det">Det. 3m–1 ano</span></td>
+        <td><span class="chip ch-p">Próprio</span></td>
+        <td>Com o ato/omissão</td>
+        <td>Conforme a esfera</td>
+        <td>Elemento subjetivo especial obrigatório e demonstrável de forma concreta (STJ). Mera negligência/descompromisso: atípico.</td>
+      </tr>
+      <tr data-cat="cap1">
+        <td>Condescendência criminosa</td><td class="art">Art. 320</td>
+        <td>Deixar, por indulgência, de responsabilizar subordinado que cometeu infração; ou não levar o fato ao conhecimento competente</td>
+        <td><span class="badge b-det">Det. 15 dias–1 mês</span></td>
+        <td><span class="chip ch-p">Próprio</span></td>
+        <td>Com a omissão</td>
+        <td>Conforme a esfera</td>
+        <td>A omissão deve ser por indulgência (dolo). Mera inércia sem dolo: atípico.</td>
+      </tr>
+      <tr data-cat="cap1">
+        <td>Advocacia administrativa</td><td class="art">Art. 321</td>
+        <td>Patrocinar, direta ou indiretamente, interesse privado perante a Administração, valendo-se da qualidade de funcionário</td>
+        <td><span class="badge b-det">Det. 1–3 meses</span></td>
+        <td><span class="chip ch-p">Próprio</span></td>
+        <td>Com o patrocínio</td>
+        <td>Conforme a esfera</td>
+        <td>Qualificado se o interesse é ilegítimo: Det. 3m–1 ano + multa.</td>
+      </tr>
+      <tr data-cat="cap1">
+        <td>Violação de sigilo funcional</td><td class="art">Art. 325</td>
+        <td>Revelar fato de que tem ciência em razão do cargo e que deva permanecer em segredo</td>
+        <td><span class="badge b-det">Det. 6m–2 anos</span> ou multa</td>
+        <td><span class="chip ch-p">Próprio</span></td>
+        <td>Com a revelação</td>
+        <td>Conforme a esfera</td>
+        <td>§1.º: qualificado se resulta dano à Administração ou a outrem. §2.º: acesso indevido a sistema.</td>
+      </tr>
+      <!-- CAP 2 -->
+      <tr data-cat="cap2">
+        <td>Usurpação de função pública</td><td class="art">Art. 328</td>
+        <td>Usurpar o exercício de função pública</td>
+        <td><span class="badge b-det">Det. 3m–2 anos</span></td>
+        <td><span class="chip ch-c">Comum</span></td>
+        <td>Com a prática de ato funcional</td>
+        <td><span class="badge b-jf">J. Federal</span> ou Estadual</td>
+        <td>Exige prática efetiva de ato. Apresentar-se sem praticar ato = contravenção (art. 45 LCP). Qualificado (vantagem): Rec. 2–5 anos.</td>
+      </tr>
+      <tr data-cat="cap2">
+        <td>Resistência</td><td class="art">Art. 329</td>
+        <td>Opor-se à execução de ato legal mediante violência ou ameaça a funcionário competente</td>
+        <td><span class="badge b-det">Det. 2m–2 anos</span></td>
+        <td><span class="chip ch-c">Comum</span></td>
+        <td>Com o ato de violência/ameaça</td>
+        <td>Conforme a esfera</td>
+        <td>§1.º: Det. 1–3 anos se o ato não se executa. Penas sem prejuízo da violência. Resistência passiva: desobediência. Concurso com desacato: possível (Greco).</td>
+      </tr>
+      <tr data-cat="cap2">
+        <td>Desobediência</td><td class="art">Art. 330</td>
+        <td>Desobedecer a ordem legal de funcionário público</td>
+        <td><span class="badge b-det">Det. 15 dias–6m</span> ou multa</td>
+        <td><span class="chip ch-c">Comum</span></td>
+        <td>Com a desobediência</td>
+        <td>Conforme a esfera</td>
+        <td>Resistência passiva sem violência. Subsidiário: se outra lei prevê sanção específica, o art. 330 é afastado.</td>
+      </tr>
+      <tr data-cat="cap2">
+        <td>Desacato</td><td class="art">Art. 331</td>
+        <td>Desacatar funcionário público no exercício da função ou em razão dela</td>
+        <td><span class="badge b-det">Det. 6m–2 anos</span></td>
+        <td><span class="chip ch-c">Comum</span></td>
+        <td>Com o ato de desacato</td>
+        <td>Conforme a esfera</td>
+        <td>Exige presença do funcionário (não obrigatoriamente face a face). Nexo funcional. Concurso com resistência: possível (Greco).</td>
+      </tr>
+      <tr data-cat="cap2">
+        <td>Tráfico de influência</td><td class="art">Art. 332</td>
+        <td>Solicitar, exigir, cobrar ou obter vantagem a pretexto de influir em ato de funcionário público</td>
+        <td><span class="badge b-rec">Rec. 2–5 anos</span> + multa</td>
+        <td><span class="chip ch-c">Comum</span></td>
+        <td>Com o ato de solicitar/exigir/cobrar (crime formal)</td>
+        <td>Conforme a esfera</td>
+        <td>Agente age como estelionatário; pode não ter influência real. Qualificado: Rec. 3–8 anos.</td>
+      </tr>
+      <tr data-cat="cap2">
+        <td>Corrupção ativa</td><td class="art">Art. 333</td>
+        <td>Oferecer ou prometer vantagem indevida a funcionário público para determiná-lo a praticar, omitir ou retardar ato de ofício</td>
+        <td><span class="badge b-rec">Rec. 2–12 anos</span> + multa</td>
+        <td><span class="chip ch-c">Comum</span></td>
+        <td>Com o oferecimento/promessa (crime formal)</td>
+        <td>Conforme a esfera</td>
+        <td>Tipo não prevê 'dar': quem cede à solicitação (sem ter antes oferecido) é atípico quanto ao art. 333. +1/3 se ato visado é ilícito.</td>
+      </tr>
+      <tr data-cat="cap2">
+        <td>Descaminho</td><td class="art">Art. 334</td>
+        <td>Iludir o pagamento de tributo sobre entrada, saída ou consumo de mercadoria</td>
+        <td><span class="badge b-rec">Rec. 1–4 anos</span></td>
+        <td><span class="chip ch-c">Comum</span></td>
+        <td>Com a ilusão do tributo</td>
+        <td><span class="badge b-jf">J. Federal</span></td>
+        <td>Insignificância aplicável abaixo de R$ 20.000,00 (STF/STJ — Portaria MF 75/12). Dobro se cometido em transporte aéreo/marítimo/fluvial (§3.º).</td>
+      </tr>
+      <tr data-cat="cap2">
+        <td>Contrabando</td><td class="art">Art. 334-A</td>
+        <td>Importar ou exportar mercadoria proibida</td>
+        <td><span class="badge b-rec">Rec. 2–5 anos</span></td>
+        <td><span class="chip ch-c">Comum</span></td>
+        <td>Com a importação/exportação</td>
+        <td><span class="badge b-jf">J. Federal</span></td>
+        <td>Insignificância inaplicável (bem jurídico: saúde, segurança, moralidade — além do erário). Distingue do descaminho: mercadoria proibida vs. tributo sonegado.</td>
+      </tr>
+      <!-- CAP 3 -->
+      <tr data-cat="cap3">
+        <td>Falso testemunho</td><td class="art">Art. 342</td>
+        <td>Fazer afirmação falsa, negar ou calar a verdade como testemunha, perito, tradutor ou intérprete em processo</td>
+        <td><span class="badge b-rec">Rec. 2–4 anos</span> + multa</td>
+        <td><span class="chip ch-c">Próprio</span></td>
+        <td>Com a afirmação/negativa</td>
+        <td>Conforme o processo</td>
+        <td>Retratação antes da sentença do fato principal: extinção da punibilidade. Qualificado com suborno: 3–6 anos.</td>
+      </tr>
+      <tr data-cat="cap3">
+        <td>Favorecimento pessoal</td><td class="art">Art. 348</td>
+        <td>Auxiliar a subtrair-se à ação de autoridade pública autor de crime punido com reclusão</td>
+        <td><span class="badge b-det">Det. 1–6 meses</span></td>
+        <td><span class="chip ch-c">Comum</span></td>
+        <td>Com o ato de favorecimento</td>
+        <td>Conforme a esfera</td>
+        <td>Qualificado se o beneficiado for cônjuge, ascendente, descendente ou irmão. Distinção com favorecimento real: este favorece o proveito do crime.</td>
+      </tr>
+      <tr data-cat="cap3">
+        <td>Favorecimento real</td><td class="art">Art. 349</td>
+        <td>Prestar auxílio destinado a tornar seguro o proveito do crime, fora dos casos de coautoria ou receptação</td>
+        <td><span class="badge b-det">Det. 1–6 meses</span></td>
+        <td><span class="chip ch-c">Comum</span></td>
+        <td>Com a prestação do auxílio</td>
+        <td>Conforme a esfera</td>
+        <td>Favorece o produto/proveito, não a pessoa. Distingue do favorecimento pessoal e da receptação.</td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+
+  <!-- DISTINÇÕES -->
+  <div class="section-title">Distinções fundamentais <span>PONTO CRÍTICO</span></div>
+  <div class="dist-grid">
+    <div class="dist-card">
+      <h4>Concussão × Extorsão × Corrupção passiva</h4>
+      <div class="vs-row">
+        <div class="vs-col">
+          <h5>Concussão (art. 316)</h5>
+          <p>Funcionário EXIGE — coação implícita ligada à função. Vantagem de qualquer natureza. Crime formal.</p>
+        </div>
+        <div class="vs-col" style="background:var(--red2);">
+          <h5 style="color:var(--red);">Extorsão (art. 158)</h5>
+          <p>Qualquer pessoa. Constrangimento com violência ou ameaça explícita. Vantagem econômica. Crime formal.</p>
+        </div>
+      </div>
+      <div class="vs-row" style="margin-top:8px;">
+        <div class="vs-col" style="background:var(--gold2);">
+          <h5 style="color:#7a5800;">Corrupção passiva (art. 317)</h5>
+          <p>Funcionário SOLICITA, RECEBE ou ACEITA promessa. Sem coação. Pode se manifestar em passividade.</p>
+        </div>
+      </div>
+    </div>
+    <div class="dist-card">
+      <h4>Corrupção ativa × Corrupção passiva</h4>
+      <div class="vs-row">
+        <div class="vs-col">
+          <h5>Ativa (art. 333) — particular</h5>
+          <p>Oferece ou promete vantagem. Tipo não prevê 'dar'. Quem cede à solicitação sem ter antes oferecido é atípico.</p>
+        </div>
+        <div class="vs-col" style="background:var(--green2);">
+          <h5 style="color:var(--green);">Passiva (art. 317) — funcionário</h5>
+          <p>Solicita, recebe ou aceita promessa. Crimes autônomos que podem coexistir no mesmo fato.</p>
+        </div>
+      </div>
+    </div>
+    <div class="dist-card">
+      <h4>Descaminho × Contrabando</h4>
+      <div class="vs-row">
+        <div class="vs-col">
+          <h5>Descaminho (art. 334)</h5>
+          <p>Mercadoria LÍCITA, mas tributo não pago. Insignificância possível (abaixo de R$ 20.000,00).</p>
+        </div>
+        <div class="vs-col" style="background:var(--red2);">
+          <h5 style="color:var(--red);">Contrabando (art. 334-A)</h5>
+          <p>Mercadoria PROIBIDA. Insignificância inaplicável. Bens jurídicos: saúde, segurança, moralidade + erário.</p>
+        </div>
+      </div>
+    </div>
+    <div class="dist-card">
+      <h4>Peculato doloso × Peculato culposo</h4>
+      <div class="vs-row">
+        <div class="vs-col">
+          <h5>Doloso (art. 312, caput/§1.º)</h5>
+          <p>Rec. 2–12 anos + multa. Não admite extinção por reparação. Insignificância inaplicável (Súm. 599 STJ).</p>
+        </div>
+        <div class="vs-col" style="background:var(--green2);">
+          <h5 style="color:var(--green);">Culposo (art. 312, §2.º)</h5>
+          <p>Det. 3m–1 ano. Reparação antes da sentença irrecorrível: extingue punibilidade. Depois: reduz à metade.</p>
+        </div>
+      </div>
+    </div>
+    <div class="dist-card">
+      <h4>Favorecimento pessoal × real × receptação</h4>
+      <div class="vs-row">
+        <div class="vs-col">
+          <h5>Pessoal (art. 348)</h5>
+          <p>Favorece a PESSOA do criminoso para fugir à autoridade. Beneficiado: autor de crime punível com reclusão.</p>
+        </div>
+        <div class="vs-col" style="background:var(--gold2);">
+          <h5 style="color:#7a5800;">Real (art. 349)</h5>
+          <p>Favorece o PROVEITO/produto do crime. Não é receptação (esta tem dolo de locupletamento).</p>
+        </div>
+      </div>
+    </div>
+    <div class="dist-card">
+      <h4>Resistência × Desobediência × Desacato</h4>
+      <div class="vs-row">
+        <div class="vs-col">
+          <h5>Resistência (art. 329)</h5>
+          <p>Violência ou ameaça para impedir ato legal. 'Desobediência belicosa' (Hungria).</p>
+        </div>
+        <div class="vs-col" style="background:var(--green2);">
+          <h5 style="color:var(--green);">Desobediência (art. 330)</h5>
+          <p>Resistência passiva — sem violência ou ameaça. Subsidiário.</p>
+        </div>
+      </div>
+      <div class="vs-row" style="margin-top:8px;">
+        <div class="vs-col" style="background:var(--navy3);">
+          <h5>Desacato (art. 331)</h5>
+          <p>Afrontar/menosprezar o funcionário. Finalidade diferente da resistência: não visa impedir ato, mas ofender.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- JURISPRUDÊNCIA -->
+  <div class="section-title">Jurisprudência estruturante</div>
+  <div class="juris-list">
+    <div class="juris-card">
+      <div class="j-source">STJ — Súmula 599</div>
+      <div class="j-text">O princípio da insignificância é inaplicável aos crimes contra a Administração Pública.</div>
+      <div class="j-obs">Fundamento: o bem jurídico protegido é a moralidade administrativa, insuscetível de valoração econômica. Exceção discutida: descaminho abaixo de R$ 20.000,00 (arts. 20 da Lei 10.522/02 + Portaria MF 75 e 130/2012 — STF/STJ em divergência).</div>
+    </div>
+    <div class="juris-card">
+      <div class="j-source">STJ — AgRg no RHC 87.068/SP (Médico do SUS)</div>
+      <div class="j-text">Os Tribunais Superiores pacificaram o entendimento de que a cobrança indevida de honorários por médicos do SUS acarreta prejuízos apenas ao particular, não ao sistema de saúde federal, razão pela qual compete à Justiça Estadual processar e julgar a ação penal.</div>
+      <div class="j-obs">Aplicação: médico conveniado que exige pagamento responde por concussão (art. 316 + art. 327, §1.º CP), perante a Justiça Estadual.</div>
+    </div>
+    <div class="juris-card">
+      <div class="j-source">STJ — Prevaricação: elemento subjetivo especial</div>
+      <div class="j-text">Para a configuração do crime de prevaricação é necessário que fique demonstrado que o agente agiu por interesse ou sentimento pessoal de forma objetiva e concreta — não sendo suficiente a mera negligência, comodismo ou descompromisso.</div>
+      <div class="j-obs">Consequência prática: a ausência de demonstração concreta do interesse/sentimento pessoal afasta a prevaricação e pode configurar, apenas, infração disciplinar ou improbidade administrativa.</div>
+    </div>
+    <div class="juris-card">
+      <div class="j-source">STJ — HC 198.750/SP (Concussão × Extorsão)</div>
+      <div class="j-text">O emprego de violência ou grave ameaça é circunstância elementar do crime de extorsão tipificado no art. 158 do CP. Assim, se o funcionário público utiliza esse meio para obter vantagem indevida, comete extorsão e não concussão.</div>
+      <div class="j-obs">Critério: a coação na concussão é implícita, ligada ao temor da função. Na extorsão, é explícita (violência física ou ameaça direta).</div>
+    </div>
+  </div>
+
+</div>
+<script>
+function filter(cat,btn){
+  document.querySelectorAll('.fbtn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('#main-table tbody tr').forEach(tr=>{
+    tr.style.display=(cat==='all'||tr.dataset.cat===cat)?'':'none';
+  });
+}
+</script>
+</body>
+</html>

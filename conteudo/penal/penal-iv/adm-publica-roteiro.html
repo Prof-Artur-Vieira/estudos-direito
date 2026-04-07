@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Roteiro de Estudo – Crimes contra a Administração Pública</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Source+Sans+3:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#1F497D;--navy2:#2c5f9e;--navy3:#e8f0f8;--navy4:#d0e0f0;--gold:#C9A84C;--gold2:#fff8e0;--green:#2e7d32;--green2:#e8f5e9;--red:#8b2020;--red2:#fdecea;--text:#1a2030;--muted:#5a6478;--border:#d0dcea;--surface:#fff;--bg:#f0f4f8;--serif:'Playfair Display',Georgia,serif;--sans:'Source Sans 3',system-ui,sans-serif;}
+@media(prefers-color-scheme:dark){:root{--navy:#4a7fb5;--navy2:#6a9fd4;--navy3:#1a2840;--navy4:#1e3050;--gold:#e8c96a;--gold2:#2a2000;--green:#66bb6a;--green2:#1a2e1a;--red:#ef9a9a;--red2:#2a1414;--text:#dde4f0;--muted:#8a98b8;--border:#2a3a52;--surface:#1a2235;--bg:#0f1623;}}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:var(--sans);background:var(--bg);color:var(--text);}
+header{background:var(--navy);padding:0 28px;height:60px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 2px 10px rgba(0,0,0,.22);}
+.h-title{font-family:var(--serif);color:#fff;font-size:17px;font-weight:700;}
+.h-sub{color:var(--gold);font-size:11px;font-weight:500;letter-spacing:.07em;text-transform:uppercase;margin-top:2px;}
+.h-right{display:flex;gap:10px;align-items:center;}
+.prog-label{color:rgba(255,255,255,.7);font-size:12px;}
+.prog-bar{width:120px;height:8px;background:rgba(255,255,255,.2);border-radius:4px;overflow:hidden;}
+.prog-fill{height:100%;background:var(--gold);border-radius:4px;transition:width .4s;}
+#prog-pct{color:var(--gold);font-size:12px;font-weight:600;min-width:36px;}
+.page{max-width:820px;margin:0 auto;padding:32px 20px 60px;}
+.intro-box{background:var(--navy);border-radius:12px;padding:24px 28px;color:#fff;margin-bottom:32px;}
+.intro-box h2{font-family:var(--serif);font-size:20px;margin-bottom:10px;}
+.intro-box p{font-size:13.5px;line-height:1.65;opacity:.88;}
+.obj-list{margin-top:14px;display:flex;flex-wrap:wrap;gap:8px;}
+.obj-tag{background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.22);border-radius:6px;padding:5px 12px;font-size:12px;}
+.unit{margin-bottom:36px;}
+.unit-header{display:flex;align-items:center;gap:12px;margin-bottom:16px;cursor:pointer;user-select:none;}
+.unit-num{width:40px;height:40px;border-radius:50%;background:var(--navy);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:16px;flex-shrink:0;}
+.unit-title{font-family:var(--serif);font-size:17px;color:var(--navy);flex:1;}
+.unit-toggle{font-size:18px;color:var(--muted);transition:transform .2s;}
+.unit-toggle.open{transform:rotate(180deg);}
+.unit-body{display:none;}
+.unit-body.open{display:block;}
+.step{background:var(--surface);border:1px solid var(--border);border-radius:10px;margin-bottom:12px;overflow:hidden;}
+.step-head{display:flex;align-items:flex-start;gap:12px;padding:14px 16px;cursor:pointer;}
+.step-check{width:22px;height:22px;border-radius:50%;border:2px solid var(--border);display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .15s;margin-top:1px;}
+.step-check svg{display:none;width:12px;height:12px;}
+.step.done .step-check{background:var(--navy);border-color:var(--navy);}
+.step.done .step-check svg{display:block;}
+.step-title{font-size:14px;font-weight:600;color:var(--text);flex:1;line-height:1.45;}
+.step.done .step-title{text-decoration:line-through;color:var(--muted);}
+.step-meta{font-size:11.5px;color:var(--muted);margin-top:3px;}
+.step-expand{font-size:15px;color:var(--muted);padding-top:2px;flex-shrink:0;}
+.step-content{display:none;padding:0 16px 16px 50px;border-top:1px solid var(--border);}
+.step-content.open{display:block;}
+.step-content p{font-size:13px;line-height:1.65;margin-bottom:10px;}
+.step-content ul{margin-left:16px;font-size:13px;line-height:1.7;}
+.step-content li{margin-bottom:4px;}
+.art-box{background:var(--navy3);border-left:3px solid var(--navy);border-radius:0 6px 6px 0;padding:10px 14px;margin:10px 0;font-size:12.5px;line-height:1.6;font-style:italic;}
+.stj-box{background:var(--gold2);border-left:3px solid var(--gold);border-radius:0 6px 6px 0;padding:10px 14px;margin:10px 0;font-size:12.5px;line-height:1.6;}
+.stj-box strong{color:#7a5800;font-weight:600;}
+@media(prefers-color-scheme:dark){.stj-box strong{color:var(--gold);}}
+.warn-box{background:var(--red2);border-left:3px solid var(--red);border-radius:0 6px 6px 0;padding:10px 14px;margin:10px 0;font-size:12.5px;line-height:1.6;}
+.warn-box strong{color:var(--red);font-weight:600;}
+.tag-row{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px;}
+.tag{display:inline-block;padding:2px 9px;border-radius:4px;font-size:11px;font-weight:600;}
+.t-art{background:var(--navy3);color:var(--navy);}
+.t-stj{background:var(--gold2);color:#7a5800;}
+.t-imp{background:var(--red2);color:var(--red);}
+@media(prefers-color-scheme:dark){.t-art{background:var(--navy4);color:var(--navy2);}.t-stj{background:var(--gold2);color:var(--gold);}.t-imp{background:var(--red2);color:var(--red);}}
+.reset-btn{margin:0 auto 20px;display:block;padding:8px 22px;background:transparent;border:1.5px solid var(--border);border-radius:6px;color:var(--muted);font-size:13px;cursor:pointer;font-family:var(--sans);transition:all .15s;}
+.reset-btn:hover{border-color:var(--navy);color:var(--navy);}
+</style>
+</head>
+<body>
+<header>
+  <div><div class="h-title">Crimes contra a Administração Pública — Roteiro de Estudo</div><div class="h-sub">Título XI · CP · Direito Penal IV</div></div>
+  <div class="h-right">
+    <span class="prog-label">Progresso</span>
+    <div class="prog-bar"><div class="prog-fill" id="prog-fill" style="width:0%"></div></div>
+    <span id="prog-pct">0%</span>
+  </div>
+</header>
+<div class="page">
+  <div class="intro-box">
+    <h2>Roteiro de Estudo — Crimes contra a Administração Pública</h2>
+    <p>Cinco unidades progressivas, do conceitual ao jurisprudencial. Marque cada etapa como concluída. Clique para expandir o conteúdo de cada item.</p>
+    <div class="obj-list">
+      <span class="obj-tag">CP, Título XI — arts. 312–359</span>
+      <span class="obj-tag">Peculato · Concussão · Corrupção</span>
+      <span class="obj-tag">Prevaricação · Desacato · Resistência</span>
+      <span class="obj-tag">Súm. 599 STJ · art. 327 CP</span>
+      <span class="obj-tag">Competência J. Federal × Estadual</span>
+    </div>
+  </div>
+  <button class="reset-btn" onclick="resetAll()">↺ Reiniciar progresso</button>
+
+  <!-- UNIDADE 1 -->
+  <div class="unit" id="u1">
+    <div class="unit-header" onclick="toggleUnit('u1')">
+      <div class="unit-num">1</div>
+      <div class="unit-title">Bem jurídico, conceito de funcionário público e comunicabilidade</div>
+      <span class="unit-toggle open" id="tog-u1">▾</span>
+    </div>
+    <div class="unit-body open" id="body-u1">
+      <div class="step" id="s1">
+        <div class="step-head" onclick="expand('s1')">
+          <div class="step-check" onclick="check(event,'s1')"><svg viewBox="0 0 12 12" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="2,6 5,9 10,3"/></svg></div>
+          <div style="flex:1"><div class="step-title">Bem jurídico: moralidade e probidade administrativa</div><div class="step-meta">Título XI CP · fundamento de proteção</div></div>
+          <span class="step-expand">+</span>
+        </div>
+        <div class="step-content" id="sc-s1">
+          <p>O Título XI do CP protege a <strong>moralidade, probidade e o regular funcionamento da Administração Pública</strong>. Rogério Greco destaca que o corruptor é um "exterminador": ao subverter a Administração, impede-a de cumprir suas funções sociais, prejudicando difusamente toda a coletividade.</p>
+          <p>O bem jurídico é de natureza supraindividual — vai além do patrimônio público, tutelando a própria integridade institucional do Estado.</p>
+          <div class="art-box">CP, Título XI — arts. 312–359</div>
+          <div class="tag-row"><span class="tag t-art">Título XI CP</span></div>
+        </div>
+      </div>
+      <div class="step" id="s2">
+        <div class="step-head" onclick="expand('s2')">
+          <div class="step-check" onclick="check(event,'s2')"><svg viewBox="0 0 12 12" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="2,6 5,9 10,3"/></svg></div>
+          <div style="flex:1"><div class="step-title">Conceito penal de funcionário público — art. 327 CP</div><div class="step-meta">Conceito ampliado · equiparação · aumento de pena</div></div>
+          <span class="step-expand">+</span>
+        </div>
+        <div class="step-content" id="sc-s2">
+          <p>Art. 327: <strong>Quem, embora transitoriamente ou sem remuneração, exerce cargo, emprego ou função pública.</strong></p>
+          <p><strong>§1.º (equiparados):</strong> quem exerce cargo, emprego ou função em entidade paraestatal, e quem trabalha para empresa prestadora de serviço contratada ou conveniada para a execução de atividade típica da Administração Pública. Exemplo: médico do SUS.</p>
+          <p><strong>§2.º (aumento):</strong> quando o autor do crime for ocupante de cargo em comissão ou de função de direção/assessoramento: +1/3 de pena.</p>
+          <div class="art-box">Art. 327 e §§ CP</div>
+          <div class="tag-row"><span class="tag t-art">Art. 327 CP</span></div>
+        </div>
+      </div>
+      <div class="step" id="s3">
+        <div class="step-head" onclick="expand('s3')">
+          <div class="step-check" onclick="check(event,'s3')"><svg viewBox="0 0 12 12" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="2,6 5,9 10,3"/></svg></div>
+          <div style="flex:1"><div class="step-title">Comunicabilidade de elementares — art. 30 CP</div><div class="step-meta">Coautoria entre funcionário público e particular</div></div>
+          <span class="step-expand">+</span>
+        </div>
+        <div class="step-content" id="sc-s3">
+          <p>A qualidade de funcionário público é elementar do tipo nos crimes do Capítulo I. Por força do art. 30 do CP, essa elementar <strong>se comunica ao coautor particular</strong> que participar do fato, desde que ciente da condição funcional do outro agente.</p>
+          <p>Exemplo: extraneus que ajuda o funcionário a desviar verba pública, ciente da condição funcional, responde por peculato — não por apropriação indébita.</p>
+          <div class="warn-box"><strong>Atenção:</strong> se o particular não soube da qualidade de funcionário, não há comunicação da elementar — ele responderá pelo crime comum correspondente.</div>
+          <div class="art-box">Art. 30 CP — As circunstâncias e condições de caráter pessoal não se comunicam, salvo quando elementares do crime.</div>
+          <div class="tag-row"><span class="tag t-art">Art. 30 CP</span><span class="tag t-imp">Ciência da qualidade funcional</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- UNIDADE 2 -->
+  <div class="unit" id="u2">
+    <div class="unit-header" onclick="toggleUnit('u2')">
+      <div class="unit-num">2</div>
+      <div class="unit-title">Peculato — as quatro modalidades (arts. 312–313)</div>
+      <span class="unit-toggle open" id="tog-u2">▾</span>
+    </div>
+    <div class="unit-body open" id="body-u2">
+      <div class="step" id="s4">
+        <div class="step-head" onclick="expand('s4')">
+          <div class="step-check" onclick="check(event,'s4')"><svg viewBox="0 0 12 12" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="2,6 5,9 10,3"/></svg></div>
+          <div style="flex:1"><div class="step-title">Peculato-apropriação, peculato-desvio e peculato-furto</div><div class="step-meta">Art. 312, caput e §1.º</div></div>
+          <span class="step-expand">+</span>
+        </div>
+        <div class="step-content" id="sc-s4">
+          <p><strong>Peculato-apropriação (caput, 1.ª parte):</strong> apropriar-se de dinheiro, valor ou bem móvel público ou particular, de que tem a <em>posse em razão do cargo</em>. Não pune o 'peculato de uso' — utilização temporária sem animus de apropriar.</p>
+          <p><strong>Peculato-desvio (caput, 2.ª parte):</strong> desviar o bem em proveito próprio ou alheio. O desvio implica dar destinação diversa da devida, sem necessariamente apropriar-se definitivamente.</p>
+          <p><strong>Peculato-furto impróprio (§1.º):</strong> o agente não tem a posse do bem, mas subtrai ou concorre para a subtração valendo-se das <em>facilidades do cargo</em>. Distingue-se do furto comum justamente por esse elemento funcional.</p>
+          <div class="art-box">Art. 312, caput e §1.º CP — Reclusão 2–12 anos + multa. Aumento de 1/3 se comissionado (§2.º do art. 327).</div>
+          <div class="tag-row"><span class="tag t-art">Art. 312 CP</span><span class="tag t-stj">Súm. 599 STJ – insignificância inaplicável</span></div>
+        </div>
+      </div>
+      <div class="step" id="s5">
+        <div class="step-head" onclick="expand('s5')">
+          <div class="step-check" onclick="check(event,'s5')"><svg viewBox="0 0 12 12" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="2,6 5,9 10,3"/></svg></div>
+          <div style="flex:1"><div class="step-title">Peculato culposo e a extinção da punibilidade pela reparação</div><div class="step-meta">Art. 312, §2.º e §3.º — regra única no CP</div></div>
+          <span class="step-expand">+</span>
+        </div>
+        <div class="step-content" id="sc-s5">
+          <p>O peculato culposo (§2.º) ocorre quando o funcionário <strong>concorre culposamente</strong> para que terceiro pratique o crime. Não é que o funcionário cometa o peculato com culpa — ele contribui negligentemente para que outrem o cometa.</p>
+          <p>Regra especial do §3.º:</p>
+          <ul>
+            <li><strong>Reparação antes da sentença irrecorrível:</strong> extingue a punibilidade.</li>
+            <li><strong>Reparação após a sentença irrecorrível:</strong> reduz a pena à metade.</li>
+          </ul>
+          <div class="warn-box"><strong>Atenção:</strong> essa regra se aplica <em>exclusivamente</em> ao peculato culposo. No peculato doloso, a reparação não extingue a punibilidade — pode ser circunstância atenuante (art. 65, III, b) ou causa de redução (art. 16 CP), mas não extingue.</div>
+          <div class="art-box">Art. 312, §2.º e §3.º CP — Det. 3m–1 ano (culposo)</div>
+          <div class="tag-row"><span class="tag t-art">Art. 312, §3.º CP</span><span class="tag t-imp">Reparação = extinção (antes da sentença)</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- UNIDADE 3 -->
+  <div class="unit" id="u3">
+    <div class="unit-header" onclick="toggleUnit('u3')">
+      <div class="unit-num">3</div>
+      <div class="unit-title">Concussão, corrupção passiva e prevaricação (arts. 316–319)</div>
+      <span class="unit-toggle open" id="tog-u3">▾</span>
+    </div>
+    <div class="unit-body open" id="body-u3">
+      <div class="step" id="s6">
+        <div class="step-head" onclick="expand('s6')">
+          <div class="step-check" onclick="check(event,'s6')"><svg viewBox="0 0 12 12" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="2,6 5,9 10,3"/></svg></div>
+          <div style="flex:1"><div class="step-title">Concussão — art. 316: crime formal, exigência e exaurimento</div><div class="step-meta">Distinção com extorsão e corrupção passiva</div></div>
+          <span class="step-expand">+</span>
+        </div>
+        <div class="step-content" id="sc-s6">
+          <p>Concussão: <strong>exigir</strong> vantagem indevida para si ou para outrem, em razão da função, ainda que fora dela ou antes de assumi-la.</p>
+          <p>Crime <strong>formal</strong>: consuma-se com a exigência. O efetivo recebimento = exaurimento (não é mais necessário para a consumação). Por isso, a montagem de flagrante para o momento da entrega não pode resultar em flagrante legítimo — o crime já se consumou antes.</p>
+          <p>Vantagem de <strong>qualquer natureza</strong> (não apenas econômica). Extorsão: só econômica + violência/ameaça.</p>
+          <div class="stj-box"><strong>STJ, HC 198.750/SP:</strong> se o funcionário usa violência ou grave ameaça explícita, comete extorsão (art. 158), não concussão.</div>
+          <div class="tag-row"><span class="tag t-art">Art. 316 CP</span><span class="tag t-imp">Crime formal — exigência = consumação</span></div>
+        </div>
+      </div>
+      <div class="step" id="s7">
+        <div class="step-head" onclick="expand('s7')">
+          <div class="step-check" onclick="check(event,'s7')"><svg viewBox="0 0 12 12" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="2,6 5,9 10,3"/></svg></div>
+          <div style="flex:1"><div class="step-title">Corrupção passiva (art. 317) × Corrupção ativa (art. 333)</div><div class="step-meta">Crimes autônomos · peculiaridade do 'dar' na ativa</div></div>
+          <span class="step-expand">+</span>
+        </div>
+        <div class="step-content" id="sc-s7">
+          <p><strong>Corrupção passiva (art. 317):</strong> SOLICITAR, RECEBER ou ACEITAR promessa de vantagem. O funcionário está em posição de passividade ou de iniciativa (solicitação). §1.º: se retarda/omite/pratica ato com infração: +1/3. §2.º: privilegiada (ceder a pedido).</p>
+          <p><strong>Corrupção ativa (art. 333):</strong> OFERECER ou PROMETER vantagem. O tipo não prevê o verbo "DAR". Por isso, quem cede à solicitação do funcionário sem ter antes oferecido é <strong>atípico quanto ao art. 333</strong>.</p>
+          <p>São crimes autônomos: podem coexistir no mesmo episódio — funcionário solicita e particular oferece/promete.</p>
+          <div class="art-box">Art. 317 CP – Rec. 2–12 anos + multa (passiva). Art. 333 CP – Rec. 2–12 anos + multa (ativa).</div>
+          <div class="warn-box"><strong>Ponto de prova:</strong> quem 'dá' após solicitação do funcionário (sem antes oferecer) é atípico no art. 333. Cuidado com questões que usam o verbo 'dar' na corrupção ativa.</div>
+          <div class="tag-row"><span class="tag t-art">Art. 317 CP</span><span class="tag t-art">Art. 333 CP</span><span class="tag t-imp">'Dar' sem antes oferecer = atípico (art. 333)</span></div>
+        </div>
+      </div>
+      <div class="step" id="s8">
+        <div class="step-head" onclick="expand('s8')">
+          <div class="step-check" onclick="check(event,'s8')"><svg viewBox="0 0 12 12" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="2,6 5,9 10,3"/></svg></div>
+          <div style="flex:1"><div class="step-title">Prevaricação (art. 319) — elemento subjetivo especial obrigatório</div><div class="step-meta">Demonstração concreta do interesse/sentimento pessoal</div></div>
+          <span class="step-expand">+</span>
+        </div>
+        <div class="step-content" id="sc-s8">
+          <p>Prevaricação: retardar ou deixar de praticar ato de ofício, ou praticá-lo contra lei, <strong>para satisfazer interesse ou sentimento pessoal</strong>.</p>
+          <p>O elemento subjetivo especial é o núcleo diferenciador do crime. Sem ele, o fato é atípico (podendo configurar improbidade administrativa ou infração disciplinar, mas não crime).</p>
+          <div class="stj-box"><strong>STJ (posição pacificada):</strong> para configurar prevaricação, é imprescindível demonstrar de forma objetiva e concreta qual é o interesse ou sentimento pessoal que motivou a conduta. Mera negligência, comodismo ou descompromisso não configuram prevaricação.</div>
+          <p>Prevaricação imprópria: art. 319-A (diretor de penitenciária que permite acesso de preso a aparelho de comunicação).</p>
+          <div class="art-box">Art. 319 CP — Det. 3m–1 ano</div>
+          <div class="tag-row"><span class="tag t-art">Art. 319 CP</span><span class="tag t-imp">Interesse/sentimento pessoal: demonstração concreta</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- UNIDADE 4 -->
+  <div class="unit" id="u4">
+    <div class="unit-header" onclick="toggleUnit('u4')">
+      <div class="unit-num">4</div>
+      <div class="unit-title">Crimes por particular — resistência, desacato, corrupção ativa, descaminho (arts. 328–334-A)</div>
+      <span class="unit-toggle open" id="tog-u4">▾</span>
+    </div>
+    <div class="unit-body open" id="body-u4">
+      <div class="step" id="s9">
+        <div class="step-head" onclick="expand('s9')">
+          <div class="step-check" onclick="check(event,'s9')"><svg viewBox="0 0 12 12" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="2,6 5,9 10,3"/></svg></div>
+          <div style="flex:1"><div class="step-title">Resistência (art. 329) × Desobediência (art. 330) × Desacato (art. 331)</div><div class="step-meta">Três figuras próximas — distinções e possibilidade de concurso</div></div>
+          <span class="step-expand">+</span>
+        </div>
+        <div class="step-content" id="sc-s9">
+          <p><strong>Resistência (art. 329):</strong> oposição ativa — mediante violência ou ameaça — à execução de ato legal. "Desobediência belicosa" (Hungria). Penas sem prejuízo da violência.</p>
+          <p><strong>Desobediência (art. 330):</strong> oposição passiva — sem violência ou ameaça — a ordem legal de funcionário. Art. subsidiário: afastado quando lei especial prevê sanção para o descumprimento.</p>
+          <p><strong>Desacato (art. 331):</strong> afrontar, menosprezar o funcionário no exercício ou em razão da função. Nexo funcional obrigatório. Exige presença do funcionário (não necessariamente face a face). Finalidade diferente da resistência.</p>
+          <p>Rogério Greco: possível <strong>concurso real</strong> entre resistência e desacato — finalidades distintas (impedir o ato vs. ofender o funcionário).</p>
+          <div class="art-box">Art. 329 – Det. 2m–2 anos · Art. 330 – Det. 15 dias–6 meses · Art. 331 – Det. 6m–2 anos</div>
+          <div class="tag-row"><span class="tag t-art">Arts. 329, 330 e 331 CP</span></div>
+        </div>
+      </div>
+      <div class="step" id="s10">
+        <div class="step-head" onclick="expand('s10')">
+          <div class="step-check" onclick="check(event,'s10')"><svg viewBox="0 0 12 12" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="2,6 5,9 10,3"/></svg></div>
+          <div style="flex:1"><div class="step-title">Descaminho × Contrabando — e o princípio da insignificância</div><div class="step-meta">Art. 334 × Art. 334-A · Súm. 599 STJ e a exceção</div></div>
+          <span class="step-expand">+</span>
+        </div>
+        <div class="step-content" id="sc-s10">
+          <p><strong>Descaminho (art. 334):</strong> mercadoria LÍCITA; tributo não pago. O bem jurídico afetado é principalmente o erário. Competência: Justiça Federal. Insignificância: <strong>possível</strong> quando o tributo sonegado for inferior a R$ 20.000,00 (art. 20 da Lei 10.522/02 + Portaria MF 75 e 130/2012 — entendimento do STJ/STF, embora haja divergência).</p>
+          <p><strong>Contrabando (art. 334-A):</strong> mercadoria PROIBIDA. Bem jurídico: saúde, segurança, moralidade pública e erário. Insignificância: <strong>inaplicável</strong>, pois os bens jurídicos protegidos vão além do aspecto econômico.</p>
+          <div class="stj-box"><strong>STJ — Súmula 599:</strong> O princípio da insignificância é inaplicável aos crimes contra a Administração Pública. A exceção (descaminho) foi construída pelo STF com base no limite fiscal de arquivamento de execuções.</div>
+          <div class="tag-row"><span class="tag t-art">Art. 334 CP</span><span class="tag t-art">Art. 334-A CP</span><span class="tag t-stj">Súm. 599 STJ</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- UNIDADE 5 -->
+  <div class="unit" id="u5">
+    <div class="unit-header" onclick="toggleUnit('u5')">
+      <div class="unit-num">5</div>
+      <div class="unit-title">Jurisprudência consolidada e síntese dos pontos de prova</div>
+      <span class="unit-toggle open" id="tog-u5">▾</span>
+    </div>
+    <div class="unit-body open" id="body-u5">
+      <div class="step" id="s11">
+        <div class="step-head" onclick="expand('s11')">
+          <div class="step-check" onclick="check(event,'s11')"><svg viewBox="0 0 12 12" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="2,6 5,9 10,3"/></svg></div>
+          <div style="flex:1"><div class="step-title">Súmulas e teses obrigatórias — consolidação</div><div class="step-meta">STJ Súm. 599 · Teses repetitivas · Competência médico SUS</div></div>
+          <span class="step-expand">+</span>
+        </div>
+        <div class="step-content" id="sc-s11">
+          <div class="stj-box"><strong>STJ — Súmula 599:</strong> O princípio da insignificância é inaplicável aos crimes contra a Administração Pública.</div>
+          <div class="stj-box"><strong>STJ — Médico do SUS (AgRg no RHC 87.068/SP):</strong> A cobrança indevida de honorários por médico do SUS prejudica apenas o paciente, não o sistema federal. Competência: Justiça Estadual. Crime: concussão (art. 316 c/c art. 327, §1.º).</div>
+          <div class="stj-box"><strong>STJ — Prevaricação:</strong> O elemento subjetivo especial 'interesse ou sentimento pessoal' deve ser demonstrado de forma objetiva e concreta. Mera negligência = atípico.</div>
+          <div class="stj-box"><strong>STJ/STF — Corrupção ativa:</strong> Quem cede à solicitação do funcionário sem antes ter oferecido ou prometido vantagem é atípico quanto ao art. 333 CP (tipo não prevê 'dar').</div>
+          <div class="warn-box"><strong>Ponto de prova recorrente:</strong> as quatro modalidades do peculato (doloso: apropriação, desvio, furto; culposo) e seus efeitos distintos quanto à reparação. Dominar: reparação no peculato culposo = extinção antes da sentença; redução depois.</div>
+          <div class="tag-row"><span class="tag t-stj">Súm. 599 STJ</span><span class="tag t-stj">AgRg RHC 87.068/SP</span></div>
+        </div>
+      </div>
+      <div class="step" id="s12">
+        <div class="step-head" onclick="expand('s12')">
+          <div class="step-check" onclick="check(event,'s12')"><svg viewBox="0 0 12 12" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="2,6 5,9 10,3"/></svg></div>
+          <div style="flex:1"><div class="step-title">Competência — síntese e regras de distribuição</div><div class="step-meta">CF, art. 109, IV · interesse da União · exceções</div></div>
+          <span class="step-expand">+</span>
+        </div>
+        <div class="step-content" id="sc-s12">
+          <p><strong>Regra geral (CF, art. 109, IV):</strong> Justiça Federal quando o crime ofende bens, serviços ou interesses da União. Exemplos: peculato por servidor federal, corrupção de agente federal, crimes contra a Previdência Social.</p>
+          <p><strong>Justiça Estadual:</strong> quando o crime afeta apenas estados, municípios ou particulares. Exemplos: peculato por servidor estadual/municipal; médico do SUS conveniado com município (o dano patrimonial é ao paciente, não à União).</p>
+          <ul>
+            <li>Peculato por servidor do INSS → <strong>J. Federal</strong></li>
+            <li>Peculato por servidor estadual → <strong>J. Estadual</strong></li>
+            <li>Médico SUS (cobrança indevida) → <strong>J. Estadual</strong> (STJ)</li>
+            <li>Corrupção de auditor da Receita Federal → <strong>J. Federal</strong></li>
+          </ul>
+          <div class="art-box">CF, art. 109, IV · STJ – AgRg no RHC 87.068/SP</div>
+          <div class="tag-row"><span class="tag t-art">CF, art. 109, IV</span><span class="tag t-stj">Médico SUS: J. Estadual</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+const TOTAL=12;
+function getState(){try{return JSON.parse(localStorage.getItem('ap_rot')||'{}')}catch(e){return{}}}
+function setState(s){try{localStorage.setItem('ap_rot',JSON.stringify(s))}catch(e){}}
+function updateProg(){const s=getState();const done=Object.values(s).filter(Boolean).length;const pct=Math.round(done/TOTAL*100);document.getElementById('prog-fill').style.width=pct+'%';document.getElementById('prog-pct').textContent=pct+'%';}
+function check(e,id){e.stopPropagation();const s=getState();s[id]=!s[id];setState(s);document.getElementById(id).classList.toggle('done',!!s[id]);updateProg();}
+function expand(id){const c=document.getElementById('sc-'+id);const btn=document.querySelector('#'+id+' .step-expand');if(c.classList.contains('open')){c.classList.remove('open');btn.textContent='+';}else{c.classList.add('open');btn.textContent='−';}}
+function toggleUnit(uid){const b=document.getElementById('body-'+uid);const t=document.getElementById('tog-'+uid);b.classList.toggle('open');t.classList.toggle('open');}
+function resetAll(){setState({});document.querySelectorAll('.step').forEach(s=>s.classList.remove('done'));updateProg();}
+(function(){const s=getState();Object.keys(s).forEach(id=>{if(s[id])document.getElementById(id)&&document.getElementById(id).classList.add('done');});updateProg();})();
+</script>
+</body>
+</html>
