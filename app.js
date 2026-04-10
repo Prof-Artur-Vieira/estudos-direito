@@ -14,6 +14,8 @@ window.addEventListener('popstate', (e) => {
   const s = e.state
   if (!s || s.view === 'materias') {
     renderArvore(true)
+  } else if (s.view === 'sobre') {
+    abrirSobre(true)
   } else if (s.view === 'materia') {
     selecionarMateria(s.materiaId, true)
   } else if (s.view === 'turma') {
@@ -248,4 +250,30 @@ function atualizarBreadcrumb(tituloTema) {
   }
 
   breadcrumb.innerHTML = partes.join('')
+}
+
+// ── Sobre mim ────────────────────────────────────────────
+
+function abrirSobre(fromPop = false) {
+  estado.materiaAtual = null
+  estado.turmaAtual   = null
+  atualizarBreadcrumb('Sobre mim')
+  if (!fromPop) history.pushState({ view: 'sobre' }, '')
+
+  app.innerHTML = '<p style="color:#888;font-size:13px;padding:2rem">Carregando...</p>'
+
+  fetch('sobre.html')
+    .then(r => { if (!r.ok) throw new Error(); return r.text() })
+    .then(html => {
+      app.innerHTML = html
+      // intercepta o link "Voltar" para não sair do SPA
+      app.querySelectorAll('a[href="index.html"]').forEach(a => {
+        a.href = '#'
+        a.onclick = (e) => { e.preventDefault(); renderArvore() }
+      })
+      executarScripts(app)
+    })
+    .catch(() => {
+      app.innerHTML = '<p style="color:#c00;padding:2rem">Não foi possível carregar a página.</p>'
+    })
 }
