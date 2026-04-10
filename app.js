@@ -179,6 +179,8 @@ function abrirTema(index, fromPop = false) {
 
   app.innerHTML = `<div id="conteudo-area"><p style="color:#888;font-size:13px">Carregando...</p></div>`
 
+  const base = tema.arquivo.substring(0, tema.arquivo.lastIndexOf('/') + 1)
+
   fetch(tema.arquivo)
     .then(r => {
       if (!r.ok) throw new Error('Arquivo não encontrado')
@@ -187,6 +189,25 @@ function abrirTema(index, fromPop = false) {
     .then(html => {
       const area = document.getElementById('conteudo-area')
       area.innerHTML = html
+      // corrige caminhos relativos de imagens e iframes injetados via fetch
+      area.querySelectorAll('img[src]').forEach(el => {
+        const s = el.getAttribute('src')
+        if (s && !s.startsWith('http') && !s.startsWith('/') && !s.startsWith('data:')) {
+          el.src = base + s
+        }
+      })
+      area.querySelectorAll('iframe[src]').forEach(el => {
+        const s = el.getAttribute('src')
+        if (s && !s.startsWith('http') && !s.startsWith('/')) {
+          el.src = base + s
+        }
+      })
+      area.querySelectorAll('a[href]').forEach(el => {
+        const s = el.getAttribute('href')
+        if (s && !s.startsWith('http') && !s.startsWith('#') && !s.startsWith('/')) {
+          el.href = base + s
+        }
+      })
       executarScripts(area)
     })
     .catch(() => {
