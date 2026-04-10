@@ -1,0 +1,882 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Direito Tributário e Financeiro I — Guia de Estudos</title>
+  <style>
+    /* ===== Base ===== */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --azul-escuro: #1a3558;
+      --azul-medio: #2c5282;
+      --azul-claro: #ebf4ff;
+      --verde: #276749;
+      --verde-claro: #f0fff4;
+      --laranja: #c05621;
+      --laranja-claro: #fffaf0;
+      --cinza-bg: #f7f9fc;
+      --cinza-borda: #d1dde8;
+      --texto: #1a202c;
+      --texto-suave: #4a5568;
+      --fonte: 'Segoe UI', Arial, sans-serif;
+    }
+    body {
+      font-family: var(--fonte);
+      font-size: 16px;
+      line-height: 1.7;
+      color: var(--texto);
+      background: var(--cinza-bg);
+    }
+    a { color: var(--azul-medio); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    /* ===== Layout ===== */
+    .page-wrapper { display: flex; min-height: 100vh; }
+
+    nav#sumario {
+      width: 260px;
+      min-width: 220px;
+      background: var(--azul-escuro);
+      color: #e2e8f0;
+      padding: 2rem 1.2rem;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      overflow-y: auto;
+      flex-shrink: 0;
+    }
+    nav#sumario h2 {
+      font-size: 0.75rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #90cdf4;
+      margin-bottom: 1rem;
+    }
+    nav#sumario ul { list-style: none; }
+    nav#sumario li { margin-bottom: 0.3rem; }
+    nav#sumario a {
+      color: #bee3f8;
+      font-size: 0.875rem;
+      display: block;
+      padding: 0.25rem 0.4rem;
+      border-radius: 4px;
+      transition: background 0.15s;
+    }
+    nav#sumario a:hover, nav#sumario a.ativo {
+      background: rgba(255,255,255,0.12);
+      color: #fff;
+      text-decoration: none;
+    }
+    nav#sumario .nav-section { margin-top: 0.8rem; padding-top: 0.8rem; border-top: 1px solid rgba(255,255,255,0.1); }
+    nav#sumario .nav-label {
+      font-size: 0.7rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #4299e1;
+      margin-bottom: 0.4rem;
+    }
+
+    main {
+      flex: 1;
+      padding: 2.5rem 3rem;
+      max-width: 900px;
+    }
+
+    /* ===== Cabeçalho da página ===== */
+    .page-header {
+      background: linear-gradient(135deg, var(--azul-escuro), var(--azul-medio));
+      color: #fff;
+      padding: 2.5rem 3rem;
+      border-radius: 10px;
+      margin-bottom: 2.5rem;
+    }
+    .page-header h1 { font-size: 1.8rem; font-weight: 700; margin-bottom: 0.5rem; }
+    .page-header .subtitulo { font-size: 0.95rem; opacity: 0.85; }
+    .page-header .badges { margin-top: 1rem; display: flex; gap: 0.6rem; flex-wrap: wrap; }
+    .badge {
+      display: inline-block;
+      padding: 0.25rem 0.75rem;
+      border-radius: 999px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      background: rgba(255,255,255,0.2);
+      color: #fff;
+    }
+
+    /* ===== Seções ===== */
+    section { margin-bottom: 3rem; }
+    section h2 {
+      font-size: 1.35rem;
+      color: var(--azul-escuro);
+      border-left: 4px solid var(--azul-medio);
+      padding-left: 0.75rem;
+      margin-bottom: 1.25rem;
+    }
+    section h3 {
+      font-size: 1.05rem;
+      color: var(--azul-medio);
+      margin: 1.5rem 0 0.6rem;
+    }
+    section h4 {
+      font-size: 0.95rem;
+      color: var(--texto);
+      font-weight: 600;
+      margin: 1.2rem 0 0.4rem;
+    }
+    section p { margin-bottom: 0.8rem; color: var(--texto-suave); }
+
+    hr.divisor {
+      border: none;
+      border-top: 1px solid var(--cinza-borda);
+      margin: 2rem 0;
+    }
+
+    /* ===== Tabelas ===== */
+    .table-wrapper { overflow-x: auto; margin: 1rem 0 1.5rem; }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.9rem;
+    }
+    thead th {
+      background: var(--azul-escuro);
+      color: #fff;
+      padding: 0.7rem 1rem;
+      text-align: left;
+      font-weight: 600;
+    }
+    tbody tr:nth-child(even) { background: var(--azul-claro); }
+    tbody tr:nth-child(odd)  { background: #fff; }
+    tbody td {
+      padding: 0.65rem 1rem;
+      border-bottom: 1px solid var(--cinza-borda);
+      vertical-align: top;
+    }
+    tbody td:first-child { font-weight: 600; color: var(--azul-escuro); }
+    .sim  { color: #276749; font-weight: 700; }
+    .nao  { color: #c53030; font-weight: 700; }
+    .parcial { color: #c05621; font-weight: 700; }
+
+    /* ===== Cards de espécies ===== */
+    .grid-especies {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 1rem;
+      margin: 1rem 0 1.5rem;
+    }
+    .card {
+      background: #fff;
+      border: 1px solid var(--cinza-borda);
+      border-radius: 8px;
+      padding: 1.1rem 1.2rem;
+      border-top: 4px solid var(--azul-medio);
+    }
+    .card.verde  { border-top-color: var(--verde); }
+    .card.laranja{ border-top-color: var(--laranja); }
+    .card h4 { font-size: 1rem; color: var(--azul-escuro); margin-bottom: 0.4rem; }
+    .card p  { font-size: 0.88rem; color: var(--texto-suave); margin: 0; }
+    .card ul { padding-left: 1.1rem; font-size: 0.85rem; color: var(--texto-suave); margin-top: 0.4rem; }
+
+    /* ===== Linha do tempo do crédito ===== */
+    .timeline {
+      display: flex;
+      align-items: stretch;
+      gap: 0;
+      margin: 1.5rem 0;
+      overflow-x: auto;
+    }
+    .tl-step {
+      flex: 1;
+      min-width: 130px;
+      background: #fff;
+      border: 1px solid var(--cinza-borda);
+      border-radius: 8px;
+      padding: 0.9rem;
+      position: relative;
+      text-align: center;
+    }
+    .tl-step + .tl-step { margin-left: 2.5rem; }
+    .tl-step + .tl-step::before {
+      content: '→';
+      position: absolute;
+      left: -1.9rem;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 1.3rem;
+      color: var(--azul-medio);
+    }
+    .tl-num {
+      display: inline-block;
+      width: 28px; height: 28px;
+      border-radius: 50%;
+      background: var(--azul-medio);
+      color: #fff;
+      font-size: 0.85rem;
+      font-weight: 700;
+      line-height: 28px;
+      margin-bottom: 0.5rem;
+    }
+    .tl-step h5 { font-size: 0.88rem; color: var(--azul-escuro); margin-bottom: 0.3rem; }
+    .tl-step p  { font-size: 0.78rem; color: var(--texto-suave); margin: 0; }
+
+    /* ===== Acordeão de suspensão/extinção/exclusão ===== */
+    .acordeon-bloco {
+      background: #fff;
+      border: 1px solid var(--cinza-borda);
+      border-radius: 8px;
+      margin-bottom: 0.8rem;
+      overflow: hidden;
+    }
+    .acordeon-header {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.9rem 1.1rem;
+      cursor: pointer;
+      background: var(--cinza-bg);
+      border-bottom: 1px solid var(--cinza-borda);
+    }
+    .acordeon-header .icone {
+      width: 34px; height: 34px;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.1rem;
+      flex-shrink: 0;
+    }
+    .icone-suspensao { background: #bee3f8; }
+    .icone-extincao  { background: #c6f6d5; }
+    .icone-exclusao  { background: #feebc8; }
+    .acordeon-header h4 { font-size: 0.97rem; color: var(--azul-escuro); margin: 0; }
+    .acordeon-header .artigo { font-size: 0.78rem; color: var(--texto-suave); }
+    .acordeon-body { padding: 1rem 1.1rem; }
+    .acordeon-body ul { padding-left: 1.2rem; font-size: 0.9rem; color: var(--texto-suave); }
+    .acordeon-body li { margin-bottom: 0.35rem; }
+
+    /* ===== Diagrama repartição de receitas ===== */
+    .diagrama-receitas {
+      background: #fff;
+      border: 1px solid var(--cinza-borda);
+      border-radius: 10px;
+      padding: 1.5rem;
+      margin: 1rem 0;
+    }
+    .ente {
+      display: inline-block;
+      padding: 0.4rem 1rem;
+      border-radius: 6px;
+      font-weight: 700;
+      font-size: 0.88rem;
+      text-align: center;
+    }
+    .ente-uniao     { background: #2c5282; color: #fff; }
+    .ente-estados   { background: #285e61; color: #fff; }
+    .ente-municipios{ background: #744210; color: #fff; }
+    .fluxo-row {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin: 0.7rem 0;
+      flex-wrap: wrap;
+    }
+    .fluxo-seta { font-size: 1.4rem; color: #718096; }
+    .fluxo-valor {
+      background: var(--cinza-bg);
+      border: 1px solid var(--cinza-borda);
+      border-radius: 6px;
+      padding: 0.3rem 0.7rem;
+      font-size: 0.85rem;
+      color: var(--texto-suave);
+    }
+
+    /* ===== Caixas de atenção ===== */
+    .alerta {
+      border-radius: 8px;
+      padding: 0.9rem 1.1rem;
+      margin: 1rem 0;
+      font-size: 0.9rem;
+      border-left: 4px solid;
+    }
+    .alerta-info    { background: var(--azul-claro);   border-color: var(--azul-medio); color: #2a4a7f; }
+    .alerta-atencao { background: var(--laranja-claro); border-color: var(--laranja);    color: #7b341e; }
+    .alerta-ok      { background: var(--verde-claro);  border-color: var(--verde);       color: #22543d; }
+    .alerta strong  { display: block; margin-bottom: 0.3rem; }
+
+    /* ===== Rodapé ===== */
+    footer {
+      margin-top: 3rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--cinza-borda);
+      font-size: 0.82rem;
+      color: var(--texto-suave);
+    }
+
+    /* ===== Responsivo ===== */
+    @media (max-width: 768px) {
+      .page-wrapper { flex-direction: column; }
+      nav#sumario { width: 100%; height: auto; position: static; }
+      main { padding: 1.5rem 1rem; }
+    }
+  </style>
+</head>
+<body>
+<div class="page-wrapper">
+
+  <!-- ====== SUMÁRIO LATERAL ====== -->
+  <nav id="sumario" aria-label="Sumário">
+    <h2>Sumário</h2>
+    <ul>
+      <li><a href="#fundamentos">1. Fundamentos</a></li>
+      <li><a href="#especies">2. Espécies Tributárias</a></li>
+      <li><a href="#extrafiscalidade">3. Extrafiscalidade</a></li>
+      <li><a href="#credito">4. Crédito Tributário</a></li>
+      <li><a href="#modificacao">5. Modificação do Crédito</a></li>
+      <li><a href="#limitacoes">6. Limitações ao Poder de Tributar</a></li>
+      <li><a href="#competencia">7. Competência Legislativa</a></li>
+      <li><a href="#reparticao">8. Repartição de Receitas</a></li>
+      <li><a href="#excecoes">9. Tabela: Exceções às Garantias</a></li>
+    </ul>
+
+    <div class="nav-section">
+      <div class="nav-label">Recursos</div>
+      <ul>
+        <li><a href="https://www.planalto.gov.br/ccivil_03/constituicao/ConstituicaoCompilado.htm" target="_blank">CF/1988</a></li>
+        <li><a href="https://www.planalto.gov.br/ccivil_03/LEIS/L5172Compilado.htm" target="_blank">CTN (Lei 5.172/66)</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- ====== CONTEÚDO PRINCIPAL ====== -->
+  <main>
+
+    <!-- CABEÇALHO -->
+    <div class="page-header">
+      <h1>Direito Tributário e Financeiro I</h1>
+      <div class="subtitulo">Guia de Estudos — Fundamentos, Espécies, Crédito e Repartição de Receitas</div>
+      <div class="badges">
+        <span class="badge">CF/1988</span>
+        <span class="badge">CTN</span>
+        <span class="badge">Pós-Graduação</span>
+        <span class="badge">Atualizado: abr/2026</span>
+      </div>
+    </div>
+
+    <!-- ====== 1. FUNDAMENTOS ====== -->
+    <section id="fundamentos">
+      <h2>1. Fundamentos da Atividade Financeira e do Direito Tributário</h2>
+
+      <p>A consecução do bem comum exige que o Estado desenvolva frentes distintas de atuação. A <strong>Atividade Administrativa</strong> é a "atividade-fim", que abrange a prestação de serviços públicos, obras e o exercício do poder de polícia. Já a <strong>Atividade Financeira</strong> é uma "atividade-meio", voltada à obtenção e gestão dos recursos necessários a essas finalidades.</p>
+
+      <p>Conforme a lição clássica de <strong>Aliomar Baleeiro</strong>, a atividade financeira desdobra-se em quatro funções:</p>
+      <ul style="padding-left:1.3rem; color:var(--texto-suave); margin-bottom:1rem;">
+        <li><strong>Obter:</strong> captação de receitas públicas.</li>
+        <li><strong>Despender:</strong> realização de despesas para execução dos fins estatais.</li>
+        <li><strong>Gerir:</strong> administração do orçamento e conservação do patrimônio.</li>
+        <li><strong>Criar:</strong> obtenção de crédito público via operações de empréstimo.</li>
+      </ul>
+
+      <h3>Direito Financeiro vs. Direito Tributário</h3>
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>Critério</th>
+              <th>Direito Financeiro</th>
+              <th>Direito Tributário</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Definição</td>
+              <td>Disciplina a atividade financeira estatal de forma ampla: receita, despesa, orçamento e crédito público.</td>
+              <td>Ramificação autônoma que regula a relação Estado × Contribuinte quanto à instituição, fiscalização e arrecadação de tributos (Luciano Amaro).</td>
+            </tr>
+            <tr>
+              <td>Objeto</td>
+              <td>Gestão do dinheiro público e responsabilidade fiscal, incluindo receitas não tributárias.</td>
+              <td>Normas que regulam a criação e exigência de tributos.</td>
+            </tr>
+            <tr>
+              <td>Foco normativo</td>
+              <td>Gestão e destinação do Erário em sua totalidade.</td>
+              <td>Comportamento das pessoas de direcionar dinheiro aos cofres públicos.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="alerta alerta-info">
+        <strong>📌 Ponto-chave</strong>
+        O Direito Tributário é uma <em>espécie</em> dentro do gênero Direito Financeiro, mas possui autonomia científica e normativa — o Código Tributário Nacional (Lei n.º 5.172/1966) o regula de forma sistematizada.
+      </div>
+    </section>
+
+    <hr class="divisor" />
+
+    <!-- ====== 2. ESPÉCIES TRIBUTÁRIAS ====== -->
+    <section id="especies">
+      <h2>2. Espécies Tributárias</h2>
+
+      <p>O sistema tributário brasileiro adota a <strong>teoria pentapartida</strong>, reconhecendo cinco espécies autônomas de tributo:</p>
+
+      <div class="grid-especies">
+        <div class="card">
+          <h4>⚖️ Impostos</h4>
+          <p>Tributos <strong>não vinculados</strong> à atividade estatal. O fato gerador depende de situação relativa ao contribuinte (ter renda, propriedade etc.).</p>
+          <ul>
+            <li><em>Federais:</em> II, IE, IR, IPI, IOF, ITR, IGF</li>
+            <li><em>Estaduais:</em> ICMS, IPVA, ITCMD</li>
+            <li><em>Municipais:</em> ISS, IPTU, ITBI</li>
+          </ul>
+        </div>
+        <div class="card verde">
+          <h4>🏛️ Taxas</h4>
+          <p>Tributos <strong>vinculados</strong> à ação estatal. Decorrem do exercício do <em>poder de polícia</em> ou do uso de serviço público específico e divisível.</p>
+          <p style="margin-top:0.4rem;">Ex.: taxas de fiscalização, taxa de coleta de lixo.</p>
+        </div>
+        <div class="card laranja">
+          <h4>🏗️ Contribuição de Melhoria</h4>
+          <p>Instituída para custear <strong>obras públicas</strong> que resultem em <strong>valorização imobiliária</strong> para o contribuinte.</p>
+        </div>
+        <div class="card">
+          <h4>💰 Empréstimos Compulsórios</h4>
+          <p>Competência <strong>exclusiva da União</strong>, via <em>Lei Complementar</em>. Destinam-se a despesas extraordinárias (guerra, calamidade) ou investimento urgente de relevância nacional.</p>
+        </div>
+        <div class="card verde">
+          <h4>📋 Contribuições</h4>
+          <p>Destinadas ao financiamento de gastos específicos em áreas sociais (<em>CIDE</em>, contribuições de categorias profissionais) ou intervenção no domínio econômico.</p>
+        </div>
+      </div>
+    </section>
+
+    <hr class="divisor" />
+
+    <!-- ====== 3. EXTRAFISCALIDADE ====== -->
+    <section id="extrafiscalidade">
+      <h2>3. Extrafiscalidade e Intervencionismo</h2>
+
+      <p>A transição do <strong>Estado Liberal</strong> para o <strong>Estado Social (Welfare State)</strong> alterou a finalidade do tributo. O modelo moderno adota as <em>Finanças Funcionais</em>: a tributação como instrumento de intervenção econômica.</p>
+
+      <p><strong>Extrafiscalidade</strong> ocorre quando o Estado utiliza o tributo para <em>estimular ou inibir condutas</em> socioeconômicas, priorizando a regulação sobre a arrecadação. Exemplos:</p>
+
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr><th>Tributo</th><th>Finalidade Extrafiscal</th><th>Base legal</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>II, IPI e IOF</td>
+              <td>Regulamentação de mercado e proteção da indústria nacional</td>
+              <td>Art. 153, CF</td>
+            </tr>
+            <tr>
+              <td>ITR Progressivo</td>
+              <td>Desestímulo à manutenção de propriedades rurais improdutivas</td>
+              <td>Art. 153, §4º, I, CF</td>
+            </tr>
+            <tr>
+              <td>IPTU Progressivo no Tempo</td>
+              <td>Política urbana para aproveitamento adequado do solo subutilizado</td>
+              <td>Art. 182, §4º, II, CF</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="alerta alerta-atencao">
+        <strong>⚠️ Atenção (OAB/Concursos)</strong>
+        II, IE, IPI e IOF são exceções ao princípio da <strong>anterioridade anual</strong> justamente para garantir agilidade extrafiscal ao Executivo. O Executivo pode alterar suas <em>alíquotas</em> (nunca a base de cálculo) por ato administrativo.
+      </div>
+    </section>
+
+    <hr class="divisor" />
+
+    <!-- ====== 4. CRÉDITO TRIBUTÁRIO ====== -->
+    <section id="credito">
+      <h2>4. O Crédito Tributário: Legalidade e Tipicidade</h2>
+
+      <p>O princípio da <strong>Legalidade Tributária Estrita</strong> (Art. 150, I, CF) exige lei para instituição ou majoração de tributos, associado ao conceito de <strong>Tipicidade Tributária</strong>: a lei define de forma exaustiva e fechada todos os elementos essenciais da obrigação.</p>
+
+      <h3>O que somente a lei pode estabelecer (Art. 97, CTN)</h3>
+      <ul style="padding-left:1.3rem; color:var(--texto-suave); margin-bottom:1rem;">
+        <li>A instituição ou extinção de tributos;</li>
+        <li>A majoração ou redução de alíquotas (com exceções do Executivo);</li>
+        <li>A definição do fato gerador e do sujeito passivo;</li>
+        <li>A fixação da alíquota e da base de cálculo;</li>
+        <li>A cominação de penalidades por infrações;</li>
+        <li>As hipóteses de exclusão, suspensão e extinção de créditos tributários, bem como dispensa ou redução de penalidades.</li>
+      </ul>
+
+      <h3>Limites e exceções</h3>
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr><th>Tema</th><th>Regra</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Reserva de Lei Complementar</td>
+              <td>Obrigatória para: Empréstimos Compulsórios, IGF, Impostos Residuais (estes devem ser não cumulativos e ter FG/BC distintos dos já previstos). Vedada a MP (Art. 62, §1º, III, CF).</td>
+            </tr>
+            <tr>
+              <td>Mitigações pelo Executivo</td>
+              <td>Pode alterar <em>alíquotas</em> (jamais base de cálculo) do II, IE, IPI e IOF por ato administrativo.</td>
+            </tr>
+            <tr>
+              <td>Fora da reserva legal</td>
+              <td>Prazos de recolhimento, obrigações acessórias e atualização monetária da base de cálculo por índices oficiais (Art. 97, §2º, CTN).</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Jornada do Crédito Tributário</h3>
+      <div class="timeline">
+        <div class="tl-step">
+          <div class="tl-num">1</div>
+          <h5>Hipótese de Incidência</h5>
+          <p>Previsão abstrata na lei — o "tipo tributário"</p>
+        </div>
+        <div class="tl-step">
+          <div class="tl-num">2</div>
+          <h5>Fato Gerador</h5>
+          <p>Concretização no mundo real da situação prevista em lei</p>
+        </div>
+        <div class="tl-step">
+          <div class="tl-num">3</div>
+          <h5>Obrigação Tributária</h5>
+          <p>Nasce o vínculo jurídico entre sujeito ativo e passivo</p>
+        </div>
+        <div class="tl-step">
+          <div class="tl-num">4</div>
+          <h5>Lançamento</h5>
+          <p>Procedimento administrativo que confere liquidez e certeza à dívida</p>
+        </div>
+        <div class="tl-step">
+          <div class="tl-num">5</div>
+          <h5>Crédito Tributário</h5>
+          <p>Dívida constituída, exigível pelo Fisco</p>
+        </div>
+      </div>
+    </section>
+
+    <hr class="divisor" />
+
+    <!-- ====== 5. MODIFICAÇÃO DO CRÉDITO ====== -->
+    <section id="modificacao">
+      <h2>5. Modificação do Crédito Tributário</h2>
+
+      <p>Após constituído pelo lançamento, o crédito tributário pode sofrer três tipos de modificação em sua exigibilidade ou existência:</p>
+
+      <!-- Suspensão -->
+      <div class="acordeon-bloco">
+        <div class="acordeon-header">
+          <div class="icone icone-suspensao">⏸️</div>
+          <div>
+            <h4>Suspensão da Exigibilidade</h4>
+            <span class="artigo">Art. 151 do CTN</span>
+          </div>
+        </div>
+        <div class="acordeon-body">
+          <p style="margin-bottom:0.5rem; font-size:0.9rem; color:var(--texto-suave);">O crédito <strong>continua existindo</strong>, mas o Fisco fica temporariamente impedido de cobrá-lo judicialmente. <em>Não dispensa o cumprimento de obrigações acessórias.</em></p>
+          <ul>
+            <li><strong>Moratória</strong> — prazo extra para pagamento;</li>
+            <li><strong>Depósito do montante integral</strong>;</li>
+            <li><strong>Reclamações e recursos administrativos</strong>;</li>
+            <li><strong>Liminares</strong> em mandado de segurança ou outras ações judiciais;</li>
+            <li><strong>Parcelamento.</strong></li>
+          </ul>
+          <div class="alerta alerta-info" style="margin-top:0.8rem;">
+            <strong>Mnemônico — MODEPAR:</strong> Moratória · Depósito · Reclamações/Recursos · Liminares · Parcelamento
+          </div>
+        </div>
+      </div>
+
+      <!-- Extinção -->
+      <div class="acordeon-bloco">
+        <div class="acordeon-header">
+          <div class="icone icone-extincao">✅</div>
+          <div>
+            <h4>Extinção do Crédito</h4>
+            <span class="artigo">Art. 156 do CTN</span>
+          </div>
+        </div>
+        <div class="acordeon-body">
+          <p style="margin-bottom:0.5rem; font-size:0.9rem; color:var(--texto-suave);">Faz <strong>cessar a obrigação principal</strong>. Hipóteses principais:</p>
+          <ul>
+            <li><strong>Pagamento;</strong></li>
+            <li><strong>Compensação</strong> — contribuinte e Fisco são credores e devedores mútuos;</li>
+            <li><strong>Transação</strong> — acordo para pôr fim ao litígio;</li>
+            <li><strong>Remissão</strong> — perdão da dívida já constituída;</li>
+            <li><strong>Decadência</strong> — perda do prazo para o Fisco <em>lançar</em> o tributo;</li>
+            <li><strong>Prescrição</strong> — perda do prazo para o Fisco <em>cobrar judicialmente</em> o crédito já lançado.</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Exclusão -->
+      <div class="acordeon-bloco">
+        <div class="acordeon-header">
+          <div class="icone icone-exclusao">🚫</div>
+          <div>
+            <h4>Exclusão do Crédito</h4>
+            <span class="artigo">Art. 175 do CTN</span>
+          </div>
+        </div>
+        <div class="acordeon-body">
+          <p style="margin-bottom:0.5rem; font-size:0.9rem; color:var(--texto-suave);">Ocorre <strong>antes do lançamento</strong>, impedindo que o crédito chegue a ser constituído.</p>
+          <ul>
+            <li><strong>Isenção</strong> — dispensa legal do pagamento do tributo. Deve ser interpretada <em>literalmente.</em></li>
+            <li><strong>Anistia</strong> — perdão de <em>penalidades pecuniárias</em> (multas) por infrações cometidas antes da lei que a concede.</li>
+          </ul>
+          <div class="alerta alerta-atencao" style="margin-top:0.8rem;">
+            <strong>Distinção importante:</strong> A <em>remissão</em> (extinção) perdoa a dívida já constituída; a <em>anistia</em> (exclusão) perdoa a multa antes do lançamento.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <hr class="divisor" />
+
+    <!-- ====== 6. LIMITAÇÕES AO PODER DE TRIBUTAR ====== -->
+    <section id="limitacoes">
+      <h2>6. Limitações ao Poder de Tributar e Segurança Jurídica</h2>
+
+      <p>As limitações constitucionais ao poder de tributar são <strong>garantias fundamentais e cláusulas pétreas</strong>, protegendo o contribuinte contra o arbítrio estatal.</p>
+
+      <h3>Princípio da Irretroatividade (Art. 150, III, "a", CF)</h3>
+      <p>Veda a aplicação de lei nova a fatos geradores ocorridos antes de sua vigência.</p>
+      <div class="alerta alerta-info">
+        <strong>Exceção <em>in mellius</em> (Art. 106, CTN):</strong> A lei retroage para beneficiar o contribuinte em casos de infrações não definitivamente julgadas, quando a lei nova impõe penalidade menos severa.
+      </div>
+
+      <h3>Princípio da Anterioridade</h3>
+      <p>Garante a "não surpresa fiscal" através de dois lapsos temporais:</p>
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr><th>Anterioridade</th><th>Regra</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Anual (genérica)</td>
+              <td>Veda a cobrança no <strong>mesmo exercício financeiro</strong> (ano civil) da publicação da lei.</td>
+            </tr>
+            <tr>
+              <td>Nonagesimal (noventena)</td>
+              <td>Exige o transcurso de <strong>90 dias</strong> entre a publicação e a cobrança.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="alerta alerta-ok">
+        <strong>📌 Súmula Vinculante 50 (STF):</strong> A alteração do <em>prazo de recolhimento</em> da obrigação tributária não se sujeita à anterioridade, pois não configura aumento do encargo.
+      </div>
+
+      <h3>Imunidades Tributárias</h3>
+      <p>As imunidades são cláusulas pétreas e funcionam como <strong>delimitação negativa da competência tributária</strong> — impedem que a lei institua impostos sobre determinadas pessoas ou bens.</p>
+
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr><th>Tipo</th><th>Descrição</th><th>Base legal</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Recíproca</td>
+              <td>Veda impostos entre União, Estados, DF e Municípios; estende-se a autarquias e fundações públicas que atuem na área de suas finalidades essenciais.</td>
+              <td>Art. 150, VI, "a", CF</td>
+            </tr>
+            <tr>
+              <td>Religiosa</td>
+              <td>Protege templos de qualquer culto para garantir o pluralismo religioso. Abrange imóveis locados e cemitérios administrados por entidades religiosas.</td>
+              <td>Art. 150, VI, "b", CF</td>
+            </tr>
+            <tr>
+              <td>Condicionada</td>
+              <td>Beneficia partidos políticos, sindicatos de trabalhadores, instituições de educação e assistência social sem fins lucrativos, atendidos os requisitos legais.</td>
+              <td>Art. 150, VI, "c", CF</td>
+            </tr>
+            <tr>
+              <td>Imprensa e Musical</td>
+              <td>Abrange livros, jornais, periódicos (incluindo e-books e e-readers) e fonogramas/videofonogramas de artistas brasileiros.</td>
+              <td>Art. 150, VI, "d" e "e", CF</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <hr class="divisor" />
+
+    <!-- ====== 7. COMPETÊNCIA LEGISLATIVA ====== -->
+    <section id="competencia">
+      <h2>7. Competência Legislativa</h2>
+
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr><th>Tipo de Competência</th><th>Titulares</th><th>Regra</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Concorrente (Art. 24, CF)</td>
+              <td>União, Estados e DF</td>
+              <td>À União cabe editar <em>normas gerais</em>; aos Estados/DF, normas suplementares.</td>
+            </tr>
+            <tr>
+              <td>Plena (Art. 24, §3º)</td>
+              <td>Estados/DF</td>
+              <td>Exercida quando inexistir lei federal de normas gerais. A superveniência de lei federal <em>suspende</em> (não revoga) a lei estadual no que lhe for contrário (Art. 24, §4º).</td>
+            </tr>
+            <tr>
+              <td>Suplementar</td>
+              <td>Estados (Art. 24, §2º) e Municípios (Art. 30, II)</td>
+              <td>Adaptar as normas gerais às peculiaridades locais.</td>
+            </tr>
+            <tr>
+              <td>DF (Art. 32, §1º)</td>
+              <td>Distrito Federal</td>
+              <td>Cumula as competências reservadas aos Estados <em>e</em> aos Municípios.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <hr class="divisor" />
+
+    <!-- ====== 8. REPARTIÇÃO DE RECEITAS ====== -->
+    <section id="reparticao">
+      <h2>8. Repartição de Receitas Tributárias</h2>
+
+      <p>Mecanismo constitucional para equilibrar as finanças entre os entes federativos (União, Estados, DF e Municípios).</p>
+
+      <div class="diagrama-receitas">
+        <h4 style="margin-bottom:1rem; color:var(--azul-escuro);">Fluxo da Partilha ("O Bolo")</h4>
+
+        <p style="font-size:0.85rem; color:var(--texto-suave); margin-bottom:0.8rem;"><strong>1. Repasses da UNIÃO:</strong></p>
+        <div class="fluxo-row">
+          <span class="ente ente-uniao">UNIÃO</span>
+          <span class="fluxo-seta">→</span>
+          <span class="ente ente-estados">ESTADOS / DF</span>
+          <span class="fluxo-valor">100% do IRRF sobre seus próprios pagamentos</span>
+          <span class="fluxo-valor">+ 20% dos Impostos Residuais</span>
+        </div>
+        <div class="fluxo-row" style="margin-top:0.5rem;">
+          <span class="ente ente-uniao">UNIÃO</span>
+          <span class="fluxo-seta">→</span>
+          <span class="ente ente-municipios">MUNICÍPIOS</span>
+          <span class="fluxo-valor">100% do IRRF sobre seus próprios pagamentos</span>
+          <span class="fluxo-valor">+ 50% do ITR (até 100% se o município fiscalizar)</span>
+        </div>
+
+        <hr class="divisor" style="margin:1rem 0;" />
+
+        <p style="font-size:0.85rem; color:var(--texto-suave); margin-bottom:0.8rem;"><strong>2. Repasses dos ESTADOS:</strong></p>
+        <div class="fluxo-row">
+          <span class="ente ente-estados">ESTADOS</span>
+          <span class="fluxo-seta">→</span>
+          <span class="ente ente-municipios">MUNICÍPIOS</span>
+          <span class="fluxo-valor">50% do IPVA (veículos licenciados no município)</span>
+          <span class="fluxo-valor">+ 25% do ICMS</span>
+        </div>
+      </div>
+
+      <div class="alerta alerta-ok" style="margin-top:1rem;">
+        <strong>📌 Regra de ouro:</strong> Municípios e o Distrito Federal são <em>destinatários</em> dos repasses — eles <strong>não repassam</strong> receitas tributárias próprias a outros entes.
+      </div>
+    </section>
+
+    <hr class="divisor" />
+
+    <!-- ====== 9. TABELA DE EXCEÇÕES ====== -->
+    <section id="excecoes">
+      <h2>9. Tabela: Exceções às Garantias Constitucionais</h2>
+
+      <p>Quadro comparativo das exceções aos princípios da Legalidade e da Anterioridade para fins de prova e concursos:</p>
+
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>Tributo</th>
+              <th>Exceção à Legalidade<br><small>(alíquota por decreto)</small></th>
+              <th>Exceção à Anterioridade Anual</th>
+              <th>Exceção à Anterioridade Nonagesimal</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>II (Importação)</td>
+              <td class="sim">Sim</td>
+              <td class="sim">Sim</td>
+              <td class="sim">Sim</td>
+            </tr>
+            <tr>
+              <td>IE (Exportação)</td>
+              <td class="sim">Sim</td>
+              <td class="sim">Sim</td>
+              <td class="sim">Sim</td>
+            </tr>
+            <tr>
+              <td>IPI</td>
+              <td class="sim">Sim</td>
+              <td class="nao">Não</td>
+              <td class="sim">Sim</td>
+            </tr>
+            <tr>
+              <td>IOF (Op. Financeiras)</td>
+              <td class="sim">Sim</td>
+              <td class="sim">Sim</td>
+              <td class="sim">Sim</td>
+            </tr>
+            <tr>
+              <td>CIDE-Combustível</td>
+              <td class="parcial">Sim *</td>
+              <td class="parcial">Sim **</td>
+              <td class="nao">Não</td>
+            </tr>
+            <tr>
+              <td>ICMS-Combustível</td>
+              <td class="parcial">Sim *</td>
+              <td class="parcial">Sim **</td>
+              <td class="nao">Não</td>
+            </tr>
+            <tr>
+              <td>Empréstimo Compulsório (Guerra/Calamidade)</td>
+              <td class="nao">Não</td>
+              <td class="sim">Sim</td>
+              <td class="sim">Sim</td>
+            </tr>
+            <tr>
+              <td>Imposto de Renda (IR)</td>
+              <td class="nao">Não</td>
+              <td class="nao">Não</td>
+              <td class="sim">Sim</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p style="font-size:0.82rem; color:var(--texto-suave);">
+        * A mitigação na CIDE e no ICMS-Combustíveis refere-se à <em>redução e ao restabelecimento</em> de alíquotas (não à majoração livre).<br>
+        ** Conforme Arts. 155, §4º, IV, 'c' e 177, §4º, I, 'b', CF, a redução e o restabelecimento dessas alíquotas estão dispensados de anterioridade anual.
+      </p>
+    </section>
+
+    <!-- RODAPÉ -->
+    <footer>
+      <p>Material elaborado com base nas aulas de <strong>Direito Tributário e Financeiro I</strong> e nas fontes primárias:</p>
+      <p>
+        <a href="https://www.planalto.gov.br/ccivil_03/constituicao/ConstituicaoCompilado.htm" target="_blank">Constituição Federal de 1988</a> ·
+        <a href="https://www.planalto.gov.br/ccivil_03/LEIS/L5172Compilado.htm" target="_blank">CTN — Lei n.º 5.172/1966</a>
+      </p>
+      <p style="margin-top:0.5rem;">⚠️ Este guia tem caráter didático. Verifique sempre a legislação vigente e a jurisprudência atualizada do STF e do STJ.</p>
+    </footer>
+
+  </main>
+</div>
+</body>
+</html>

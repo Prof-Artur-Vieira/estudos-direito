@@ -67,9 +67,9 @@ const materias = [
         titulo: "Direito Tributário e Financeiro I",
         temas: [
           {
-            titulo: "Atividade Avaliativa — Conceitos Fundamentais",
-            descricao: "Fato gerador · Alíquota · Base de cálculo · Anterioridade · Extrafiscalidade · Legalidade tributária",
-            arquivo: "conteudo/tributario/tributario-financeiro-i/01-atividade-avaliativa.html"
+            titulo: "Guia de Estudos — Fundamentos e Crédito Tributário",
+            descricao: "Espécies tributárias · Crédito tributário · Extrafiscalidade · Limitações · Competência · Repartição de receitas",
+            arquivo: "conteudo/tributario/tributario-financeiro-i/01-guia-estudos.html"
           }
         ]
       }
