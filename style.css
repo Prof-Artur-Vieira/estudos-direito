@@ -281,3 +281,32 @@ main {
   .card-tema { max-width: 100%; }
   main { padding: 20px 14px; }
 }
+
+/* ── Mobile (≤ 768px) ── */
+@media (max-width: 768px) {
+  .arvore {
+    flex-direction: column;
+    overflow-x: visible;
+    padding-bottom: 0;
+  }
+
+  .ramo {
+    width: 100%;
+    max-width: 100%;
+    min-width: unset;
+    flex-direction: column;
+  }
+
+  .ramo + .ramo::before {
+    display: none;
+  }
+
+  .no-materia {
+    width: 100%;
+  }
+
+  .turmas-lista {
+    padding: 0 0 0 12px;
+    width: 100%;
+  }
+}
