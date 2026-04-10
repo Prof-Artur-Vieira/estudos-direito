@@ -344,6 +344,19 @@
     .tab-content { padding: 1rem; }
     .qs-dist-grid { grid-template-columns: 1fr; }
   }
+  @media (max-width: 768px) {
+    nav {
+      display: flex;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      grid-template-columns: unset;
+    }
+    nav button {
+      white-space: nowrap;
+      flex-shrink: 0;
+      border-right: 1px solid var(--border);
+    }
+  }
 </style>
 </head>
 <body>
