@@ -6,28 +6,53 @@
 <title>Prof. Artur Vieira — Currículo</title>
 <style>
   :root {
-    --blue: #1F497D;
+    --blue:       #1F497D;
     --blue-light: #dce6f1;
-    --blue-mid: #2a5fa0;
-    --text: #1a1a1a;
-    --text2: #444;
-    --border: #d0d0d0;
-    --bg: #ffffff;
-    --bg2: #f7f8fc;
-    --bg3: #eef1f8;
+    --blue-mid:   #2c5f9e;
+    --gold:       #C9A84C;
+    --text:       #1a1a2e;
+    --text2:      #5a6478;
+    --border:     #d0dcea;
+    --bg:         #ffffff;
+    --bg2:        #f0f4f8;
+    --bg3:        #e8f0f8;
+    --sans:       'Source Sans 3', 'Segoe UI', sans-serif;
+    --serif:      'Playfair Display', Georgia, serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --blue:       #9ab4f8;
+      --blue-light: #1a2550;
+      --blue-mid:   #6a9fd4;
+      --gold:       #e8c96a;
+      --text:       #e8eef5;
+      --text2:      #a0b4cc;
+      --border:     #2a4060;
+      --bg:         #0d1b2e;
+      --bg2:        #142238;
+      --bg3:        #1a2840;
+    }
+    .page-header {
+      background: linear-gradient(135deg, #060e1a 0%, #1F497D 100%) !important;
+    }
+    .lattes-link { background: #1F497D !important; }
+    .lattes-link:hover { background: #2c5f9e !important; }
+    .book-card a:hover,
+    .article-list a:hover { background: #1F497D !important; color: #fff !important; }
   }
   * { margin:0; padding:0; box-sizing:border-box; }
-  body { background:var(--bg); color:var(--text); font-family:'Georgia','Times New Roman',serif; line-height:1.7; }
+  body { background:var(--bg); color:var(--text); font-family:var(--serif); line-height:1.7; }
 
   /* HEADER */
   .page-header {
-    background: var(--blue);
+    background: linear-gradient(135deg, #162f52 0%, var(--blue) 100%);
     color: #fff;
     padding: 2.5rem 2rem 2rem;
     display: flex;
     align-items: center;
     gap: 2rem;
     flex-wrap: wrap;
+    border-bottom: 2px solid var(--gold);
   }
   .photo-circle {
     width: 120px; height: 120px;
@@ -46,7 +71,7 @@
     border-radius: 20px;
     padding: 0.2rem 0.75rem;
     font-size: 0.8rem;
-    font-family: sans-serif;
+    font-family: var(--sans);
   }
 
   /* BACK LINK */
@@ -55,7 +80,7 @@
     border-bottom: 1px solid var(--border);
     padding: 0.6rem 2rem;
     font-size: 0.85rem;
-    font-family: sans-serif;
+    font-family: var(--sans);
   }
   .back-bar a { color: var(--blue); text-decoration: none; }
   .back-bar a:hover { text-decoration: underline; }
@@ -131,7 +156,7 @@
     border-radius: 4px;
     padding: 0.2rem 0.6rem;
     display: inline-block;
-    font-family: sans-serif;
+    font-family: var(--sans);
   }
   .book-card a:hover { background: var(--blue); color: #fff; }
 
@@ -157,7 +182,7 @@
     color: var(--blue); text-decoration:none;
     border: 1px solid var(--blue);
     border-radius: 4px; padding: 0.2rem 0.6rem;
-    font-family: sans-serif; flex-shrink: 0;
+    font-family: var(--sans); flex-shrink: 0;
   }
   .article-list a:hover { background: var(--blue); color: #fff; }
 
@@ -172,7 +197,7 @@
     flex: 1;
   }
   .platform-card h3 { font-size: 0.9rem; color: var(--blue); margin-bottom: 0.2rem; }
-  .platform-card a  { font-size: 0.82rem; color: var(--text2); text-decoration: none; font-family: sans-serif; }
+  .platform-card a  { font-size: 0.82rem; color: var(--text2); text-decoration: none; font-family: var(--sans); }
   .platform-card a:hover { color: var(--blue); }
 
   /* INSTAGRAM GRID */
@@ -194,14 +219,14 @@
   .ig-card:hover { border-color: var(--blue); }
   .ig-card .ig-icon { font-size: 1.4rem; flex-shrink: 0; }
   .ig-card strong { display: block; font-size: 0.9rem; color: var(--blue); }
-  .ig-card span { font-size: 0.82rem; color: var(--text2); font-family: sans-serif; }
+  .ig-card span { font-size: 0.82rem; color: var(--text2); font-family: var(--sans); }
 
   /* LATTES LINK */
   .lattes-link {
     display: inline-flex; align-items: center; gap: 0.5rem;
     background: var(--blue); color: #fff;
     border-radius: 6px; padding: 0.5rem 1.1rem;
-    font-family: sans-serif; font-size: 0.88rem;
+    font-family: var(--sans); font-size: 0.88rem;
     text-decoration: none; margin-top: 0.5rem;
   }
   .lattes-link:hover { background: var(--blue-mid); }
