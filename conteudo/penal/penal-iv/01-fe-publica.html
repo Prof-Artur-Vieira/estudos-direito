@@ -1,918 +1,995 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Crimes contra a Fé Pública — Direito Penal IV</title>
 <style>
-    :root {
-    --bg:      #ffffff;
-    --bg2:     #f7f7f7;
-    --bg3:     #eeeeee;
-    --border:  #d0d0d0;
-    --text:    #1a1a1a;
-    --text2:   #444444;
-    --accent:  #1F497D;
-    --accent2: #1F497D;
-    --accent-light: #dce6f1;
-    --blue:    #1F497D;
-    --blue-light: #dce6f1;
-    --green:        #1a5c1a;
-    --green-light:  #d6f0d6;
-    --red:          #8b1a1a;
-    --red-light:    #fce8e8;
-    --orange:       #7a3800;
-    --orange-light: #fdebd6;
-    --purple:       #4a1a8a;
-    --purple-light: #ede5fb;
-    --teal:         #0a5c4a;
-    --teal-light:   #d6f0e8;
-    --yellow:       #5a4000;
-    --yellow-light: #fdf6d6;
+/* ── Cores extras ─────────────────────────────────────── */
+:root {
+  --fp-green:  #1a5c1a; --fp-green-lt: #d6f0d6;
+  --fp-red:    #8b1a1a; --fp-red-lt:   #fce8e8;
+  --fp-orange: #7a3800; --fp-orange-lt:#fdebd6;
+  --fp-purple: #4a1a8a; --fp-purple-lt: #ede5fb;
+  --fp-yellow: #5a4000; --fp-yellow-lt: #fdf6d6;
+  --fp-teal:   #0a5c4a; --fp-teal-lt:  #d6f0e8;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --fp-green:  #6fd86f; --fp-green-lt:  #0d2e0d;
+    --fp-red:    #f08080; --fp-red-lt:    #2e0d0d;
+    --fp-orange: #f0a060; --fp-orange-lt: #2e1500;
+    --fp-purple: #c0a0f8; --fp-purple-lt: #200a40;
+    --fp-yellow: #f0d060; --fp-yellow-lt: #2e2000;
+    --fp-teal:   #60d8b8; --fp-teal-lt:   #072e22;
   }
-  @media (prefers-color-scheme: dark) {
-    :root {
-      --bg:      #0d1b2e;
-      --bg2:     #142238;
-      --bg3:     #1b2d47;
-      --border:  #2a4060;
-      --text:    #e8eef5;
-      --text2:   #a0b4cc;
-      --accent:  #7a9cf0;
-      --accent2: #9ab4f8;
-      --accent-light: #1a2550;
-      --blue:         #9ab4f8;
-      --blue-light:   #1a2550;
-      --green:        #6fd86f;
-      --green-light:  #0d2e0d;
-      --red:          #f08080;
-      --red-light:    #2e0d0d;
-      --orange:       #f0a060;
-      --orange-light: #2e1500;
-      --purple:       #c0a0f8;
-      --purple-light: #200a40;
-      --teal:         #60d8b8;
-      --teal-light:   #072e22;
-      --yellow:       #f0d060;
-      --yellow-light: #2e2000;
-    }
-  }
-  * { margin:0; padding:0; box-sizing:border-box; }
-  body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: 'Georgia', 'Times New Roman', serif;
-    line-height: 1.7;
-  }
+}
 
-  /* HEADER */
-  header {
-    background: var(--bg3);
-    border-bottom: 2px solid var(--accent);
-    padding: 2.5rem 2rem 2rem;
-    position: relative;
-    overflow: hidden;
-  }
-  header::before {
-    content: '§';
-    position: absolute; right: 3rem; top: 50%; transform: translateY(-50%);
-    font-size: 8rem; color: var(--accent-light); font-weight: bold;
-    pointer-events: none;
-  }
-  header h1 { font-size: 1.9rem; color: var(--accent2); letter-spacing: 0.03em; }
-  header p { color: var(--text2); font-size: 0.95rem; margin-top: 0.4rem; }
-  .badge {
-    display: inline-block; background: var(--accent); color: #fff;
-    padding: 0.15rem 0.7rem; border-radius: 3px; font-size: 0.75rem;
-    font-family: monospace; font-weight: bold; margin-bottom: 0.8rem;
-  }
+/* ── Abas ─────────────────────────────────────────────── */
+.fp-tabs {
+  display: flex; gap: 4px; margin-bottom: 22px; flex-wrap: wrap;
+}
+.fp-tab {
+  padding: 7px 18px;
+  font-size: 13px; font-weight: 600; font-family: var(--sans);
+  border: 1.5px solid var(--blue); border-radius: 6px; cursor: pointer;
+  background: var(--surface); color: var(--blue);
+  transition: background .15s, color .15s;
+}
+.fp-tab:hover { background: var(--blue-hover); }
+.fp-tab.ativo  { background: var(--blue); color: #fff; }
+.fp-painel { display: none; }
+.fp-painel.ativo { display: block; }
 
-  /* NAV TABS */
-  nav { background: var(--bg2); border-bottom: 1px solid var(--border); display: grid; grid-template-columns: 1fr 1fr; }
-  nav button {
-    background: none; border: none; border-right: 1px solid var(--border); color: var(--text2); padding: 0.9rem 1.4rem;
-    cursor: pointer; font-family: inherit; font-size: 0.88rem; text-align: left;
-    border-bottom: 3px solid transparent; transition: all 0.2s;
-  }
-  nav button:hover { color: var(--text); background: var(--bg3); }
-  nav button.active { color: var(--accent2); border-bottom-color: var(--accent); background: var(--bg3); }
+/* ── Título ───────────────────────────────────────────── */
+.fp-titulo {
+  font-family: var(--serif); font-size: 19px; font-weight: 700;
+  color: var(--blue); margin-bottom: 18px;
+  padding-bottom: 10px; border-bottom: 2px solid var(--border);
+}
 
-  /* CONTENT */
-  .tab-content { display: none; padding: 2rem; max-width: 1100px; margin: 0 auto; }
-  .tab-content.active { display: block; }
+/* ── Section title ────────────────────────────────────── */
+.fp-sec {
+  font-family: var(--serif); font-size: 15px; font-weight: 700; color: var(--blue);
+  border-left: 3px solid var(--gold); padding-left: 10px; margin: 24px 0 12px;
+}
+.fp-sec:first-child { margin-top: 0; }
 
-  /* SECTION TITLES */
-  .section-title {
-    font-size: 1.3rem; color: var(--accent2); border-left: 4px solid var(--accent);
-    padding-left: 1rem; margin-bottom: 1.5rem; margin-top: 2.5rem;
-  }
-  .section-title:first-child { margin-top: 0; }
+/* ── Tabela principal ─────────────────────────────────── */
+.fp-tbl-wrap { overflow-x: auto; margin: 10px 0 18px; border-radius: 8px; }
+.fp-tbl { width: 100%; border-collapse: collapse; font-size: 12.5px; min-width: 860px; }
+.fp-tbl thead th {
+  background: var(--blue); color: #fff;
+  padding: 9px 11px; text-align: left; font-weight: 600;
+  font-family: var(--sans); font-size: 11.5px;
+}
+.fp-tbl tbody td {
+  padding: 8px 11px; border-bottom: 1px solid var(--border);
+  vertical-align: top; color: var(--text);
+}
+.fp-tbl tbody tr:nth-child(even) td { background: var(--blue-light); }
+.fp-tbl tbody tr:hover td { background: var(--blue-hover); }
+.fp-tbl tbody td:first-child { font-weight: 600; color: var(--blue); white-space: nowrap; }
+.fp-tbl td.art { font-size: 11px; color: var(--text2); font-style: italic; }
 
-  /* CARDS */
-  .card {
-    background: var(--bg2); border: 1px solid var(--border); border-radius: 8px;
-    padding: 1.4rem; margin-bottom: 1.2rem; transition: border-color 0.2s;
-  }
-  .card:hover { border-color: var(--accent); }
-  .card h3 { color: var(--blue); font-size: 1rem; margin-bottom: 0.6rem; }
-  .card p, .card li { color: var(--text2); font-size: 0.92rem; }
-  .card ul { padding-left: 1.2rem; }
-  .card li { margin-bottom: 0.3rem; }
+/* ── Badges / chips ───────────────────────────────────── */
+.fp-badge {
+  display: inline-block; padding: 2px 8px; border-radius: 4px;
+  font-size: 11px; font-weight: 600; white-space: nowrap;
+  font-family: var(--sans);
+}
+.fp-b-jf  { background: var(--blue-light); color: var(--blue); }
+.fp-b-je  { background: var(--fp-red-lt);  color: var(--fp-red); }
+.fp-b-rec { background: var(--fp-orange-lt); color: var(--fp-orange); }
+.fp-b-det { background: var(--fp-green-lt); color: var(--fp-green); }
+.fp-chip {
+  display: inline-block; padding: 2px 7px; border-radius: 3px;
+  font-size: 10.5px; background: var(--surface); color: var(--text2);
+  border: 1px solid var(--border); font-family: var(--sans);
+}
 
-  /* GRID */
-  .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1rem; }
-  .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1rem; }
+/* ── Distinções (vs cards) ────────────────────────────── */
+.fp-vs-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px,1fr)); gap: 14px; margin-bottom: 18px; }
+.fp-vs-card {
+  background: var(--surface); border: 1.5px solid var(--border);
+  border-radius: 10px; padding: 16px 18px;
+}
+.fp-vs-card h4 { font-size: 13.5px; color: var(--blue); margin-bottom: 10px; font-weight: 700; padding-bottom: 6px; border-bottom: 1px solid var(--border); }
+.fp-vs-row { display: flex; gap: 10px; }
+.fp-vs-col { flex: 1; background: var(--blue-light); border-radius: 7px; padding: 10px 12px; }
+.fp-vs-col h5 { font-size: 11.5px; font-weight: 700; color: var(--blue); margin-bottom: 5px; }
+.fp-vs-col p  { font-size: 12px; color: var(--text2); line-height: 1.55; }
 
-  /* TABLE */
-  .table-wrap { overflow-x: auto; margin-bottom: 1.5rem; }
-  table { width: 100%; border-collapse: collapse; font-size: 0.88rem; }
-  th {
-    background: var(--bg3); color: var(--accent2); border-bottom: 2px solid var(--accent-light); padding: 0.75rem 1rem;
-    text-align: left; border: 1px solid var(--border); font-weight: 600;
-  }
-  td { padding: 0.65rem 1rem; border: 1px solid var(--border); color: var(--text2); vertical-align: top; }
-  tr:nth-child(even) td { background: rgba(255,255,255,0.02); }
-  tr:hover td { background: var(--accent-light); }
+/* ── Jurisprudência ───────────────────────────────────── */
+.fp-juris-list { display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; }
+.fp-juris-card {
+  background: var(--surface); border-left: 4px solid var(--fp-yellow);
+  border-radius: 0 8px 8px 0; padding: 12px 16px;
+}
+.fp-j-src  { font-size: 11.5px; font-weight: 700; color: var(--fp-yellow); margin-bottom: 4px; font-family: var(--sans); }
+.fp-j-text { font-size: 13px; line-height: 1.6; color: var(--text); }
+.fp-j-obs  { font-size: 12px; color: var(--text2); margin-top: 6px; padding-top: 6px; border-top: 1px solid var(--border); }
 
-  /* TAGS */
-  .tag {
-    display: inline-block; padding: 0.15rem 0.55rem; border-radius: 3px;
-    font-size: 0.75rem; font-family: monospace; font-weight: bold; margin: 0.15rem;
-  }
-  .tag-blue  { background: var(--blue-light); color: var(--blue); }
-  .tag-green { background: var(--green-light); color: var(--green); }
-  .tag-red   { background: var(--red-light);  color: var(--red); }
-  .tag-gold  { background: var(--accent-light); color: var(--accent2); }
-  .tag-purple{ background: var(--purple-light);color: var(--purple); }
-  .tag-orange{ background: var(--orange-light);color: var(--orange); }
+/* ── Mapa mental: ramos ───────────────────────────────── */
+.fp-mm-wrap { display: flex; gap: 16px; flex-wrap: wrap; margin-bottom: 20px; }
+.fp-mm-branch {
+  flex: 1; min-width: 145px; max-width: 200px;
+  background: var(--surface); border: 2px solid var(--border);
+  border-radius: 10px; padding: 14px 16px; cursor: pointer;
+  transition: border-color .15s, transform .15s;
+  text-align: center;
+}
+.fp-mm-branch:hover { transform: translateY(-2px); border-color: var(--blue); }
+.fp-mm-branch.ativo { border-color: var(--blue); background: var(--blue-light); }
+.fp-mm-branch .fp-mm-icon { font-size: 26px; margin-bottom: 6px; }
+.fp-mm-branch .fp-mm-label { font-size: 12px; font-weight: 700; color: var(--blue); font-family: var(--sans); }
+.fp-mm-branch .fp-mm-arts  { font-size: 11px; color: var(--text2); margin-top: 3px; font-family: var(--sans); }
+.fp-mm-detail {
+  display: none; background: var(--surface); border: 1.5px solid var(--blue);
+  border-radius: 10px; padding: 20px 22px; margin-bottom: 16px;
+}
+.fp-mm-detail.ativo { display: block; }
+.fp-mm-detail h3 { font-size: 15px; font-weight: 700; color: var(--blue); margin-bottom: 12px; font-family: var(--serif); }
+.fp-mm-detail ul { padding-left: 16px; }
+.fp-mm-detail li { font-size: 13px; color: var(--text2); line-height: 1.6; margin-bottom: 6px; }
+.fp-mm-detail li strong { color: var(--text); }
+.fp-mm-detail .fp-mm-note {
+  background: var(--fp-yellow-lt); border-left: 3px solid var(--fp-yellow);
+  border-radius: 0 5px 5px 0; padding: 8px 12px; margin-top: 10px;
+  font-size: 12px; color: var(--text); line-height: 1.55;
+}
+.fp-mm-detail .fp-mm-note strong { color: var(--fp-yellow); }
 
-  /* JURISPRUDÊNCIA */
-  .juris {
-    background: var(--blue-light); border-left: 3px solid var(--blue);
-    padding: 1rem 1.2rem; border-radius: 0 6px 6px 0; margin-bottom: 1rem;
-  }
-  .juris .tribunal { color: var(--blue); font-size: 0.8rem; font-family: monospace; font-weight: bold; }
-  .juris p { color: var(--text2); font-size: 0.9rem; margin-top: 0.3rem; }
+/* ── Roteiro ──────────────────────────────────────────── */
+.fp-rot-intro {
+  background: var(--blue); border-radius: 10px;
+  padding: 20px 22px; color: #fff; margin-bottom: 20px;
+}
+.fp-rot-intro h3 { font-size: 16px; margin-bottom: 8px; font-family: var(--serif); }
+.fp-rot-intro p  { font-size: 13px; line-height: 1.6; opacity: .9; }
+.fp-rot-tags { margin-top: 12px; display: flex; flex-wrap: wrap; gap: 6px; }
+.fp-rot-tag  {
+  background: rgba(255,255,255,.15); border: 1px solid rgba(255,255,255,.25);
+  border-radius: 5px; padding: 4px 10px; font-size: 11.5px; font-family: var(--sans);
+}
 
-  /* ALERTA */
-  .alert {
-    background: var(--red-light); border: 1px solid var(--red);
-    border-radius: 6px; padding: 1rem 1.2rem; margin-bottom: 1rem;
-  }
-  .alert strong { color: var(--red); }
-  .alert p { color: var(--text2); font-size: 0.9rem; margin-top: 0.3rem; }
+.fp-unit { margin-bottom: 28px; }
+.fp-unit-hd {
+  display: flex; align-items: center; gap: 10px;
+  margin-bottom: 12px; cursor: pointer; user-select: none;
+}
+.fp-unit-num {
+  width: 36px; height: 36px; border-radius: 50%;
+  background: var(--blue); color: #fff;
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 700; font-size: 15px; flex-shrink: 0;
+}
+.fp-unit-title { font-size: 15px; font-weight: 700; color: var(--blue); flex: 1; font-family: var(--serif); }
+.fp-unit-tog   { font-size: 16px; color: var(--text2); transition: transform .2s; }
+.fp-unit-tog.aberto { transform: rotate(180deg); }
+.fp-unit-body  { display: none; }
+.fp-unit-body.aberto { display: block; }
 
-  .tip {
-    background: var(--green-light); border: 1px solid var(--green);
-    border-radius: 6px; padding: 1rem 1.2rem; margin-bottom: 1rem;
-  }
-  .tip strong { color: var(--green); }
-  .tip p { color: var(--text2); font-size: 0.9rem; margin-top: 0.3rem; }
+.fp-step { background: var(--surface); border: 1px solid var(--border); border-radius: 9px; margin-bottom: 10px; overflow: hidden; }
+.fp-step-hd {
+  display: flex; align-items: flex-start; gap: 10px; padding: 12px 14px; cursor: pointer;
+}
+.fp-step-chk {
+  width: 20px; height: 20px; border-radius: 50%;
+  border: 2px solid var(--border); display: flex; align-items: center;
+  justify-content: center; flex-shrink: 0; margin-top: 2px; transition: all .15s;
+}
+.fp-step-chk svg { display: none; width: 11px; height: 11px; }
+.fp-step.feito .fp-step-chk { background: var(--blue); border-color: var(--blue); }
+.fp-step.feito .fp-step-chk svg { display: block; }
+.fp-step-title { font-size: 13.5px; font-weight: 600; color: var(--text); flex: 1; line-height: 1.4; }
+.fp-step.feito .fp-step-title { text-decoration: line-through; color: var(--text2); }
+.fp-step-meta  { font-size: 11px; color: var(--text2); margin-top: 2px; }
+.fp-step-exp   { font-size: 14px; color: var(--text2); flex-shrink: 0; padding-top: 2px; }
+.fp-step-body  { display: none; padding: 0 14px 14px 44px; border-top: 1px solid var(--border); }
+.fp-step-body.aberto { display: block; }
+.fp-step-body p  { font-size: 12.5px; line-height: 1.65; margin-bottom: 8px; color: var(--text); }
+.fp-step-body ul { margin-left: 14px; font-size: 12.5px; line-height: 1.65; color: var(--text); }
+.fp-step-body li { margin-bottom: 4px; }
 
-  /* CASO PRÁTICO */
-  .caso {
-    background: var(--bg2); border: 1px solid var(--border); border-radius: 8px;
-    overflow: hidden; margin-bottom: 1.5rem;
-  }
-  .caso-header {
-    background: var(--bg3); padding: 1rem 1.4rem;
-    border-bottom: 1px solid var(--border); display: flex; justify-content: space-between;
-    align-items: center;
-  }
-  .caso-header h3 { color: var(--accent2); font-size: 1rem; }
-  .caso-body { padding: 1.4rem; }
-  .caso-fatos { color: var(--text); font-size: 0.92rem; line-height: 1.8; margin-bottom: 1.2rem; }
-  .caso-perguntas { list-style: none; padding: 0; }
-  .caso-perguntas li {
-    background: var(--bg3); border-left: 3px solid var(--purple);
-    padding: 0.7rem 1rem; border-radius: 0 4px 4px 0; margin-bottom: 0.5rem;
-    font-size: 0.9rem; color: var(--text2);
-  }
-  .caso-perguntas li strong { color: var(--purple); }
-  details { margin-bottom: 0.5rem; }
-  details summary {
-    cursor: pointer; padding: 0.7rem 1rem; background: var(--bg3);
-    border-radius: 4px; color: var(--teal); font-size: 0.88rem; font-weight: bold;
-    list-style: none;
-  }
-  details summary::-webkit-details-marker { display: none; }
-  details summary::before { content: '▶ '; font-size: 0.7rem; }
-  details[open] summary::before { content: '▼ '; }
-  details p { padding: 0.8rem 1rem; background: var(--green-light); color: var(--text2); font-size: 0.88rem; border-radius: 0 0 4px 4px; }
+.fp-art-box {
+  background: var(--blue-light); border-left: 3px solid var(--blue);
+  border-radius: 0 5px 5px 0; padding: 8px 12px; margin: 8px 0;
+  font-size: 12px; line-height: 1.55; font-style: italic; color: var(--text);
+}
+.fp-stj-box {
+  background: var(--fp-yellow-lt); border-left: 3px solid var(--fp-yellow);
+  border-radius: 0 5px 5px 0; padding: 8px 12px; margin: 8px 0;
+  font-size: 12px; line-height: 1.55; color: var(--text);
+}
+.fp-stj-box strong { color: var(--fp-yellow); font-weight: 600; }
+.fp-warn-box {
+  background: var(--fp-red-lt); border-left: 3px solid var(--fp-red);
+  border-radius: 0 5px 5px 0; padding: 8px 12px; margin: 8px 0;
+  font-size: 12px; line-height: 1.55; color: var(--text);
+}
+.fp-warn-box strong { color: var(--fp-red); font-weight: 600; }
 
-  /* ARTIGO */
-  .artigo {
-    background: var(--blue-light); border: 1px solid rgba(88,166,255,0.2);
-    border-radius: 6px; padding: 0.9rem 1.2rem; margin-bottom: 0.8rem;
-    font-family: monospace; font-size: 0.87rem; color: var(--text);
-  }
-  .artigo strong { color: var(--blue); }
+.fp-bloom {
+  display: inline-block; padding: 1px 7px; border-radius: 3px;
+  font-size: 10.5px; font-weight: 600; font-family: var(--sans);
+}
+.fp-bl1 { background: var(--blue-light);    color: var(--blue); }
+.fp-bl2 { background: var(--fp-green-lt);   color: var(--fp-green); }
+.fp-bl3 { background: var(--fp-red-lt);     color: var(--fp-red); }
+.fp-bl4 { background: var(--fp-yellow-lt);  color: var(--fp-yellow); }
 
-  hr { border: none; border-top: 1px solid var(--border); margin: 2rem 0; }
+/* ── Estudo de caso ───────────────────────────────────── */
+.fp-ec-header {
+  background: var(--blue); border-radius: 10px;
+  padding: 22px 26px; color: #fff; margin-bottom: 22px;
+}
+.fp-ec-op  { font-size: 11px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: rgba(255,255,255,.65); margin-bottom: 6px; font-family: var(--sans); }
+.fp-ec-header h3 { font-size: 21px; font-family: var(--serif); margin-bottom: 8px; }
+.fp-ec-header p  { font-size: 13px; opacity: .88; line-height: 1.6; }
+.fp-ec-meta { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+.fp-ec-tag  { background: rgba(255,255,255,.14); border: 1px solid rgba(255,255,255,.22); border-radius: 5px; padding: 3px 10px; font-size: 11.5px; font-family: var(--sans); }
 
-  /* QUADRO SINÓPTICO INLINE STYLES */
-  .qs-filter-bar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px;}
-  .qs-fbtn{padding:6px 14px;border-radius:6px;border:1.5px solid var(--border);background:var(--bg2);color:var(--text2);font-size:12.5px;font-weight:500;cursor:pointer;transition:all .15s;font-family:inherit;}
-  .qs-fbtn:hover,.qs-fbtn.active{background:var(--accent);border-color:var(--accent);color:#fff;}
-  .qs-tbl-wrap{overflow-x:auto;border-radius:10px;box-shadow:0 2px 12px rgba(31,73,125,.1);margin-bottom:32px;}
-  .qs-table{width:100%;border-collapse:collapse;font-size:13px;min-width:900px;}
-  .qs-table thead tr th{background:var(--accent);color:#fff;padding:11px 14px;text-align:left;font-weight:600;font-size:12px;letter-spacing:.04em;white-space:nowrap;}
-  .qs-table thead tr th:first-child{border-radius:10px 0 0 0;}
-  .qs-table thead tr th:last-child{border-radius:0 10px 0 0;}
-  .qs-table tbody tr{border-bottom:1px solid var(--border);transition:background .12s;}
-  .qs-table tbody tr:hover{background:var(--accent-light);}
-  .qs-table tbody tr:last-child{border-bottom:none;}
-  .qs-table td{padding:11px 14px;vertical-align:top;line-height:1.55;border:none;background:var(--bg);}
-  .qs-table td:first-child{font-weight:600;color:var(--accent2);white-space:nowrap;}
-  .qs-table td.art{font-size:11.5px;color:var(--text2);font-style:italic;}
-  .qs-badge{display:inline-block;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:600;white-space:nowrap;}
-  .qs-b-rec{background:var(--blue-light);color:var(--blue);}
-  .qs-b-det{background:var(--green-light);color:var(--green);}
-  .qs-b-jf{background:var(--accent-light);color:var(--accent2);}
-  .qs-b-je{background:var(--red-light);color:var(--red);}
-  .qs-chip{display:inline-block;padding:2px 7px;border-radius:3px;font-size:10.5px;margin:1px 2px 1px 0;background:var(--bg3);color:var(--text2);}
-  .qs-dist-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:18px;margin-bottom:32px;}
-  .qs-dist-card{background:var(--bg2);border:1.5px solid var(--border);border-radius:10px;padding:18px 20px;}
-  .qs-dist-card h4{font-size:15px;color:var(--accent2);margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid var(--border);}
-  .qs-vs-row{display:flex;gap:12px;}
-  .qs-vs-col{flex:1;background:var(--bg3);border-radius:7px;padding:10px 12px;}
-  .qs-vs-col h5{font-size:12px;font-weight:700;color:var(--accent2);margin-bottom:6px;}
-  .qs-vs-col p{font-size:12px;color:var(--text2);line-height:1.55;}
-  .qs-juris-list{display:flex;flex-direction:column;gap:12px;margin-bottom:32px;}
-  .qs-juris-card{background:var(--bg2);border-left:4px solid var(--yellow);border-radius:0 8px 8px 0;padding:14px 18px;}
-  .qs-j-source{font-size:11.5px;font-weight:700;color:var(--yellow);margin-bottom:4px;letter-spacing:.03em;}
-  .qs-j-text{font-size:13px;line-height:1.6;color:var(--text);}
-  .qs-j-obs{font-size:12px;color:var(--text2);margin-top:6px;padding-top:6px;border-top:1px solid var(--border);}
-  .qs-section-title{font-size:18px;color:var(--accent2);margin:36px 0 16px;padding-bottom:8px;border-bottom:2px solid var(--accent);display:flex;align-items:center;gap:10px;}
-  .qs-section-title span{font-size:11px;font-weight:600;background:var(--accent);color:#fff;padding:2px 9px;border-radius:4px;letter-spacing:.05em;}
+.fp-narrative {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 10px; padding: 20px 22px; font-size: 13.5px;
+  line-height: 1.75; margin-bottom: 18px;
+}
+.fp-narrative p { margin-bottom: 10px; }
+.fp-narrative p:last-child { margin-bottom: 0; }
 
-  /* ROTEIRO INLINE STYLES */
-  .rot-intro-box{background:var(--accent);border-radius:12px;padding:24px 28px;color:#fff;margin-bottom:32px;}
-  .rot-intro-box h2{font-size:20px;margin-bottom:10px;}
-  .rot-intro-box p{font-size:13.5px;line-height:1.65;opacity:.88;}
-  .rot-obj-list{margin-top:14px;display:flex;flex-wrap:wrap;gap:8px;}
-  .rot-obj-tag{background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.22);border-radius:6px;padding:5px 12px;font-size:12px;}
-  .rot-unit{margin-bottom:36px;}
-  .rot-unit-header{display:flex;align-items:center;gap:12px;margin-bottom:16px;cursor:pointer;user-select:none;}
-  .rot-unit-num{width:40px;height:40px;border-radius:50%;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:16px;flex-shrink:0;}
-  .rot-unit-title{font-size:17px;color:var(--accent2);flex:1;}
-  .rot-unit-toggle{font-size:18px;color:var(--text2);transition:transform .2s;}
-  .rot-unit-toggle.open{transform:rotate(180deg);}
-  .rot-unit-body{display:none;}
-  .rot-unit-body.open{display:block;}
-  .rot-step{background:var(--bg2);border:1px solid var(--border);border-radius:10px;margin-bottom:12px;overflow:hidden;}
-  .rot-step-head{display:flex;align-items:flex-start;gap:12px;padding:14px 16px;cursor:pointer;}
-  .rot-step-check{width:22px;height:22px;border-radius:50%;border:2px solid var(--border);display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .15s;margin-top:1px;}
-  .rot-step-check svg{display:none;width:12px;height:12px;}
-  .rot-step.done .rot-step-check{background:var(--accent);border-color:var(--accent);}
-  .rot-step.done .rot-step-check svg{display:block;}
-  .rot-step-title{font-size:14px;font-weight:600;color:var(--text);flex:1;line-height:1.45;}
-  .rot-step.done .rot-step-title{text-decoration:line-through;color:var(--text2);}
-  .rot-step-meta{font-size:11.5px;color:var(--text2);margin-top:3px;}
-  .rot-step-expand{font-size:15px;color:var(--text2);padding-top:2px;flex-shrink:0;}
-  .rot-step-content{display:none;padding:0 16px 16px 50px;border-top:1px solid var(--border);}
-  .rot-step-content.open{display:block;}
-  .rot-step-content p{font-size:13px;line-height:1.65;margin-bottom:10px;color:var(--text);}
-  .rot-step-content ul{margin-left:16px;font-size:13px;line-height:1.7;color:var(--text);}
-  .rot-step-content li{margin-bottom:4px;}
-  .rot-art-box{background:var(--accent-light);border-left:3px solid var(--accent);border-radius:0 6px 6px 0;padding:10px 14px;margin:10px 0;font-size:12.5px;line-height:1.6;font-style:italic;color:var(--text);}
-  .rot-stj-box{background:var(--yellow-light);border-left:3px solid var(--yellow);border-radius:0 6px 6px 0;padding:10px 14px;margin:10px 0;font-size:12.5px;line-height:1.6;color:var(--text);}
-  .rot-stj-box strong{color:var(--yellow);font-weight:600;}
-  .rot-warn-box{background:var(--red-light);border-left:3px solid var(--red);border-radius:0 6px 6px 0;padding:10px 14px;margin:10px 0;font-size:12.5px;line-height:1.6;color:var(--text);}
-  .rot-warn-box strong{color:var(--red);font-weight:600;}
-  .rot-tag-row{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px;}
-  .rot-tag{display:inline-block;padding:2px 9px;border-radius:4px;font-size:11px;font-weight:600;}
-  .rot-t-art{background:var(--accent-light);color:var(--accent2);}
-  .rot-t-stj{background:var(--yellow-light);color:var(--yellow);}
-  .rot-t-imp{background:var(--red-light);color:var(--red);}
-  .rot-reset-btn{margin:0 auto 20px;display:block;padding:8px 22px;background:transparent;border:1.5px solid var(--border);border-radius:6px;color:var(--text2);font-size:13px;cursor:pointer;font-family:inherit;transition:all .15s;}
-  .rot-reset-btn:hover{border-color:var(--accent);color:var(--accent2);}
+.fp-doc-sim {
+  background: var(--surface); border: 1.5px solid var(--border);
+  border-radius: 8px; padding: 14px 18px; margin-bottom: 12px; font-size: 12.5px;
+}
+.fp-doc-title {
+  font-weight: 700; font-size: 11.5px; letter-spacing: .06em; text-transform: uppercase;
+  color: var(--blue); margin-bottom: 8px; padding-bottom: 6px;
+  border-bottom: 1px solid var(--border); font-family: var(--sans);
+}
+.fp-doc-sim table { width: 100%; font-size: 12px; border-collapse: collapse; }
+.fp-doc-sim td { padding: 3px 6px; vertical-align: top; border: none; background: transparent; color: var(--text); }
+.fp-doc-sim td:first-child { color: var(--text2); width: 38%; font-weight: 500; }
 
-  /* ESTUDO DE CASO INLINE STYLES */
-  .ec-case-header{background:var(--accent);border-radius:12px;padding:26px 30px;color:#fff;margin-bottom:28px;}
-  .ec-op-label{font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--yellow-light);margin-bottom:6px;}
-  .ec-case-header h2{font-size:24px;margin-bottom:10px;}
-  .ec-case-meta{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px;}
-  .ec-meta-tag{background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.22);border-radius:6px;padding:4px 12px;font-size:12px;}
-  .ec-sec{margin-bottom:28px;}
-  .ec-sec-title{font-size:17px;color:var(--accent2);margin-bottom:14px;padding-bottom:8px;border-bottom:2px solid var(--accent);display:flex;align-items:center;gap:10px;}
-  .ec-sec-title .ec-badge{font-size:11px;background:var(--accent);color:#fff;padding:2px 10px;border-radius:4px;font-weight:600;}
-  .ec-narrative{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:22px 26px;font-size:14px;line-height:1.75;margin-bottom:20px;}
-  .ec-narrative p{margin-bottom:12px;}
-  .ec-narrative p:last-child{margin-bottom:0;}
-  .ec-doc-sim{background:var(--bg2);border:1.5px solid var(--border);border-radius:8px;padding:18px 22px;margin-bottom:16px;font-size:13px;line-height:1.65;}
-  .ec-doc-sim .ec-doc-title{font-weight:700;font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--accent2);margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid var(--border);}
-  .ec-doc-sim table{width:100%;font-size:12.5px;border-collapse:collapse;}
-  .ec-doc-sim td{padding:3px 6px;vertical-align:top;border:none;background:transparent;color:var(--text);}
-  .ec-doc-sim td:first-child{color:var(--text2);width:38%;font-weight:500;}
-  .ec-q-list{display:flex;flex-direction:column;gap:16px;}
-  .ec-q-item{background:var(--bg2);border:1.5px solid var(--border);border-radius:10px;overflow:hidden;}
-  .ec-q-head{display:flex;align-items:flex-start;gap:12px;padding:16px 18px;cursor:pointer;}
-  .ec-q-num{width:32px;height:32px;border-radius:50%;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px;flex-shrink:0;}
-  .ec-q-text{font-size:14px;line-height:1.5;flex:1;font-weight:500;color:var(--text);}
-  .ec-q-bloom{font-size:11px;color:var(--text2);margin-top:3px;font-weight:400;}
-  .ec-q-arrow{color:var(--text2);font-size:16px;padding-top:2px;flex-shrink:0;transition:transform .2s;}
-  .ec-q-arrow.open{transform:rotate(180deg);}
-  .ec-q-body{display:none;padding:0 18px 18px 62px;border-top:1px solid var(--border);}
-  .ec-q-body.open{display:block;}
-  .ec-q-body p{font-size:13px;line-height:1.65;margin-bottom:10px;color:var(--text);}
-  .ec-q-body ul{margin-left:16px;font-size:13px;line-height:1.7;}
-  .ec-q-body li{margin-bottom:5px;color:var(--text);}
-  .ec-art-ref{background:var(--accent-light);border-left:3px solid var(--accent);border-radius:0 5px 5px 0;padding:8px 12px;margin:8px 0;font-size:12.5px;font-style:italic;line-height:1.55;color:var(--text);}
-  .ec-stj-ref{background:var(--yellow-light);border-left:3px solid var(--yellow);border-radius:0 5px 5px 0;padding:8px 12px;margin:8px 0;font-size:12.5px;line-height:1.55;color:var(--text);}
-  .ec-stj-ref strong{color:var(--yellow);font-weight:600;}
-  .ec-q-show-btn{margin-top:10px;padding:7px 18px;background:transparent;border:1.5px solid var(--border);border-radius:6px;color:var(--text2);font-size:12.5px;cursor:pointer;font-family:inherit;transition:all .15s;}
-  .ec-q-show-btn:hover{border-color:var(--accent);color:var(--accent2);}
-  .ec-answer{display:none;margin-top:12px;padding:12px 14px;background:var(--green-light);border-radius:8px;font-size:13px;line-height:1.65;color:var(--text);}
-  .ec-answer.show{display:block;}
-  .ec-answer strong{color:var(--green);}
-  .ec-bl{display:inline-block;padding:1px 8px;border-radius:3px;font-size:11px;font-weight:600;margin-right:4px;}
-  .ec-bl-1{background:var(--blue-light);color:var(--blue);}
-  .ec-bl-2{background:var(--green-light);color:var(--green);}
-  .ec-bl-3{background:var(--red-light);color:var(--red);}
-  .ec-bl-4{background:var(--yellow-light);color:var(--yellow);}
-  .ec-summary-table{width:100%;border-collapse:collapse;font-size:13px;min-width:600px;}
-  .ec-summary-table thead th{background:var(--accent);color:#fff;padding:10px 14px;text-align:left;font-size:12px;font-weight:600;border:none;}
-  .ec-summary-table tbody tr{border-bottom:1px solid var(--border);}
-  .ec-summary-table tbody tr:hover td{background:var(--accent-light);}
-  .ec-summary-table td{padding:10px 14px;vertical-align:top;color:var(--text2);border:none;background:var(--bg);}
-  .ec-summary-table td:first-child{font-weight:600;color:var(--accent2);}
+.fp-q-list { display: flex; flex-direction: column; gap: 14px; }
+.fp-q-item { background: var(--surface); border: 1.5px solid var(--border); border-radius: 9px; overflow: hidden; }
+.fp-q-hd   { display: flex; align-items: flex-start; gap: 10px; padding: 14px 16px; cursor: pointer; }
+.fp-q-num  {
+  width: 30px; height: 30px; border-radius: 50%;
+  background: var(--blue); color: #fff;
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 700; font-size: 13px; flex-shrink: 0;
+}
+.fp-q-text  { font-size: 13.5px; line-height: 1.5; flex: 1; font-weight: 500; color: var(--text); }
+.fp-q-meta  { font-size: 11px; color: var(--text2); margin-top: 2px; font-weight: 400; }
+.fp-q-arr   { color: var(--text2); font-size: 15px; flex-shrink: 0; padding-top: 2px; transition: transform .2s; }
+.fp-q-arr.aberto { transform: rotate(180deg); }
+.fp-q-body  { display: none; padding: 0 16px 16px 56px; border-top: 1px solid var(--border); }
+.fp-q-body.aberto { display: block; }
+.fp-q-body p { font-size: 12.5px; line-height: 1.65; margin-bottom: 8px; color: var(--text); }
+.fp-q-body ul { margin-left: 14px; font-size: 12.5px; line-height: 1.7; }
+.fp-q-body li { margin-bottom: 4px; color: var(--text); }
 
-  @media(max-width:600px) {
-    .grid-2, .grid-3 { grid-template-columns: 1fr; }
-    header h1 { font-size: 1.4rem; }
-    .tab-content { padding: 1rem; }
-    .qs-dist-grid { grid-template-columns: 1fr; }
-  }
-  @media (max-width: 768px) {
-    nav {
-      display: flex;
-      overflow-x: auto;
-      -webkit-overflow-scrolling: touch;
-      grid-template-columns: unset;
-    }
-    nav button {
-      white-space: nowrap;
-      flex-shrink: 0;
-      border-right: 1px solid var(--border);
-    }
-  }
+.fp-show-btn {
+  margin-top: 8px; padding: 6px 16px; background: transparent;
+  border: 1.5px solid var(--border); border-radius: 5px;
+  color: var(--text2); font-size: 12px; cursor: pointer; font-family: var(--sans);
+  transition: all .15s;
+}
+.fp-show-btn:hover { border-color: var(--blue); color: var(--blue); }
+.fp-answer {
+  display: none; margin-top: 10px; padding: 12px 14px;
+  background: var(--fp-green-lt); border-radius: 7px;
+  font-size: 12.5px; line-height: 1.65; color: var(--text);
+}
+.fp-answer.show { display: block; }
+.fp-answer strong { color: var(--fp-green); }
+
+.fp-ec-art-ref {
+  background: var(--blue-light); border-left: 3px solid var(--blue);
+  border-radius: 0 5px 5px 0; padding: 7px 11px; margin: 6px 0;
+  font-size: 12px; font-style: italic; line-height: 1.55; color: var(--text);
+}
+.fp-ec-stj-ref {
+  background: var(--fp-yellow-lt); border-left: 3px solid var(--fp-yellow);
+  border-radius: 0 5px 5px 0; padding: 7px 11px; margin: 6px 0;
+  font-size: 12px; line-height: 1.55; color: var(--text);
+}
+.fp-ec-stj-ref strong { color: var(--fp-yellow); font-weight: 600; }
+
+.fp-summary-tbl { width: 100%; border-collapse: collapse; font-size: 12.5px; }
+.fp-summary-tbl thead th { background: var(--blue); color: #fff; padding: 9px 12px; text-align: left; font-size: 11.5px; font-weight: 600; font-family: var(--sans); }
+.fp-summary-tbl tbody tr { border-bottom: 1px solid var(--border); }
+.fp-summary-tbl tbody tr:hover td { background: var(--blue-hover); }
+.fp-summary-tbl td { padding: 8px 12px; vertical-align: top; color: var(--text2); background: var(--surface); }
+.fp-summary-tbl td:first-child { font-weight: 600; color: var(--blue); }
+
+/* ── Filtros do quadro sinóptico ──────────────────────── */
+.fp-filter-bar { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 14px; }
+.fp-fbtn {
+  padding: 5px 12px; border-radius: 5px; border: 1.5px solid var(--border);
+  background: var(--surface); color: var(--text2); font-size: 12px;
+  font-weight: 500; cursor: pointer; transition: all .15s; font-family: var(--sans);
+}
+.fp-fbtn:hover, .fp-fbtn.ativo { background: var(--blue); border-color: var(--blue); color: #fff; }
+
+@media (max-width: 600px) {
+  .fp-vs-row { flex-direction: column; }
+}
 </style>
-</head>
-<body>
 
-<header>
-  <div class="badge">DIREITO PENAL IV</div>
-  <h1>Crimes contra a Fé Pública</h1>
-  <p>Prof. Artur Vieira · Arts. 289–311 CP · Material de Apoio</p>
-</header>
+<!-- ═══════════════════════════════════════════════════════ -->
+<!--  ABAS                                                   -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="fp-titulo">Crimes contra a Fé Pública — CP, Título X, arts. 289–311</div>
 
-<nav>
-  <button class="active" onclick="show('mapa')">🗺 Mapa Mental</button>
-  <button onclick="show('conceitual')">🔗 Mapa Conceitual</button>
-  <button onclick="show('sinoptico')">📋 Quadro Sinóptico</button>
-  <button onclick="show('roteiro')">📖 Roteiro</button>
-  <button onclick="show('caso')">⚖️ Estudo de Caso</button>
-</nav>
-
-<!-- TAB: MAPA MENTAL -->
-<div id="tab-mapa" class="tab-content active">
-  <iframe src="fe-publica-mapa-mental.html" style="width:100%;height:80vh;border:none;border-radius:8px;"></iframe>
+<div class="fp-tabs">
+  <button class="fp-tab ativo" onclick="fpTab('visao',this)">Visão Geral</button>
+  <button class="fp-tab"       onclick="fpTab('mapa',this)">Mapa Mental</button>
+  <button class="fp-tab"       onclick="fpTab('roteiro',this)">Roteiro de Estudo</button>
+  <button class="fp-tab"       onclick="fpTab('caso',this)">Estudo de Caso</button>
 </div>
 
-<!-- TAB: MAPA CONCEITUAL -->
-<div id="tab-conceitual" class="tab-content">
-  <iframe src="fe-publica-mapa-conceitual.html" style="width:100%;height:80vh;border:none;border-radius:8px;"></iframe>
-</div>
+<!-- ═══════════════════ PAINEL 1: VISÃO GERAL ════════════ -->
+<div id="fp-p-visao" class="fp-painel ativo">
 
-<!-- TAB: QUADRO SINÓPTICO -->
-<div id="tab-sinoptico" class="tab-content">
+  <div class="fp-sec">Quadro sinóptico dos crimes</div>
 
-  <div class="qs-filter-bar">
-    <button class="qs-fbtn active" onclick="qsFilter('all',this)">Todos</button>
-    <button class="qs-fbtn" onclick="qsFilter('moeda',this)">Moeda (289–291)</button>
-    <button class="qs-fbtn" onclick="qsFilter('papeis',this)">Papéis públicos (292–295)</button>
-    <button class="qs-fbtn" onclick="qsFilter('selos',this)">Selos/Sinais (296)</button>
-    <button class="qs-fbtn" onclick="qsFilter('docs',this)">Falsidade documental (297–305)</button>
-    <button class="qs-fbtn" onclick="qsFilter('outras',this)">Demais falsidades (300–311)</button>
+  <div class="fp-filter-bar">
+    <button class="fp-fbtn ativo" onclick="fpFilter('all',this)">Todos</button>
+    <button class="fp-fbtn" onclick="fpFilter('moeda',this)">Moeda (289–291)</button>
+    <button class="fp-fbtn" onclick="fpFilter('papeis',this)">Papéis públicos (292–295)</button>
+    <button class="fp-fbtn" onclick="fpFilter('selos',this)">Selos/Sinais (296)</button>
+    <button class="fp-fbtn" onclick="fpFilter('docs',this)">Falsidade documental (297–305)</button>
+    <button class="fp-fbtn" onclick="fpFilter('outras',this)">Demais falsidades (300–311)</button>
   </div>
 
-  <div class="qs-tbl-wrap">
-  <table class="qs-table" id="qs-main-table">
-    <thead>
-      <tr>
-        <th>Crime</th>
-        <th>Art. CP</th>
-        <th>Conduta nuclear</th>
-        <th>Pena base</th>
-        <th>Sujeito ativo</th>
-        <th>Tipo subjetivo</th>
-        <th>Competência</th>
-        <th>Observações / Jurisprudência</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr data-cat="moeda">
-        <td>Moeda falsa</td>
-        <td class="art">Art. 289 <em>caput</em></td>
-        <td>Falsificar (fabricar ou alterar) moeda metálica ou papel-moeda de curso legal</td>
-        <td><span class="qs-badge qs-b-rec">Rec. 3–12 anos</span> + multa</td>
-        <td><span class="qs-chip">Comum</span></td>
-        <td><span class="qs-chip">Doloso</span> <span class="qs-chip">Livre</span></td>
-        <td><span class="qs-badge qs-b-jf">Justiça Federal</span></td>
-        <td>Ação penal pública incondicionada. Falso grosseiro → estelionato (J. Estadual) — Súm. 73 STJ</td>
-      </tr>
-      <tr data-cat="moeda">
-        <td>Circulação de moeda falsa</td>
-        <td class="art">Art. 289, §1.º</td>
-        <td>Importar, exportar, adquirir, vender, trocar, ceder, emprestar, guardar, introduzir na circulação moeda falsa</td>
-        <td><span class="qs-badge qs-b-rec">Rec. 3–12 anos</span> + multa</td>
-        <td><span class="qs-chip">Comum</span></td>
-        <td><span class="qs-chip">Doloso</span></td>
-        <td><span class="qs-badge qs-b-jf">Justiça Federal</span></td>
-        <td>Tipo misto alternativo — basta a prática de uma das condutas</td>
-      </tr>
-      <tr data-cat="moeda">
-        <td>Moeda falsa – forma privilegiada</td>
-        <td class="art">Art. 289, §2.º</td>
-        <td>Restituir à circulação moeda falsa recebida de boa-fé, após conhecer a falsidade</td>
-        <td><span class="qs-badge qs-b-det">Det. 6m–2 anos</span> + multa</td>
-        <td><span class="qs-chip">Comum</span></td>
-        <td><span class="qs-chip">Doloso</span></td>
-        <td><span class="qs-badge qs-b-jf">Justiça Federal</span></td>
-        <td>Modalidade derivada privilegiada — boa-fé no recebimento é pressuposto</td>
-      </tr>
-      <tr data-cat="moeda">
-        <td>Moeda falsa – func. banco</td>
-        <td class="art">Art. 289, §3.º</td>
-        <td>Funcionário de banco emissor que fabrica, emite ou autoriza emissão irregular</td>
-        <td><span class="qs-badge qs-b-rec">Rec. 3–15 anos</span> + multa</td>
-        <td><span class="qs-chip">Próprio (func. banco)</span></td>
-        <td><span class="qs-chip">Doloso</span></td>
-        <td><span class="qs-badge qs-b-jf">Justiça Federal</span></td>
-        <td>Modalidade qualificada</td>
-      </tr>
-      <tr data-cat="moeda">
-        <td>Crimes assimilados à moeda falsa</td>
-        <td class="art">Art. 290</td>
-        <td>Formar cédula com fragmentos verdadeiros; suprimir sinal de inutilização; restituir cédulas recolhidas</td>
-        <td><span class="qs-badge qs-b-rec">Rec. 2–8 anos</span> + multa</td>
-        <td><span class="qs-chip">Comum</span></td>
-        <td><span class="qs-chip">Doloso</span></td>
-        <td><span class="qs-badge qs-b-jf">Justiça Federal</span></td>
-        <td>Qualificado (até 12 anos) se funcionário do local onde o dinheiro estava recolhido</td>
-      </tr>
-      <tr data-cat="moeda">
-        <td>Petrechos p/ falsificação de moeda</td>
-        <td class="art">Art. 291</td>
-        <td>Fabricar, adquirir, fornecer (oneroso ou gratuito), possuir ou guardar maquinismo destinado à falsificação</td>
-        <td><span class="qs-badge qs-b-rec">Rec. 2–6 anos</span> + multa</td>
-        <td><span class="qs-chip">Comum</span></td>
-        <td><span class="qs-chip">Doloso</span></td>
-        <td><span class="qs-badge qs-b-jf">Justiça Federal</span></td>
-        <td>Crime autônomo — não é mero ato preparatório. Concurso real com art. 289 (Rogério Greco)</td>
-      </tr>
-      <tr data-cat="papeis">
-        <td>Emissão de título sem permissão</td>
-        <td class="art">Art. 292</td>
-        <td>Emitir, sem permissão legal, nota, bilhete, ficha, vale ou título com promessa de pagamento ao portador</td>
-        <td><span class="qs-badge qs-b-det">Det. 1–6 meses</span> ou multa</td>
-        <td><span class="qs-chip">Comum</span></td>
-        <td><span class="qs-chip">Doloso</span></td>
-        <td><span class="qs-badge qs-b-jf">Justiça Federal</span></td>
-        <td>Parágrafo único – quem recebe ou usa: Det. 15 dias–3 meses ou multa</td>
-      </tr>
-      <tr data-cat="papeis">
-        <td>Falsificação de papéis públicos</td>
-        <td class="art">Art. 293</td>
-        <td>Falsificar selos tributários, papel de crédito público, vale postal, guias de arrecadação, bilhetes de transporte público</td>
-        <td><span class="qs-badge qs-b-rec">Rec. 2–8 anos</span> + multa</td>
-        <td><span class="qs-chip">Comum</span></td>
-        <td><span class="qs-chip">Doloso</span></td>
-        <td><span class="qs-badge qs-b-jf">Justiça Federal</span></td>
-        <td>§1.º: tipo misto alternativo (usar, guardar, importar, etc.). Func. público que prevalece do cargo: +1/6 (art. 295)</td>
-      </tr>
-      <tr data-cat="papeis">
-        <td>Petrechos p/ falsif. papéis públicos</td>
-        <td class="art">Art. 294</td>
-        <td>Fabricar, adquirir, fornecer, possuir ou guardar objeto destinado à falsificação dos papéis do art. 293</td>
-        <td><span class="qs-badge qs-b-rec">Rec. 1–3 anos</span> + multa</td>
-        <td><span class="qs-chip">Comum</span></td>
-        <td><span class="qs-chip">Doloso</span></td>
-        <td><span class="qs-badge qs-b-jf">Justiça Federal</span></td>
-        <td>Não admite modalidade culposa. Se agente já falsificou o papel: antefato impunível (absorção)</td>
-      </tr>
-      <tr data-cat="selos">
-        <td>Falsificação de selo ou sinal público</td>
-        <td class="art">Art. 296</td>
-        <td>Falsificar selos oficiais; usar sinal verdadeiro indevidamente; falsificar marcas/logotipos de órgãos públicos</td>
-        <td><span class="qs-badge qs-b-rec">Rec. 2–6 anos</span> + multa</td>
-        <td><span class="qs-chip">Comum</span></td>
-        <td><span class="qs-chip">Doloso</span></td>
-        <td><span class="qs-badge qs-b-jf">Justiça Federal</span></td>
-        <td>§2.º: func. público que prevalece do cargo: +1/6</td>
-      </tr>
-      <tr data-cat="docs">
-        <td>Falsificação de documento público</td>
-        <td class="art">Art. 297</td>
-        <td>Falsificar no todo/parte ou alterar documento público verdadeiro</td>
-        <td><span class="qs-badge qs-b-rec">Rec. 2–6 anos</span> + multa</td>
-        <td><span class="qs-chip">Comum</span></td>
-        <td><span class="qs-chip">Doloso</span></td>
-        <td><span class="qs-badge qs-b-jf">Justiça Federal</span> ou Estadual</td>
-        <td>Equiparados a doc. público: paraestatal, título ao portador, ações S.A., livros mercantis, testamento particular. Súm. Vinculante 36 STF (CIR/CHA da Marinha → J. Federal)</td>
-      </tr>
-      <tr data-cat="docs">
-        <td>Falsificação de documento particular</td>
-        <td class="art">Art. 298</td>
-        <td>Falsificar no todo/parte ou alterar documento particular verdadeiro. Cartão de crédito/débito equiparado.</td>
-        <td><span class="qs-badge qs-b-rec">Rec. 1–5 anos</span> + multa</td>
-        <td><span class="qs-chip">Comum</span></td>
-        <td><span class="qs-chip">Doloso</span></td>
-        <td><span class="qs-badge qs-b-je">Justiça Estadual</span></td>
-        <td>Parágrafo único: cartão de crédito ou débito = documento particular para fins penais</td>
-      </tr>
-      <tr data-cat="docs">
-        <td>Falsidade ideológica</td>
-        <td class="art">Art. 299</td>
-        <td>Omitir declaração que devia constar, ou inserir declaração falsa, com fim de prejudicar direito, criar obrigação ou alterar verdade sobre fato juridicamente relevante</td>
-        <td><span class="qs-badge qs-b-rec">Rec. 1–5 anos</span> (doc. público)<br><span class="qs-badge qs-b-rec" style="margin-top:3px;">Rec. 1–3 anos</span> (particular) + multa</td>
-        <td><span class="qs-chip">Comum</span></td>
-        <td><span class="qs-chip">Doloso</span> <span class="qs-chip">Finalidade especial</span></td>
-        <td>Conforme a natureza do doc.</td>
-        <td>Func. público + prevalência do cargo ou registro civil: +1/6. Distinção: falsidade material (arts. 297/298) × ideológica (art. 299)</td>
-      </tr>
-      <tr data-cat="docs">
-        <td>Uso de documento falso</td>
-        <td class="art">Art. 304</td>
-        <td>Fazer uso de qualquer dos papéis falsificados ou alterados (arts. 297–302)</td>
-        <td>Mesmas penas da falsificação usada</td>
-        <td><span class="qs-chip">Comum</span></td>
-        <td><span class="qs-chip">Doloso</span></td>
-        <td>Conforme a natureza do doc.</td>
-        <td>Se o próprio falsificador usa o doc.: antefato impunível — absorção do falso pelo uso. Súm. 17 STJ: se o falso se exaure no estelionato (sem mais potencialidade lesiva), o estelionato absorve.</td>
-      </tr>
-      <tr data-cat="docs">
-        <td>Supressão de documentos</td>
-        <td class="art">Art. 305</td>
-        <td>Destruir, suprimir ou ocultar documento público ou particular verdadeiro de que não podia dispor</td>
-        <td><span class="qs-badge qs-b-rec">Rec. 2–6 anos</span> (público) <br><span class="qs-badge qs-b-rec">Rec. 1–5 anos</span> (particular) + multa</td>
-        <td><span class="qs-chip">Comum</span></td>
-        <td><span class="qs-chip">Doloso</span></td>
-        <td>Conforme a natureza do doc.</td>
-        <td>Exige que o agente não tivesse o direito de dispor do documento</td>
-      </tr>
-      <tr data-cat="outras">
-        <td>Falso reconhecimento de firma ou letra</td>
-        <td class="art">Art. 300</td>
-        <td>Reconhecer como verdadeira firma/letra falsa; negar reconhecimento de firma/letra verdadeira</td>
-        <td><span class="qs-badge qs-b-rec">Rec. 1–5 anos</span> + multa</td>
-        <td><span class="qs-chip">Próprio (agente reconhecedor)</span></td>
-        <td><span class="qs-chip">Doloso</span></td>
-        <td>Conforme a competência</td>
-        <td>Crime próprio — sujeito ativo: tabelião, escrivão ou oficial público competente</td>
-      </tr>
-      <tr data-cat="outras">
-        <td>Certidão ou atestado ideologicamente falso</td>
-        <td class="art">Art. 301</td>
-        <td>Atestar ou certificar falsamente, em razão de função pública, fato ou circunstância que habilite alguém a obter vantagem</td>
-        <td><span class="qs-badge qs-b-det">Det. 3m–2 anos</span></td>
-        <td><span class="qs-chip">Próprio (func. público)</span></td>
-        <td><span class="qs-chip">Doloso</span></td>
-        <td>Depende da natureza</td>
-        <td>Se para obter vantagem para si: aplica-se art. 299 (falsidade ideológica)</td>
-      </tr>
-      <tr data-cat="outras">
-        <td>Falsidade de atestado médico</td>
-        <td class="art">Art. 302</td>
-        <td>Médico que fornece atestado falso sobre saúde ou enfermidade</td>
-        <td><span class="qs-badge qs-b-det">Det. 1m–1 ano</span></td>
-        <td><span class="qs-chip">Próprio (médico)</span></td>
-        <td><span class="qs-chip">Doloso</span></td>
-        <td><span class="qs-badge qs-b-je">Justiça Estadual</span></td>
-        <td>Se com finalidade de lucro: +1/6 a 1/3. Médico responde também perante o CRM.</td>
-      </tr>
-      <tr data-cat="outras">
-        <td>Falsa identidade</td>
-        <td class="art">Art. 307</td>
-        <td>Atribuir-se ou atribuir a terceiro falsa identidade para obter vantagem ou causar dano</td>
-        <td><span class="qs-badge qs-b-det">Det. 3m–1 ano</span></td>
-        <td><span class="qs-chip">Comum</span></td>
-        <td><span class="qs-chip">Doloso</span> <span class="qs-chip">Finalidade especial</span></td>
-        <td><span class="qs-badge qs-b-je">Justiça Estadual</span></td>
-        <td>Subsidiário: somente se o fato não constitui elemento de crime mais grave. Autodefesa de réu em processo penal: STF entende que é atípico (nemo tenetur se detegere).</td>
-      </tr>
-    </tbody>
-  </table>
+  <div class="fp-tbl-wrap">
+    <table class="fp-tbl" id="fp-main-tbl">
+      <thead>
+        <tr>
+          <th>Crime</th>
+          <th>Art. CP</th>
+          <th>Conduta nuclear</th>
+          <th>Pena base</th>
+          <th>Tipo subjetivo</th>
+          <th>Competência</th>
+          <th>Observações</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr data-cat="moeda">
+          <td>Moeda falsa</td>
+          <td class="art">Art. 289 <em>caput</em></td>
+          <td>Falsificar (fabricar ou alterar) moeda metálica ou papel-moeda de curso legal</td>
+          <td><span class="fp-badge fp-b-rec">Rec. 3–12 anos</span></td>
+          <td><span class="fp-chip">Doloso</span></td>
+          <td><span class="fp-badge fp-b-jf">J. Federal</span></td>
+          <td>Falso grosseiro → estelionato (J. Estadual) — Súm. 73 STJ</td>
+        </tr>
+        <tr data-cat="moeda">
+          <td>Circulação de moeda falsa</td>
+          <td class="art">Art. 289, §1.º</td>
+          <td>Importar, exportar, adquirir, vender, trocar, ceder, emprestar, guardar, introduzir na circulação</td>
+          <td><span class="fp-badge fp-b-rec">Rec. 3–12 anos</span></td>
+          <td><span class="fp-chip">Doloso</span></td>
+          <td><span class="fp-badge fp-b-jf">J. Federal</span></td>
+          <td>Tipo misto alternativo — basta uma das condutas</td>
+        </tr>
+        <tr data-cat="moeda">
+          <td>Moeda falsa — privilegiado</td>
+          <td class="art">Art. 289, §2.º</td>
+          <td>Restituir à circulação moeda falsa recebida de boa-fé, após conhecer a falsidade</td>
+          <td><span class="fp-badge fp-b-det">Det. 6m–2 anos</span></td>
+          <td><span class="fp-chip">Doloso</span></td>
+          <td><span class="fp-badge fp-b-jf">J. Federal</span></td>
+          <td>Boa-fé no recebimento é pressuposto</td>
+        </tr>
+        <tr data-cat="moeda">
+          <td>Moeda falsa — func. banco</td>
+          <td class="art">Art. 289, §3.º</td>
+          <td>Funcionário de banco emissor que fabrica, emite ou autoriza emissão irregular</td>
+          <td><span class="fp-badge fp-b-rec">Rec. 3–15 anos</span></td>
+          <td><span class="fp-chip">Doloso</span></td>
+          <td><span class="fp-badge fp-b-jf">J. Federal</span></td>
+          <td>Modalidade qualificada — crime próprio</td>
+        </tr>
+        <tr data-cat="moeda">
+          <td>Crimes assimilados</td>
+          <td class="art">Art. 290</td>
+          <td>Formar cédula com fragmentos verdadeiros; suprimir sinal de inutilização; restituir cédulas recolhidas</td>
+          <td><span class="fp-badge fp-b-rec">Rec. 2–8 anos</span></td>
+          <td><span class="fp-chip">Doloso</span></td>
+          <td><span class="fp-badge fp-b-jf">J. Federal</span></td>
+          <td>Qualificado até 12 anos se func. do local onde o dinheiro estava</td>
+        </tr>
+        <tr data-cat="moeda">
+          <td>Petrechos para falsificação</td>
+          <td class="art">Art. 291</td>
+          <td>Fabricar, adquirir, fornecer, possuir ou guardar maquinismo destinado à falsificação de moeda</td>
+          <td><span class="fp-badge fp-b-rec">Rec. 2–6 anos</span></td>
+          <td><span class="fp-chip">Doloso</span></td>
+          <td><span class="fp-badge fp-b-jf">J. Federal</span></td>
+          <td>Crime autônomo — concurso real com art. 289 (Rogério Greco)</td>
+        </tr>
+        <tr data-cat="papeis">
+          <td>Emissão de título sem permissão</td>
+          <td class="art">Art. 292</td>
+          <td>Emitir, sem permissão legal, nota, bilhete, ficha, vale ou título com promessa de pagamento ao portador</td>
+          <td><span class="fp-badge fp-b-det">Det. 1–6 meses</span> ou multa</td>
+          <td><span class="fp-chip">Doloso</span></td>
+          <td><span class="fp-badge fp-b-jf">J. Federal</span></td>
+          <td>§ único — quem recebe ou usa: Det. 15 dias–3 meses</td>
+        </tr>
+        <tr data-cat="papeis">
+          <td>Falsificação de papéis públicos</td>
+          <td class="art">Art. 293</td>
+          <td>Falsificar selos tributários, papel de crédito público, vale postal, guias de arrecadação, bilhetes de transporte</td>
+          <td><span class="fp-badge fp-b-rec">Rec. 2–8 anos</span></td>
+          <td><span class="fp-chip">Doloso</span></td>
+          <td><span class="fp-badge fp-b-jf">J. Federal</span></td>
+          <td>§1.º tipo misto alt. (usar, guardar, importar etc.) — art. 295: +1/6 func. público</td>
+        </tr>
+        <tr data-cat="papeis">
+          <td>Petrechos — papéis públicos</td>
+          <td class="art">Art. 294</td>
+          <td>Fabricar, adquirir, fornecer, possuir ou guardar objeto destinado à falsificação dos papéis do art. 293</td>
+          <td><span class="fp-badge fp-b-rec">Rec. 1–3 anos</span></td>
+          <td><span class="fp-chip">Doloso</span></td>
+          <td><span class="fp-badge fp-b-jf">J. Federal</span></td>
+          <td>Sem modalidade culposa. Se o agente já falsificou: antefato impunível</td>
+        </tr>
+        <tr data-cat="selos">
+          <td>Falsificação de selo/sinal público</td>
+          <td class="art">Art. 296</td>
+          <td>Falsificar selos oficiais; usar sinal verdadeiro indevidamente; falsificar marcas/logotipos de órgãos públicos</td>
+          <td><span class="fp-badge fp-b-rec">Rec. 2–6 anos</span></td>
+          <td><span class="fp-chip">Doloso</span></td>
+          <td><span class="fp-badge fp-b-jf">J. Federal</span></td>
+          <td>§2.º: func. público que prevalece do cargo: +1/6</td>
+        </tr>
+        <tr data-cat="docs">
+          <td>Falsificação de doc. público</td>
+          <td class="art">Art. 297</td>
+          <td>Falsificar no todo/parte ou alterar documento público verdadeiro</td>
+          <td><span class="fp-badge fp-b-rec">Rec. 2–6 anos</span></td>
+          <td><span class="fp-chip">Doloso</span></td>
+          <td><span class="fp-badge fp-b-jf">J. Federal</span> / Estadual</td>
+          <td>Equiparados: paraestatal, título ao portador, ações S.A., livros mercantis, testamento particular. SV 36 STF</td>
+        </tr>
+        <tr data-cat="docs">
+          <td>Falsificação de doc. particular</td>
+          <td class="art">Art. 298</td>
+          <td>Falsificar no todo/parte ou alterar documento particular verdadeiro. Cartão de crédito/débito equiparado.</td>
+          <td><span class="fp-badge fp-b-rec">Rec. 1–5 anos</span></td>
+          <td><span class="fp-chip">Doloso</span></td>
+          <td><span class="fp-badge fp-b-je">J. Estadual</span></td>
+          <td>§ único: cartão de crédito ou débito = doc. particular para fins penais</td>
+        </tr>
+        <tr data-cat="docs">
+          <td>Falsidade ideológica</td>
+          <td class="art">Art. 299</td>
+          <td>Omitir ou inserir declaração falsa em doc. público ou particular, com fim de prejudicar direito, criar obrigação ou alterar verdade</td>
+          <td><span class="fp-badge fp-b-rec">Rec. 1–5 anos</span> (público) / <span class="fp-badge fp-b-rec">Rec. 1–3 anos</span> (particular)</td>
+          <td><span class="fp-chip">Doloso</span> <span class="fp-chip">Fin. especial</span></td>
+          <td>Conforme o doc.</td>
+          <td>Func. público + prevalência do cargo ou registro civil: +1/6</td>
+        </tr>
+        <tr data-cat="docs">
+          <td>Uso de documento falso</td>
+          <td class="art">Art. 304</td>
+          <td>Fazer uso de qualquer dos papéis falsificados ou alterados (arts. 297–302)</td>
+          <td>Mesmas penas da falsificação usada</td>
+          <td><span class="fp-chip">Doloso</span></td>
+          <td>Conforme o doc.</td>
+          <td>Próprio falsificador que usa: antefato impunível. Súm. 17 STJ (exaurimento no estelionato)</td>
+        </tr>
+        <tr data-cat="docs">
+          <td>Supressão de documentos</td>
+          <td class="art">Art. 305</td>
+          <td>Destruir, suprimir ou ocultar doc. público ou particular verdadeiro de que não podia dispor</td>
+          <td><span class="fp-badge fp-b-rec">Rec. 2–6 anos</span> (público) / <span class="fp-badge fp-b-rec">Rec. 1–5 anos</span> (particular)</td>
+          <td><span class="fp-chip">Doloso</span></td>
+          <td>Conforme o doc.</td>
+          <td>Exige que o agente não tivesse direito de dispor do documento</td>
+        </tr>
+        <tr data-cat="outras">
+          <td>Falso reconhecimento de firma</td>
+          <td class="art">Art. 300</td>
+          <td>Reconhecer como verdadeira firma/letra falsa; negar reconhecimento de firma/letra verdadeira</td>
+          <td><span class="fp-badge fp-b-rec">Rec. 1–5 anos</span></td>
+          <td><span class="fp-chip">Doloso</span></td>
+          <td>Conforme competência</td>
+          <td>Crime próprio — sujeito ativo: tabelião, escrivão ou oficial público competente</td>
+        </tr>
+        <tr data-cat="outras">
+          <td>Certidão/atestado ideologicamente falso</td>
+          <td class="art">Art. 301</td>
+          <td>Atestar ou certificar falsamente, em razão de função pública, fato que habilite alguém a obter vantagem</td>
+          <td><span class="fp-badge fp-b-det">Det. 3m–2 anos</span></td>
+          <td><span class="fp-chip">Doloso</span></td>
+          <td>Conforme competência</td>
+          <td>Crime próprio (func. público). Para obter vantagem para si: aplica-se art. 299</td>
+        </tr>
+        <tr data-cat="outras">
+          <td>Falsidade de atestado médico</td>
+          <td class="art">Art. 302</td>
+          <td>Médico que fornece atestado falso sobre saúde ou enfermidade</td>
+          <td><span class="fp-badge fp-b-det">Det. 1m–1 ano</span></td>
+          <td><span class="fp-chip">Doloso</span></td>
+          <td><span class="fp-badge fp-b-je">J. Estadual</span></td>
+          <td>Crime próprio (médico). Com finalidade de lucro: +1/6 a 1/3.</td>
+        </tr>
+        <tr data-cat="outras">
+          <td>Falsa identidade</td>
+          <td class="art">Art. 307</td>
+          <td>Atribuir-se ou atribuir a terceiro falsa identidade para obter vantagem ou causar dano</td>
+          <td><span class="fp-badge fp-b-det">Det. 3m–1 ano</span></td>
+          <td><span class="fp-chip">Doloso</span> <span class="fp-chip">Fin. especial</span></td>
+          <td><span class="fp-badge fp-b-je">J. Estadual</span></td>
+          <td>Crime subsidiário. Autodefesa em processo penal: atípico — <em>nemo tenetur se detegere</em> (STF)</td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 
-  <div class="qs-section-title">Distinções fundamentais <span>PONTO CRÍTICO</span></div>
-  <div class="qs-dist-grid">
-    <div class="qs-dist-card">
+  <div class="fp-sec">Distinções fundamentais</div>
+  <div class="fp-vs-grid">
+    <div class="fp-vs-card">
       <h4>Falsidade material × Falsidade ideológica</h4>
-      <div class="qs-vs-row">
-        <div class="qs-vs-col">
+      <div class="fp-vs-row">
+        <div class="fp-vs-col">
           <h5>Falsidade material (arts. 297/298)</h5>
           <p>O suporte físico do documento é alterado ou falsificado. O documento em si é falso. Ex.: contrafação de cédula, adulteração de data em escritura.</p>
         </div>
-        <div class="qs-vs-col" style="background:var(--green-light);">
-          <h5 style="color:var(--green);">Falsidade ideológica (art. 299)</h5>
-          <p>O documento é formalmente perfeito; o conteúdo (ideia) nele inserido é falso. Ex.: médico que atesta doença inexistente em paciente.</p>
+        <div class="fp-vs-col" style="background:var(--fp-green-lt);">
+          <h5 style="color:var(--fp-green);">Falsidade ideológica (art. 299)</h5>
+          <p>O documento é formalmente perfeito; o conteúdo (ideia) nele inserido é falso. Ex.: médico que atesta doença inexistente.</p>
         </div>
       </div>
     </div>
-    <div class="qs-dist-card">
+    <div class="fp-vs-card">
       <h4>Antefato impunível × Concurso real</h4>
-      <div class="qs-vs-row">
-        <div class="qs-vs-col">
-          <h5>Antefato impunível (regra geral)</h5>
+      <div class="fp-vs-row">
+        <div class="fp-vs-col">
+          <h5>Antefato impunível (regra)</h5>
           <p>Quem falsifica e depois usa o documento responde apenas pelo uso (art. 304). O falso é o crime-meio absorvido pelo crime-fim.</p>
         </div>
-        <div class="qs-vs-col" style="background:var(--red-light);">
-          <h5 style="color:var(--red);">Concurso real (art. 291 + 289)</h5>
+        <div class="fp-vs-col" style="background:var(--fp-red-lt);">
+          <h5 style="color:var(--fp-red);">Concurso real (art. 291 + 289)</h5>
           <p>Petrechos + moeda falsa: Rogério Greco defende concurso real. O art. 291 é infração autônoma, não mero ato preparatório absorvível.</p>
         </div>
       </div>
     </div>
-    <div class="qs-dist-card">
-      <h4>Falsificação grosseira: J. Federal × J. Estadual</h4>
-      <div class="qs-vs-row">
-        <div class="qs-vs-col">
+    <div class="fp-vs-card">
+      <h4>Falso grosseiro: J. Federal × J. Estadual</h4>
+      <div class="fp-vs-row">
+        <div class="fp-vs-col">
           <h5>Moeda falsa (art. 289)</h5>
-          <p>Falsificação crível, capaz de iludir. Ofende a fé pública. Competência da Justiça Federal. Ação penal pública incondicionada.</p>
+          <p>Falsificação crível, capaz de iludir. Ofende a fé pública. Competência da Justiça Federal. APP incondicionada.</p>
         </div>
-        <div class="qs-vs-col" style="background:var(--yellow-light);">
-          <h5 style="color:var(--yellow);">Estelionato — falso grosseiro</h5>
-          <p>Falsificação grosseira, incapaz de iludir. Não ofende a fé pública. Configura estelionato. Competência da Justiça Estadual. — Súmula 73 STJ</p>
+        <div class="fp-vs-col" style="background:var(--fp-yellow-lt);">
+          <h5 style="color:var(--fp-yellow);">Estelionato — falso grosseiro</h5>
+          <p>Falsificação grosseira, incapaz de iludir. Não ofende a fé pública. Configura estelionato. Justiça Estadual. — Súmula 73 STJ</p>
         </div>
       </div>
     </div>
-    <div class="qs-dist-card">
+    <div class="fp-vs-card">
       <h4>Falso × Estelionato — Súmula 17 STJ</h4>
-      <div class="qs-vs-row">
-        <div class="qs-vs-col">
+      <div class="fp-vs-row">
+        <div class="fp-vs-col">
           <h5>Falso absorvido pelo estelionato</h5>
           <p>O falso se exaure no estelionato, sem mais potencialidade lesiva. Agente responde só pelo estelionato.</p>
         </div>
-        <div class="qs-vs-col" style="background:var(--red-light);">
-          <h5 style="color:var(--red);">Concurso de crimes</h5>
-          <p>O falso ainda tem potencialidade lesiva além do estelionato. Responde pelos dois. Divergência: concurso formal ou material?</p>
+        <div class="fp-vs-col" style="background:var(--fp-red-lt);">
+          <h5 style="color:var(--fp-red);">Concurso de crimes</h5>
+          <p>O falso ainda tem potencialidade lesiva além do estelionato. Responde pelos dois crimes em concurso.</p>
         </div>
       </div>
     </div>
   </div>
 
-  <div class="qs-section-title">Jurisprudência estruturante</div>
-  <div class="qs-juris-list">
-    <div class="qs-juris-card">
-      <div class="qs-j-source">STJ — Súmula 73</div>
-      <div class="qs-j-text">A utilização de papel-moeda grosseiramente falsificado configura, em tese, o crime de estelionato, de competência da Justiça Estadual.</div>
-      <div class="qs-j-obs">Fundamento: falsificação grosseira não ofende a fé pública. O bem jurídico violado é o patrimônio, não a confiança coletiva nos documentos.</div>
+  <div class="fp-sec">Jurisprudência estruturante</div>
+  <div class="fp-juris-list">
+    <div class="fp-juris-card">
+      <div class="fp-j-src">STJ — Súmula 73</div>
+      <div class="fp-j-text">A utilização de papel-moeda grosseiramente falsificado configura, em tese, o crime de estelionato, de competência da Justiça Estadual.</div>
+      <div class="fp-j-obs">Fundamento: falsificação grosseira não ofende a fé pública. O bem jurídico violado é o patrimônio, não a confiança coletiva nos documentos.</div>
     </div>
-    <div class="qs-juris-card">
-      <div class="qs-j-source">STJ — Súmula 17</div>
-      <div class="qs-j-text">Quando o falso se exaure no estelionato, sem mais potencialidade lesiva, é por este absorvido.</div>
-      <div class="qs-j-obs">Aplicação prática: se o documento falso foi usado uma única vez para o estelionato e não pode mais ser reutilizado, o estelionato absorve o falso. Se o documento ainda pode ser usado novamente, há concurso.</div>
+    <div class="fp-juris-card">
+      <div class="fp-j-src">STJ — Súmula 17</div>
+      <div class="fp-j-text">Quando o falso se exaure no estelionato, sem mais potencialidade lesiva, é por este absorvido.</div>
+      <div class="fp-j-obs">Se o documento falso foi usado uma única vez e não pode mais ser reutilizado, o estelionato absorve o falso. Se o documento ainda pode ser usado, há concurso.</div>
     </div>
-    <div class="qs-juris-card">
-      <div class="qs-j-source">STF — Súmula Vinculante 36</div>
-      <div class="qs-j-text">Compete à Justiça Federal comum processar e julgar civil denunciado pelos crimes de falsificação e de uso de documento falso quando se tratar de falsificação da Caderneta de Inscrição e Registro (CIR) ou de Carteira de Habilitação de Arrais-Amador (CHA), ambas expedidas pela Marinha do Brasil.</div>
-      <div class="qs-j-obs">Fundamento: interesse da União na autenticidade de documentos de segurança náutica. CF, art. 109, IV.</div>
+    <div class="fp-juris-card">
+      <div class="fp-j-src">STF — Súmula Vinculante 36</div>
+      <div class="fp-j-text">Compete à Justiça Federal comum processar e julgar civil denunciado pelos crimes de falsificação e de uso de documento falso quando se tratar de falsificação da Caderneta de Inscrição e Registro (CIR) ou de Carteira de Habilitação de Arrais-Amador (CHA), ambas expedidas pela Marinha do Brasil.</div>
+      <div class="fp-j-obs">Fundamento: interesse da União na autenticidade de documentos de segurança náutica. CF, art. 109, IV.</div>
     </div>
-    <div class="qs-juris-card">
-      <div class="qs-j-source">STF — Autodefesa e falsa identidade (art. 307 CP)</div>
-      <div class="qs-j-text">O STF entende que o réu que atribui falsa identidade em processo penal para se defender não comete crime de falsa identidade. Fundamento: direito ao silêncio e nemo tenetur se detegere.</div>
-      <div class="qs-j-obs">Posição do STJ: divergência. Parte da jurisprudência do STJ entendia que há o crime. A tendência atual é pela atipicidade no contexto de autodefesa.</div>
-    </div>
-  </div>
-
-</div>
-
-<!-- TAB: ROTEIRO -->
-<div id="tab-roteiro" class="tab-content">
-
-  <div class="rot-intro-box">
-    <h2>Roteiro de Estudo — Crimes contra a Fé Pública</h2>
-    <p>Este roteiro organiza o estudo em cinco unidades progressivas, do conceitual ao jurisprudencial. Marque cada etapa como concluída para acompanhar seu progresso. Clique em cada item para expandir o conteúdo.</p>
-    <div class="rot-obj-list">
-      <span class="rot-obj-tag">CP, Título X — arts. 289–311</span>
-      <span class="rot-obj-tag">Bem jurídico: fé pública</span>
-      <span class="rot-obj-tag">Falsidade material × ideológica</span>
-      <span class="rot-obj-tag">Súm. 73 e 17 STJ</span>
-      <span class="rot-obj-tag">Competência JF × JE</span>
+    <div class="fp-juris-card">
+      <div class="fp-j-src">STF — Autodefesa e falsa identidade (art. 307 CP)</div>
+      <div class="fp-j-text">O réu que atribui falsa identidade em processo penal para se defender não comete crime de falsa identidade. Fundamento: direito ao silêncio e nemo tenetur se detegere.</div>
+      <div class="fp-j-obs">Posição do STJ: a tendência atual é pela atipicidade no contexto de autodefesa.</div>
     </div>
   </div>
 
-  <button class="rot-reset-btn" onclick="rotReset()">↺ Reiniciar progresso</button>
+</div><!-- /fp-p-visao -->
 
-  <div class="rot-unit" id="ru1">
-    <div class="rot-unit-header" onclick="rotToggleUnit('ru1')">
-      <div class="rot-unit-num">1</div>
-      <div class="rot-unit-title">Fundamentos: bem jurídico e teoria do falso</div>
-      <span class="rot-unit-toggle open" id="rot-tog-ru1">▾</span>
+<!-- ═══════════════════ PAINEL 2: MAPA MENTAL ════════════ -->
+<div id="fp-p-mapa" class="fp-painel">
+
+  <div class="fp-sec" style="margin-top:0">Clique em um ramo para expandir</div>
+
+  <div class="fp-mm-wrap">
+    <div class="fp-mm-branch" onclick="fpBranch('moeda')">
+      <div class="fp-mm-icon">💰</div>
+      <div class="fp-mm-label">Moeda Falsa</div>
+      <div class="fp-mm-arts">arts. 289–291</div>
     </div>
-    <div class="rot-unit-body open" id="rot-body-ru1">
-      <div class="rot-step" id="rs1">
-        <div class="rot-step-head" onclick="rotExpand('rs1')">
-          <div class="rot-step-check" onclick="rotCheck(event,'rs1')"><svg viewBox="0 0 12 12" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="2,6 5,9 10,3"/></svg></div>
-          <div style="flex:1"><div class="rot-step-title">Conceito de fé pública e bem jurídico precipuamente protegido</div><div class="rot-step-meta">Base doutrinária · Noronha · Rogério Greco</div></div>
-          <span class="rot-step-expand">+</span>
+    <div class="fp-mm-branch" onclick="fpBranch('papeis')">
+      <div class="fp-mm-icon">📄</div>
+      <div class="fp-mm-label">Papéis Públicos</div>
+      <div class="fp-mm-arts">arts. 292–295</div>
+    </div>
+    <div class="fp-mm-branch" onclick="fpBranch('selos')">
+      <div class="fp-mm-icon">🔏</div>
+      <div class="fp-mm-label">Selos e Sinais</div>
+      <div class="fp-mm-arts">art. 296</div>
+    </div>
+    <div class="fp-mm-branch" onclick="fpBranch('docs')">
+      <div class="fp-mm-icon">📝</div>
+      <div class="fp-mm-label">Falsidade Documental</div>
+      <div class="fp-mm-arts">arts. 297–305</div>
+    </div>
+    <div class="fp-mm-branch" onclick="fpBranch('demais')">
+      <div class="fp-mm-icon">🪪</div>
+      <div class="fp-mm-label">Demais Falsidades</div>
+      <div class="fp-mm-arts">arts. 300–311</div>
+    </div>
+    <div class="fp-mm-branch" onclick="fpBranch('juris')">
+      <div class="fp-mm-icon">⚖️</div>
+      <div class="fp-mm-label">Jurisprudência</div>
+      <div class="fp-mm-arts">Súm. 17 · 73 · SV 36</div>
+    </div>
+  </div>
+
+  <div class="fp-mm-detail" id="fp-d-moeda">
+    <h3>💰 Moeda Falsa e Crimes Assimilados (arts. 289–291)</h3>
+    <ul>
+      <li><strong>Art. 289 caput:</strong> falsificar moeda metálica ou papel-moeda. Rec. 3–12 anos. Justiça Federal. Crime doloso. Bem jurídico: fé pública + patrimônio.</li>
+      <li><strong>§1.º (circulação):</strong> tipo misto alternativo — importar, exportar, adquirir, vender, trocar, ceder, emprestar, guardar, introduzir na circulação. Pena = caput.</li>
+      <li><strong>§2.º (privilegiado):</strong> restituir à circulação cédula falsa recebida de boa-fé após conhecer a falsidade. Det. 6m–2 anos. Pressuposto: boa-fé no recebimento.</li>
+      <li><strong>§3.º (qualificado):</strong> funcionário de banco emissor que fabrica, emite ou autoriza emissão irregular. Rec. 3–15 anos. Crime próprio.</li>
+      <li><strong>Art. 290 (crimes assimilados):</strong> formar cédula com fragmentos verdadeiros; suprimir sinal de inutilização; restituir cédulas recolhidas. Rec. 2–8 anos. Qualificado até 12 anos se func. do local.</li>
+      <li><strong>Art. 291 (petrechos):</strong> adquirir, fabricar, fornecer, possuir ou guardar maquinismo p/ falsificação. Rec. 2–6 anos. Crime autônomo: concurso real com art. 289 (Rogério Greco).</li>
+    </ul>
+    <div class="fp-mm-note"><strong>Ponto crítico:</strong> falso grosseiro → estelionato (J. Estadual) — Súm. 73 STJ. Falsificação crível → moeda falsa (J. Federal).</div>
+  </div>
+
+  <div class="fp-mm-detail" id="fp-d-papeis">
+    <h3>📄 Falsificação de Papéis Públicos (arts. 292–295)</h3>
+    <ul>
+      <li><strong>Art. 292:</strong> emitir título com promessa de pagamento ao portador sem permissão legal. Det. 1–6 meses ou multa. Tipo subsidiário.</li>
+      <li><strong>Art. 293:</strong> falsificar selos tributários, papel de crédito público, vale postal, guias de arrecadação, bilhetes de transporte público. Rec. 2–8 anos. §1.º: tipo misto alternativo (usar, guardar, importar etc.).</li>
+      <li><strong>Art. 294 (petrechos):</strong> adquirir, possuir, guardar obj. p/ falsificação dos papéis do art. 293. Rec. 1–3 anos. Se o agente já falsificou: antefato impunível (absorção).</li>
+      <li><strong>Art. 295 (causa de aumento geral):</strong> func. público que prevalece do cargo ao cometer os crimes dos arts. 293/296: +1/6.</li>
+    </ul>
+    <div class="fp-mm-note"><strong>Competência:</strong> Justiça Federal (tutela de documentos que representam interesses federais).</div>
+  </div>
+
+  <div class="fp-mm-detail" id="fp-d-selos">
+    <h3>🔏 Falsificação de Selo ou Sinal Público (art. 296)</h3>
+    <ul>
+      <li><strong>Caput:</strong> falsificar selos destinados a autenticar atos oficiais da Administração. Rec. 2–6 anos.</li>
+      <li><strong>§1.º, I:</strong> usar indevidamente sinal verdadeiro em objeto ou documento não destinado ao fim legítimo.</li>
+      <li><strong>§1.º, II:</strong> usar, em objeto ou documento, sinal suposto.</li>
+      <li><strong>§1.º, III:</strong> falsificar ou usar indevidamente armas, brasões ou marcas/logotipos de órgãos públicos.</li>
+      <li><strong>§2.º:</strong> funcionário público que prevalece do cargo: +1/6 (aplica-se também via art. 295).</li>
+    </ul>
+    <div class="fp-mm-note"><strong>Bem jurídico:</strong> a autenticidade de selos e sinais que garantem a veracidade dos atos do Estado.</div>
+  </div>
+
+  <div class="fp-mm-detail" id="fp-d-docs">
+    <h3>📝 Falsidade Documental — material e ideológica (arts. 297–305)</h3>
+    <ul>
+      <li><strong>Art. 297 (doc. público):</strong> falsificar ou alterar doc. público. Rec. 2–6 anos. Equiparados: paraestatal, título ao portador, ações S.A., livros mercantis, testamento particular.</li>
+      <li><strong>Art. 298 (doc. particular):</strong> falsificar ou alterar doc. particular. Rec. 1–5 anos. Cartão de crédito/débito equiparado (§ único).</li>
+      <li><strong>Art. 299 (falsidade ideológica):</strong> omitir ou inserir declaração falsa em doc. com finalidade especial. Pena varia conforme doc. público ou particular. Exige elemento subjetivo especial: fim de prejudicar direito, criar obrigação ou alterar verdade.</li>
+      <li><strong>Art. 304 (uso de doc. falso):</strong> fazer uso dos papéis dos arts. 297–302. Pena = falsificação utilizada. Regra: próprio falsificador que usa → antefato impunível.</li>
+      <li><strong>Art. 305 (supressão):</strong> destruir, suprimir ou ocultar doc. de que não podia dispor. Rec. 2–6a (público) / 1–5a (particular).</li>
+    </ul>
+    <div class="fp-mm-note"><strong>Distinção-chave:</strong> falsidade material = suporte falso (arts. 297/298); falsidade ideológica = suporte verdadeiro, conteúdo falso (art. 299).</div>
+  </div>
+
+  <div class="fp-mm-detail" id="fp-d-demais">
+    <h3>🪪 Demais Falsidades (arts. 300–311)</h3>
+    <ul>
+      <li><strong>Art. 300 (falso reconhecimento de firma):</strong> tabelião/escrivão/oficial que reconhece como verdadeira firma falsa ou nega reconhecimento de firma verdadeira. Crime próprio. Rec. 1–5 anos.</li>
+      <li><strong>Art. 301 (certidão/atestado falso):</strong> func. público que certifica falsamente fato para beneficiar alguém. Det. 3m–2 anos. Crime próprio.</li>
+      <li><strong>Art. 302 (atestado médico falso):</strong> médico que fornece atestado falso sobre saúde/enfermidade. Det. 1m–1 ano. Com fim de lucro: +1/6 a 1/3.</li>
+      <li><strong>Art. 307 (falsa identidade):</strong> atribuir-se ou atribuir a terceiro falsa identidade para obter vantagem ou causar dano. Det. 3m–1 ano. Crime subsidiário. Autodefesa: atípico (STF — nemo tenetur).</li>
+      <li><strong>Art. 308 (uso indevido de documento):</strong> usar, como próprio, passaporte ou documento alheio. Det. 1m–1 ano.</li>
+      <li><strong>Art. 311 (adulteração de sinal identificador de veículo):</strong> adulterar numeração de motor, chassi ou placa. Rec. 3–6 anos. Competência depende do interesse envolvido.</li>
+    </ul>
+    <div class="fp-mm-note"><strong>Atenção:</strong> art. 307 é subsidiário — somente se o fato não constitui elemento de crime mais grave. Autodefesa em processo penal não configura o crime (STF).</div>
+  </div>
+
+  <div class="fp-mm-detail" id="fp-d-juris">
+    <h3>⚖️ Jurisprudência Estruturante</h3>
+    <ul>
+      <li><strong>Súmula 73 STJ:</strong> utilização de papel-moeda grosseiramente falsificado = estelionato (J. Estadual), não moeda falsa (J. Federal). Fundamento: falso grosseiro não ofende a fé pública.</li>
+      <li><strong>Súmula 17 STJ:</strong> quando o falso se exaure no estelionato, sem mais potencialidade lesiva, o estelionato absorve o falso. Se o doc. pode ser reutilizado: concurso de crimes.</li>
+      <li><strong>Súmula Vinculante 36 STF:</strong> Justiça Federal julga civil por falsificação de CIR ou CHA expedidas pela Marinha do Brasil.</li>
+      <li><strong>STF — nemo tenetur e art. 307:</strong> réu que usa falsa identidade para se defender em processo penal não comete crime. Fundamento: direito à não autoincriminação.</li>
+      <li><strong>Regra-de-ouro de competência:</strong> JF quando ofende bens/serviços/interesses da União (CF, art. 109, IV). Exceção: falso grosseiro → estelionato → JE (Súm. 73 STJ).</li>
+    </ul>
+    <div class="fp-mm-note"><strong>Teste rápido Súm. 17:</strong> o documento falso pode ser usado novamente? Se sim → concurso. Se não (exauriu-se no estelionato) → estelionato absorve o falso.</div>
+  </div>
+
+</div><!-- /fp-p-mapa -->
+
+<!-- ═══════════════════ PAINEL 3: ROTEIRO ════════════════ -->
+<div id="fp-p-roteiro" class="fp-painel">
+
+  <div class="fp-rot-intro">
+    <h3>Roteiro de Estudo — Crimes contra a Fé Pública</h3>
+    <p>Cinco unidades progressivas, do conceitual ao jurisprudencial. Marque cada etapa como concluída para acompanhar seu progresso.</p>
+    <div class="fp-rot-tags">
+      <span class="fp-rot-tag">CP, Título X — arts. 289–311</span>
+      <span class="fp-rot-tag">Bem jurídico: fé pública</span>
+      <span class="fp-rot-tag">Falsidade material × ideológica</span>
+      <span class="fp-rot-tag">Súm. 73 e 17 STJ</span>
+      <span class="fp-rot-tag">Competência JF × JE</span>
+    </div>
+  </div>
+
+  <!-- Unidade 1 -->
+  <div class="fp-unit" id="fpu1">
+    <div class="fp-unit-hd" onclick="fpUnit('fpu1')">
+      <div class="fp-unit-num">1</div>
+      <div class="fp-unit-title">Fundamentos: bem jurídico e teoria do falso</div>
+      <span class="fp-unit-tog aberto" id="fp-tog-fpu1">▾</span>
+    </div>
+    <div class="fp-unit-body aberto" id="fp-body-fpu1">
+
+      <div class="fp-step" id="fps1">
+        <div class="fp-step-hd" onclick="fpExpand('fps1')">
+          <div class="fp-step-chk" onclick="fpCheck(event,'fps1')"><svg viewBox="0 0 12 12" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="2,6 5,9 10,3"/></svg></div>
+          <div style="flex:1">
+            <div class="fp-step-title">Conceito de fé pública e bem jurídico protegido</div>
+            <div class="fp-step-meta">Base doutrinária · Noronha · Rogério Greco</div>
+          </div>
+          <span class="fp-step-exp">+</span>
         </div>
-        <div class="rot-step-content" id="rot-sc-rs1">
+        <div class="fp-step-body" id="fp-sc-fps1">
           <p>A <strong>fé pública</strong> é o bem jurídico precipuamente protegido em todos os tipos do Título X do CP. Segundo Edgard Magalhães Noronha, sem a fé pública seria impossível a vida em sociedade: o homem precisa acreditar na veracidade e genuidade de certos atos, documentos, sinais e símbolos empregados nas relações cotidianas.</p>
           <p>A fé pública não é o único bem protegido: pode haver proteção secundária de outros bens. Exemplo: no delito de moeda falsa (art. 289), além da fé pública, o patrimônio também é protegido.</p>
-          <div class="rot-art-box">CP, Título X — Dos crimes contra a fé pública (arts. 289–311)</div>
-          <div class="rot-tag-row"><span class="rot-tag rot-t-art">Título X CP</span></div>
+          <div class="fp-art-box">CP, Título X — Dos crimes contra a fé pública (arts. 289–311)</div>
         </div>
       </div>
-      <div class="rot-step" id="rs2">
-        <div class="rot-step-head" onclick="rotExpand('rs2')">
-          <div class="rot-step-check" onclick="rotCheck(event,'rs2')"><svg viewBox="0 0 12 12" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="2,6 5,9 10,3"/></svg></div>
-          <div style="flex:1"><div class="rot-step-title">Pressupostos do falso criminalmente relevante</div><div class="rot-step-meta">Dois vetores cumulativos para a tipicidade</div></div>
-          <span class="rot-step-expand">+</span>
+
+      <div class="fp-step" id="fps2">
+        <div class="fp-step-hd" onclick="fpExpand('fps2')">
+          <div class="fp-step-chk" onclick="fpCheck(event,'fps2')"><svg viewBox="0 0 12 12" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="2,6 5,9 10,3"/></svg></div>
+          <div style="flex:1">
+            <div class="fp-step-title">Pressupostos do falso criminalmente relevante</div>
+            <div class="fp-step-meta">Dois vetores cumulativos para a tipicidade</div>
+          </div>
+          <span class="fp-step-exp">+</span>
         </div>
-        <div class="rot-step-content" id="rot-sc-rs2">
+        <div class="fp-step-body" id="fp-sc-fps2">
           <p>Para que o falso seja punível como crime contra a fé pública, devem estar presentes dois pressupostos:</p>
           <ul>
-            <li><strong>Capacidade de iludir:</strong> o falso deve ser capaz de enganar as pessoas em geral. Falsificação grosseira que não ilude ninguém não ofende a fé pública e não configura o crime do Título X.</li>
+            <li><strong>Capacidade de iludir:</strong> o falso deve ser capaz de enganar as pessoas em geral. Falsificação grosseira que não ilude ninguém não ofende a fé pública.</li>
             <li><strong>Relevância jurídica:</strong> o falso deve recair sobre elemento que produza efeitos no mundo do direito. Alterar dado juridicamente indiferente = fato atípico.</li>
           </ul>
-          <div class="rot-warn-box"><strong>Atenção!</strong> O falso grosseiro pode configurar <strong>estelionato</strong> (art. 171 CP), de competência da Justiça Estadual. — Súmula 73 STJ</div>
-          <div class="rot-tag-row"><span class="rot-tag rot-t-imp">Falso grosseiro → estelionato</span><span class="rot-tag rot-t-stj">Súm. 73 STJ</span></div>
+          <div class="fp-warn-box"><strong>Atenção!</strong> O falso grosseiro pode configurar <strong>estelionato</strong> (art. 171 CP), de competência da Justiça Estadual. — Súmula 73 STJ</div>
         </div>
       </div>
-      <div class="rot-step" id="rs3">
-        <div class="rot-step-head" onclick="rotExpand('rs3')">
-          <div class="rot-step-check" onclick="rotCheck(event,'rs3')"><svg viewBox="0 0 12 12" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="2,6 5,9 10,3"/></svg></div>
-          <div style="flex:1"><div class="rot-step-title">Falsidade material × falsidade ideológica</div><div class="rot-step-meta">Distinção fundamental — base de toda a matéria</div></div>
-          <span class="rot-step-expand">+</span>
+
+      <div class="fp-step" id="fps3">
+        <div class="fp-step-hd" onclick="fpExpand('fps3')">
+          <div class="fp-step-chk" onclick="fpCheck(event,'fps3')"><svg viewBox="0 0 12 12" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="2,6 5,9 10,3"/></svg></div>
+          <div style="flex:1">
+            <div class="fp-step-title">Falsidade material × falsidade ideológica</div>
+            <div class="fp-step-meta">Distinção fundamental — base de toda a matéria</div>
+          </div>
+          <span class="fp-step-exp">+</span>
         </div>
-        <div class="rot-step-content" id="rot-sc-rs3">
+        <div class="fp-step-body" id="fp-sc-fps3">
           <p><strong>Falsidade material</strong> (arts. 297, 298, 289, 293, 296): recai sobre o suporte físico do documento ou da moeda. O objeto material em si é falso ou foi alterado. Modalidades: contrafação (criação total) e alteração.</p>
           <p><strong>Falsidade ideológica</strong> (art. 299): o documento é formalmente perfeito; o conteúdo (a ideia) é que é falso. Também chamada de <em>falso ideal, falso intelectual</em> ou <em>falso moral</em>. Exige finalidade especial: prejudicar direito, criar obrigação ou alterar verdade sobre fato juridicamente relevante.</p>
-          <div class="rot-art-box">Falsidade material: arts. 289, 293, 296, 297, 298 CP — Falsidade ideológica: art. 299 CP</div>
-          <div class="rot-tag-row"><span class="rot-tag rot-t-art">Art. 297 CP</span><span class="rot-tag rot-t-art">Art. 299 CP</span></div>
+          <div class="fp-art-box">Falsidade material: arts. 289, 293, 296, 297, 298 CP — Falsidade ideológica: art. 299 CP</div>
         </div>
       </div>
-    </div>
-  </div>
 
-  <div class="rot-unit" id="ru2">
-    <div class="rot-unit-header" onclick="rotToggleUnit('ru2')">
-      <div class="rot-unit-num">2</div>
-      <div class="rot-unit-title">Moeda falsa e crimes assimilados (arts. 289–291)</div>
-      <span class="rot-unit-toggle open" id="rot-tog-ru2">▾</span>
     </div>
-    <div class="rot-unit-body open" id="rot-body-ru2">
-      <div class="rot-step" id="rs4">
-        <div class="rot-step-head" onclick="rotExpand('rs4')">
-          <div class="rot-step-check" onclick="rotCheck(event,'rs4')"><svg viewBox="0 0 12 12" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="2,6 5,9 10,3"/></svg></div>
-          <div style="flex:1"><div class="rot-step-title">Moeda falsa — art. 289 CP: quatro modalidades</div><div class="rot-step-meta">caput · §1.º · §2.º (privilegiado) · §3.º (qualificado)</div></div>
-          <span class="rot-step-expand">+</span>
+  </div><!-- /fpu1 -->
+
+  <!-- Unidade 2 -->
+  <div class="fp-unit" id="fpu2">
+    <div class="fp-unit-hd" onclick="fpUnit('fpu2')">
+      <div class="fp-unit-num">2</div>
+      <div class="fp-unit-title">Moeda falsa e crimes assimilados (arts. 289–291)</div>
+      <span class="fp-unit-tog aberto" id="fp-tog-fpu2">▾</span>
+    </div>
+    <div class="fp-unit-body aberto" id="fp-body-fpu2">
+
+      <div class="fp-step" id="fps4">
+        <div class="fp-step-hd" onclick="fpExpand('fps4')">
+          <div class="fp-step-chk" onclick="fpCheck(event,'fps4')"><svg viewBox="0 0 12 12" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="2,6 5,9 10,3"/></svg></div>
+          <div style="flex:1">
+            <div class="fp-step-title">Moeda falsa — art. 289 CP: quatro modalidades</div>
+            <div class="fp-step-meta">caput · §1.º · §2.º (privilegiado) · §3.º (qualificado)</div>
+          </div>
+          <span class="fp-step-exp">+</span>
         </div>
-        <div class="rot-step-content" id="rot-sc-rs4">
-          <p><strong>Caput:</strong> falsificar (fabricar = contrafação; ou alterar) moeda metálica ou papel-moeda de curso legal. Reclusão 3–12 anos + multa. Sujeito ativo: comum. Doloso. Ação penal pública incondicionada. Competência: Justiça Federal.</p>
-          <p><strong>§1.º (circulação):</strong> importar, exportar, adquirir, vender, trocar, ceder, emprestar, guardar, introduzir na circulação. Tipo misto alternativo — basta uma conduta. Mesmas penas do caput.</p>
+        <div class="fp-step-body" id="fp-sc-fps4">
+          <p><strong>Caput:</strong> falsificar (fabricar = contrafação; ou alterar) moeda metálica ou papel-moeda de curso legal. Reclusão 3–12 anos + multa. Sujeito ativo: comum. Doloso. APP incondicionada. Competência: Justiça Federal.</p>
+          <p><strong>§1.º (circulação):</strong> tipo misto alternativo — basta uma conduta. Mesmas penas do caput.</p>
           <p><strong>§2.º (privilegiado):</strong> quem recebeu de boa-fé moeda falsa e, após conhecer a falsidade, a restitui à circulação. Detenção 6m–2 anos + multa.</p>
           <p><strong>§3.º (qualificado):</strong> funcionário público ou diretor/gerente/fiscal de banco emissor que fabrica, emite ou autoriza emissão irregular. Reclusão 3–15 anos + multa.</p>
-          <div class="rot-art-box">Art. 289 e §§ — CP</div>
-          <div class="rot-tag-row"><span class="rot-tag rot-t-art">Art. 289 CP</span><span class="rot-tag rot-t-imp">Competência: Justiça Federal</span></div>
+          <div class="fp-art-box">Art. 289 e §§ — Competência: Justiça Federal (CF, art. 109, IV)</div>
         </div>
       </div>
-      <div class="rot-step" id="rs5">
-        <div class="rot-step-head" onclick="rotExpand('rs5')">
-          <div class="rot-step-check" onclick="rotCheck(event,'rs5')"><svg viewBox="0 0 12 12" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="2,6 5,9 10,3"/></svg></div>
-          <div style="flex:1"><div class="rot-step-title">Crimes assimilados (art. 290) e petrechos (art. 291)</div><div class="rot-step-meta">Natureza autônoma dos petrechos — posição de Rogério Greco</div></div>
-          <span class="rot-step-expand">+</span>
-        </div>
-        <div class="rot-step-content" id="rot-sc-rs5">
-          <p><strong>Art. 290 (crimes assimilados):</strong> formar cédula com fragmentos de cédulas verdadeiras; suprimir sinal de inutilização; restituir à circulação cédulas já recolhidas. Reclusão 2–8 anos. Qualificado (até 12 anos) se o agente é funcionário do local onde o dinheiro estava.</p>
-          <p><strong>Art. 291 (petrechos):</strong> fabricar, adquirir, fornecer (a qualquer título — oneroso ou gratuito), possuir ou guardar maquinismo destinado à falsificação de moeda. Reclusão 2–6 anos.</p>
-          <div class="rot-warn-box"><strong>Atenção — concurso real:</strong> Rogério Greco entende que os petrechos (art. 291) e a moeda falsa (art. 289) concorrem materialmente. O art. 291 é crime autônomo, não mero ato preparatório absorvível.</div>
-          <div class="rot-tag-row"><span class="rot-tag rot-t-art">Art. 290 CP</span><span class="rot-tag rot-t-art">Art. 291 CP</span><span class="rot-tag rot-t-imp">Concurso real (Greco)</span></div>
-        </div>
-      </div>
-    </div>
-  </div>
 
-  <div class="rot-unit" id="ru3">
-    <div class="rot-unit-header" onclick="rotToggleUnit('ru3')">
-      <div class="rot-unit-num">3</div>
-      <div class="rot-unit-title">Falsidade documental — material e ideológica (arts. 297–305)</div>
-      <span class="rot-unit-toggle open" id="rot-tog-ru3">▾</span>
-    </div>
-    <div class="rot-unit-body open" id="rot-body-ru3">
-      <div class="rot-step" id="rs6">
-        <div class="rot-step-head" onclick="rotExpand('rs6')">
-          <div class="rot-step-check" onclick="rotCheck(event,'rs6')"><svg viewBox="0 0 12 12" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="2,6 5,9 10,3"/></svg></div>
-          <div style="flex:1"><div class="rot-step-title">Falsificação de documento público (art. 297) — conceito de documento</div><div class="rot-step-meta">Teoria estrita × teoria ampla · equiparação a doc. público</div></div>
-          <span class="rot-step-expand">+</span>
+      <div class="fp-step" id="fps5">
+        <div class="fp-step-hd" onclick="fpExpand('fps5')">
+          <div class="fp-step-chk" onclick="fpCheck(event,'fps5')"><svg viewBox="0 0 12 12" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="2,6 5,9 10,3"/></svg></div>
+          <div style="flex:1">
+            <div class="fp-step-title">Crimes assimilados (art. 290) e petrechos (art. 291)</div>
+            <div class="fp-step-meta">Natureza autônoma dos petrechos — posição de Rogério Greco</div>
+          </div>
+          <span class="fp-step-exp">+</span>
         </div>
-        <div class="rot-step-content" id="rot-sc-rs6">
+        <div class="fp-step-body" id="fp-sc-fps5">
+          <p><strong>Art. 290 (crimes assimilados):</strong> formar cédula com fragmentos de cédulas verdadeiras; suprimir sinal de inutilização; restituir à circulação cédulas já recolhidas. Reclusão 2–8 anos. Qualificado (até 12 anos) se o agente é funcionário do local onde o dinheiro estava.</p>
+          <p><strong>Art. 291 (petrechos):</strong> fabricar, adquirir, fornecer (a qualquer título), possuir ou guardar maquinismo destinado à falsificação de moeda. Reclusão 2–6 anos.</p>
+          <div class="fp-warn-box"><strong>Concurso real (Rogério Greco):</strong> os petrechos (art. 291) e a moeda falsa (art. 289) concorrem materialmente. O art. 291 é crime autônomo, não mero ato preparatório absorvível.</div>
+        </div>
+      </div>
+
+    </div>
+  </div><!-- /fpu2 -->
+
+  <!-- Unidade 3 -->
+  <div class="fp-unit" id="fpu3">
+    <div class="fp-unit-hd" onclick="fpUnit('fpu3')">
+      <div class="fp-unit-num">3</div>
+      <div class="fp-unit-title">Falsidade documental — material e ideológica (arts. 297–305)</div>
+      <span class="fp-unit-tog aberto" id="fp-tog-fpu3">▾</span>
+    </div>
+    <div class="fp-unit-body aberto" id="fp-body-fpu3">
+
+      <div class="fp-step" id="fps6">
+        <div class="fp-step-hd" onclick="fpExpand('fps6')">
+          <div class="fp-step-chk" onclick="fpCheck(event,'fps6')"><svg viewBox="0 0 12 12" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="2,6 5,9 10,3"/></svg></div>
+          <div style="flex:1">
+            <div class="fp-step-title">Falsificação de documento público (art. 297) — conceito e equiparados</div>
+            <div class="fp-step-meta">Teoria estrita × teoria ampla · §2.º equiparação · SV 36</div>
+          </div>
+          <span class="fp-step-exp">+</span>
+        </div>
+        <div class="fp-step-body" id="fp-sc-fps6">
           <p>Falsificar no todo ou em parte, ou alterar documento público verdadeiro. Reclusão 2–6 anos + multa. Funcionário público que prevalece do cargo: +1/6.</p>
           <p><strong>Equiparados a documento público (§2.º):</strong> emanado de entidade paraestatal, título ao portador ou transmissível por endosso, ações de sociedade comercial, livros mercantis e testamento particular.</p>
-          <p><strong>Teoria do conceito de documento:</strong> teoria estrita (escrito, autor determinado, relevância jurídica) × teoria ampla (qualquer suporte material com eficácia probatória). O CP não adotou expressamente nenhuma das duas.</p>
-          <div class="rot-art-box">Art. 297 e §§ CP — Súmula Vinculante 36 STF (CIR/CHA da Marinha → J. Federal)</div>
-          <div class="rot-tag-row"><span class="rot-tag rot-t-art">Art. 297 CP</span><span class="rot-tag rot-t-stj">SV 36 STF</span></div>
+          <p><strong>Conceito de documento:</strong> teoria estrita (escrito, autor determinado, relevância jurídica) × teoria ampla (qualquer suporte material com eficácia probatória).</p>
+          <div class="fp-stj-box"><strong>SV 36 STF:</strong> CIR e CHA expedidas pela Marinha do Brasil → competência da Justiça Federal.</div>
         </div>
       </div>
-      <div class="rot-step" id="rs7">
-        <div class="rot-step-head" onclick="rotExpand('rs7')">
-          <div class="rot-step-check" onclick="rotCheck(event,'rs7')"><svg viewBox="0 0 12 12" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="2,6 5,9 10,3"/></svg></div>
-          <div style="flex:1"><div class="rot-step-title">Falsidade ideológica (art. 299) — elementos e distinção</div><div class="rot-step-meta">Elemento subjetivo especial + comparação com art. 297</div></div>
-          <span class="rot-step-expand">+</span>
+
+      <div class="fp-step" id="fps7">
+        <div class="fp-step-hd" onclick="fpExpand('fps7')">
+          <div class="fp-step-chk" onclick="fpCheck(event,'fps7')"><svg viewBox="0 0 12 12" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="2,6 5,9 10,3"/></svg></div>
+          <div style="flex:1">
+            <div class="fp-step-title">Falsidade ideológica (art. 299) — elementos e distinção</div>
+            <div class="fp-step-meta">Elemento subjetivo especial + comparação com art. 297</div>
+          </div>
+          <span class="fp-step-exp">+</span>
         </div>
-        <div class="rot-step-content" id="rot-sc-rs7">
+        <div class="fp-step-body" id="fp-sc-fps7">
           <p>Omitir, em documento público ou particular, declaração que dele devia constar, ou nele inserir ou fazer inserir declaração falsa ou diversa da que devia ser escrita, <strong>com o fim de</strong> prejudicar direito, criar obrigação ou alterar a verdade sobre fato juridicamente relevante.</p>
           <p><strong>Elemento subjetivo especial:</strong> exige a finalidade específica. Sem esse fim, a conduta pode ser atípica ou configurar outro crime.</p>
           <p><strong>Distinção essencial:</strong> nos arts. 297/298, o <em>suporte</em> é falso. No art. 299, o suporte é verdadeiro, mas o <em>conteúdo</em> é falso.</p>
-          <div class="rot-art-box">Art. 299 CP — Reclusão 1–5 anos (doc. público) ou 1–3 anos (doc. particular) + multa. Func. público + cargo ou registro civil: +1/6.</div>
-          <div class="rot-tag-row"><span class="rot-tag rot-t-art">Art. 299 CP</span><span class="rot-tag rot-t-imp">Finalidade especial</span></div>
+          <div class="fp-art-box">Art. 299 CP — Rec. 1–5 anos (doc. público) ou 1–3 anos (doc. particular) + multa. Func. público + cargo ou registro civil: +1/6.</div>
         </div>
       </div>
-      <div class="rot-step" id="rs8">
-        <div class="rot-step-head" onclick="rotExpand('rs8')">
-          <div class="rot-step-check" onclick="rotCheck(event,'rs8')"><svg viewBox="0 0 12 12" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="2,6 5,9 10,3"/></svg></div>
-          <div style="flex:1"><div class="rot-step-title">Uso de documento falso (art. 304) e o princípio do antefato impunível</div><div class="rot-step-meta">Regra da absorção + Súmula 17 STJ (exceção)</div></div>
-          <span class="rot-step-expand">+</span>
+
+      <div class="fp-step" id="fps8">
+        <div class="fp-step-hd" onclick="fpExpand('fps8')">
+          <div class="fp-step-chk" onclick="fpCheck(event,'fps8')"><svg viewBox="0 0 12 12" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="2,6 5,9 10,3"/></svg></div>
+          <div style="flex:1">
+            <div class="fp-step-title">Uso de documento falso (art. 304) e o princípio do antefato impunível</div>
+            <div class="fp-step-meta">Regra da absorção + Súmula 17 STJ (exceção)</div>
+          </div>
+          <span class="fp-step-exp">+</span>
         </div>
-        <div class="rot-step-content" id="rot-sc-rs8">
+        <div class="fp-step-body" id="fp-sc-fps8">
           <p>Fazer uso de qualquer dos papéis falsificados ou alterados a que se referem os arts. 297 a 302. Pena: as mesmas da falsificação que foi utilizada.</p>
           <p><strong>Antefato impunível (regra):</strong> se o próprio agente que falsificou o documento depois o usa, responde apenas pelo uso — o falso (crime-meio) é absorvido pelo uso (crime-fim).</p>
-          <p><strong>Exceção — Súmula 17 STJ:</strong> "Quando o falso se exaure no estelionato, sem mais potencialidade lesiva, é por este absorvido." Se, ao contrário, o documento pode ainda ser utilizado novamente, há concurso de crimes.</p>
-          <div class="rot-stj-box"><strong>STJ — Súmula 17:</strong> Quando o falso se exaure no estelionato, sem mais potencialidade lesiva, é por este absorvido.</div>
-          <div class="rot-tag-row"><span class="rot-tag rot-t-art">Art. 304 CP</span><span class="rot-tag rot-t-stj">Súm. 17 STJ</span></div>
+          <div class="fp-stj-box"><strong>STJ — Súmula 17:</strong> Quando o falso se exaure no estelionato, sem mais potencialidade lesiva, é por este absorvido. Se o documento pode ainda ser utilizado novamente, há concurso de crimes.</div>
         </div>
       </div>
-    </div>
-  </div>
 
-  <div class="rot-unit" id="ru4">
-    <div class="rot-unit-header" onclick="rotToggleUnit('ru4')">
-      <div class="rot-unit-num">4</div>
-      <div class="rot-unit-title">Papéis públicos, selos e demais falsidades (arts. 292–296 · 300–311)</div>
-      <span class="rot-unit-toggle open" id="rot-tog-ru4">▾</span>
     </div>
-    <div class="rot-unit-body open" id="rot-body-ru4">
-      <div class="rot-step" id="rs9">
-        <div class="rot-step-head" onclick="rotExpand('rs9')">
-          <div class="rot-step-check" onclick="rotCheck(event,'rs9')"><svg viewBox="0 0 12 12" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="2,6 5,9 10,3"/></svg></div>
-          <div style="flex:1"><div class="rot-step-title">Falsificação de papéis públicos (art. 293) e selos (art. 296)</div><div class="rot-step-meta">Tipos mistos alternativos · causa de aumento art. 295</div></div>
-          <span class="rot-step-expand">+</span>
-        </div>
-        <div class="rot-step-content" id="rot-sc-rs9">
-          <p><strong>Art. 293:</strong> falsificar selos tributários, papéis de crédito público, vale postal, cautela de penhor, guias de arrecadação, bilhetes de transporte público. Reclusão 2–8 anos. §1.º: tipo misto alternativo — usar, guardar, importar, etc.</p>
-          <p><strong>Art. 296:</strong> falsificar selos destinados a autenticar atos oficiais; usar sinal verdadeiro indevidamente; falsificar marcas/logotipos de órgãos públicos (§1.º, III). Reclusão 2–6 anos.</p>
-          <p><strong>Art. 295 (aumento geral):</strong> se o agente é funcionário público e comete o crime prevalecendo-se do cargo, aumenta-se a pena de sexta parte. Aplicável aos crimes dos arts. 293 e 296.</p>
-          <div class="rot-art-box">Arts. 293, 294, 295 e 296 CP</div>
-          <div class="rot-tag-row"><span class="rot-tag rot-t-art">Art. 293 CP</span><span class="rot-tag rot-t-art">Art. 295 CP</span><span class="rot-tag rot-t-art">Art. 296 CP</span></div>
-        </div>
-      </div>
-      <div class="rot-step" id="rs10">
-        <div class="rot-step-head" onclick="rotExpand('rs10')">
-          <div class="rot-step-check" onclick="rotCheck(event,'rs10')"><svg viewBox="0 0 12 12" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="2,6 5,9 10,3"/></svg></div>
-          <div style="flex:1"><div class="rot-step-title">Falsa identidade (art. 307) e supressão de documentos (art. 305)</div><div class="rot-step-meta">Caráter subsidiário · autodefesa e nemo tenetur</div></div>
-          <span class="rot-step-expand">+</span>
-        </div>
-        <div class="rot-step-content" id="rot-sc-rs10">
-          <p><strong>Art. 307 (falsa identidade):</strong> atribuir-se ou atribuir a terceiro falsa identidade para obter vantagem em proveito próprio ou alheio, ou para causar dano. Detenção 3m–1 ano. <strong>Crime subsidiário</strong>: somente se o fato não constitui elemento de crime mais grave.</p>
-          <p><strong>Autodefesa:</strong> o STF entende que o réu que usa falsa identidade para se defender em processo penal não comete o crime do art. 307, pois vigora o <em>nemo tenetur se detegere</em> (direito de não se autoincriminar).</p>
-          <p><strong>Art. 305 (supressão):</strong> destruir, suprimir ou ocultar documento público ou particular verdadeiro de que não podia dispor. Exige que o agente não tivesse direito de dispor do documento. Reclusão 2–6 anos (público) ou 1–5 anos (particular).</p>
-          <div class="rot-art-box">Arts. 305 e 307 CP</div>
-          <div class="rot-tag-row"><span class="rot-tag rot-t-art">Art. 305 CP</span><span class="rot-tag rot-t-art">Art. 307 CP</span><span class="rot-tag rot-t-imp">Nemo tenetur (STF)</span></div>
-        </div>
-      </div>
-    </div>
-  </div>
+  </div><!-- /fpu3 -->
 
-  <div class="rot-unit" id="ru5">
-    <div class="rot-unit-header" onclick="rotToggleUnit('ru5')">
-      <div class="rot-unit-num">5</div>
-      <div class="rot-unit-title">Jurisprudência estruturante e pontos de prova</div>
-      <span class="rot-unit-toggle open" id="rot-tog-ru5">▾</span>
+  <!-- Unidade 4 -->
+  <div class="fp-unit" id="fpu4">
+    <div class="fp-unit-hd" onclick="fpUnit('fpu4')">
+      <div class="fp-unit-num">4</div>
+      <div class="fp-unit-title">Papéis públicos, selos e demais falsidades (arts. 292–296 · 300–311)</div>
+      <span class="fp-unit-tog aberto" id="fp-tog-fpu4">▾</span>
     </div>
-    <div class="rot-unit-body open" id="rot-body-ru5">
-      <div class="rot-step" id="rs11">
-        <div class="rot-step-head" onclick="rotExpand('rs11')">
-          <div class="rot-step-check" onclick="rotCheck(event,'rs11')"><svg viewBox="0 0 12 12" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="2,6 5,9 10,3"/></svg></div>
-          <div style="flex:1"><div class="rot-step-title">Súmulas e teses obrigatórias — consolidação</div><div class="rot-step-meta">STJ Súm. 73 · STJ Súm. 17 · STF SV 36</div></div>
-          <span class="rot-step-expand">+</span>
+    <div class="fp-unit-body aberto" id="fp-body-fpu4">
+
+      <div class="fp-step" id="fps9">
+        <div class="fp-step-hd" onclick="fpExpand('fps9')">
+          <div class="fp-step-chk" onclick="fpCheck(event,'fps9')"><svg viewBox="0 0 12 12" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="2,6 5,9 10,3"/></svg></div>
+          <div style="flex:1">
+            <div class="fp-step-title">Falsificação de papéis públicos (art. 293) e selos (art. 296)</div>
+            <div class="fp-step-meta">Tipos mistos alternativos · causa de aumento art. 295</div>
+          </div>
+          <span class="fp-step-exp">+</span>
         </div>
-        <div class="rot-step-content" id="rot-sc-rs11">
-          <div class="rot-stj-box"><strong>STJ — Súmula 73:</strong> A utilização de papel-moeda grosseiramente falsificado configura, em tese, o crime de estelionato, de competência da Justiça Estadual.</div>
-          <div class="rot-stj-box"><strong>STJ — Súmula 17:</strong> Quando o falso se exaure no estelionato, sem mais potencialidade lesiva, é por este absorvido.</div>
-          <div class="rot-stj-box"><strong>STF — Súmula Vinculante 36:</strong> Compete à Justiça Federal processar e julgar civil denunciado pelos crimes de falsificação e uso de documento falso quando se tratar de falsificação da CIR ou CHA expedidas pela Marinha do Brasil.</div>
-          <div class="rot-warn-box"><strong>Ponto de prova recorrente:</strong> Súm. 17 STJ pede que se saiba distinguir quando o falso tem e quando não tem potencialidade lesiva residual.</div>
-          <div class="rot-tag-row"><span class="rot-tag rot-t-stj">Súm. 73 STJ</span><span class="rot-tag rot-t-stj">Súm. 17 STJ</span><span class="rot-tag rot-t-stj">SV 36 STF</span></div>
+        <div class="fp-step-body" id="fp-sc-fps9">
+          <p><strong>Art. 293:</strong> falsificar selos tributários, papéis de crédito público, vale postal, cautela de penhor, guias de arrecadação, bilhetes de transporte público. Rec. 2–8 anos. §1.º: tipo misto alternativo — usar, guardar, importar etc.</p>
+          <p><strong>Art. 296:</strong> falsificar selos destinados a autenticar atos oficiais; usar sinal verdadeiro indevidamente; falsificar marcas/logotipos de órgãos públicos (§1.º, III). Rec. 2–6 anos.</p>
+          <p><strong>Art. 295 (aumento geral):</strong> func. público que comete crimes dos arts. 293/296 prevalecendo-se do cargo: +1/6.</p>
+          <div class="fp-art-box">Arts. 293, 294, 295 e 296 CP — Competência: Justiça Federal.</div>
         </div>
       </div>
-      <div class="rot-step" id="rs12">
-        <div class="rot-step-head" onclick="rotExpand('rs12')">
-          <div class="rot-step-check" onclick="rotCheck(event,'rs12')"><svg viewBox="0 0 12 12" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="2,6 5,9 10,3"/></svg></div>
-          <div style="flex:1"><div class="rot-step-title">Competência: síntese e regra-de-ouro</div><div class="rot-step-meta">CF art. 109, IV · regras gerais e exceções</div></div>
-          <span class="rot-step-expand">+</span>
+
+      <div class="fp-step" id="fps10">
+        <div class="fp-step-hd" onclick="fpExpand('fps10')">
+          <div class="fp-step-chk" onclick="fpCheck(event,'fps10')"><svg viewBox="0 0 12 12" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="2,6 5,9 10,3"/></svg></div>
+          <div style="flex:1">
+            <div class="fp-step-title">Falsa identidade (art. 307) e supressão de documentos (art. 305)</div>
+            <div class="fp-step-meta">Caráter subsidiário · autodefesa e nemo tenetur</div>
+          </div>
+          <span class="fp-step-exp">+</span>
         </div>
-        <div class="rot-step-content" id="rot-sc-rs12">
+        <div class="fp-step-body" id="fp-sc-fps10">
+          <p><strong>Art. 307 (falsa identidade):</strong> atribuir-se ou atribuir a terceiro falsa identidade para obter vantagem ou causar dano. Det. 3m–1 ano. <strong>Crime subsidiário</strong>: somente se o fato não constitui elemento de crime mais grave.</p>
+          <p><strong>Autodefesa:</strong> o STF entende que o réu que usa falsa identidade para se defender em processo penal não comete o crime do art. 307, pois vigora o <em>nemo tenetur se detegere</em>.</p>
+          <p><strong>Art. 305 (supressão):</strong> destruir, suprimir ou ocultar doc. público ou particular verdadeiro de que não podia dispor. Rec. 2–6a (público) / 1–5a (particular).</p>
+          <div class="fp-art-box">Arts. 305 e 307 CP</div>
+        </div>
+      </div>
+
+    </div>
+  </div><!-- /fpu4 -->
+
+  <!-- Unidade 5 -->
+  <div class="fp-unit" id="fpu5">
+    <div class="fp-unit-hd" onclick="fpUnit('fpu5')">
+      <div class="fp-unit-num">5</div>
+      <div class="fp-unit-title">Jurisprudência estruturante e pontos de prova</div>
+      <span class="fp-unit-tog aberto" id="fp-tog-fpu5">▾</span>
+    </div>
+    <div class="fp-unit-body aberto" id="fp-body-fpu5">
+
+      <div class="fp-step" id="fps11">
+        <div class="fp-step-hd" onclick="fpExpand('fps11')">
+          <div class="fp-step-chk" onclick="fpCheck(event,'fps11')"><svg viewBox="0 0 12 12" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="2,6 5,9 10,3"/></svg></div>
+          <div style="flex:1">
+            <div class="fp-step-title">Súmulas e teses obrigatórias — consolidação</div>
+            <div class="fp-step-meta">STJ Súm. 73 · STJ Súm. 17 · STF SV 36</div>
+          </div>
+          <span class="fp-step-exp">+</span>
+        </div>
+        <div class="fp-step-body" id="fp-sc-fps11">
+          <div class="fp-stj-box"><strong>STJ — Súmula 73:</strong> A utilização de papel-moeda grosseiramente falsificado configura, em tese, o crime de estelionato, de competência da Justiça Estadual.</div>
+          <div class="fp-stj-box"><strong>STJ — Súmula 17:</strong> Quando o falso se exaure no estelionato, sem mais potencialidade lesiva, é por este absorvido.</div>
+          <div class="fp-stj-box"><strong>STF — Súmula Vinculante 36:</strong> Compete à Justiça Federal processar e julgar civil denunciado pelos crimes de falsificação e uso de documento falso quando se tratar de falsificação da CIR ou CHA expedidas pela Marinha do Brasil.</div>
+          <div class="fp-warn-box"><strong>Ponto de prova recorrente:</strong> Súm. 17 STJ pede que se saiba distinguir quando o falso tem e quando não tem potencialidade lesiva residual.</div>
+        </div>
+      </div>
+
+      <div class="fp-step" id="fps12">
+        <div class="fp-step-hd" onclick="fpExpand('fps12')">
+          <div class="fp-step-chk" onclick="fpCheck(event,'fps12')"><svg viewBox="0 0 12 12" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="2,6 5,9 10,3"/></svg></div>
+          <div style="flex:1">
+            <div class="fp-step-title">Competência: síntese e regra-de-ouro</div>
+            <div class="fp-step-meta">CF art. 109, IV · regras gerais e exceções</div>
+          </div>
+          <span class="fp-step-exp">+</span>
+        </div>
+        <div class="fp-step-body" id="fp-sc-fps12">
           <p><strong>Regra geral:</strong> Justiça Federal quando o crime ofende bens, serviços ou interesses da União, suas autarquias ou empresas públicas (CF, art. 109, IV). Ex.: moeda falsa, selos tributários federais, documentos federais.</p>
           <p><strong>Exceções:</strong></p>
           <ul>
@@ -920,181 +997,162 @@
             <li>Documento particular sem interesse federal → <strong>Justiça Estadual</strong></li>
             <li>CIR/CHA da Marinha → <strong>Justiça Federal</strong> (SV 36 STF)</li>
           </ul>
-          <div class="rot-art-box">CF, art. 109, IV · CP, arts. 289–311</div>
-          <div class="rot-tag-row"><span class="rot-tag rot-t-art">CF, art. 109, IV</span><span class="rot-tag rot-t-stj">Súm. 73 STJ</span><span class="rot-tag rot-t-stj">SV 36 STF</span></div>
+          <div class="fp-art-box">CF, art. 109, IV · CP, arts. 289–311</div>
         </div>
       </div>
+
+    </div>
+  </div><!-- /fpu5 -->
+
+</div><!-- /fp-p-roteiro -->
+
+<!-- ═══════════════════ PAINEL 4: ESTUDO DE CASO ═════════ -->
+<div id="fp-p-caso" class="fp-painel">
+
+  <div class="fp-ec-header">
+    <div class="fp-ec-op">Operação Papel Velho</div>
+    <h3>O caso Márcio, Renata e o tabelião corrupto</h3>
+    <p>Estudo de caso fictício para análise dos crimes contra a fé pública (CP, Título X). Os personagens e fatos são inteiramente fictícios.</p>
+    <div class="fp-ec-meta">
+      <span class="fp-ec-tag">CP, arts. 289, 291, 299, 300, 304</span>
+      <span class="fp-ec-tag">Súmulas 17 e 73 — STJ</span>
+      <span class="fp-ec-tag">Competência JF × JE</span>
+      <span class="fp-ec-tag">Antefato impunível</span>
     </div>
   </div>
 
-</div>
-
-<!-- TAB: ESTUDO DE CASO -->
-<div id="tab-caso" class="tab-content">
-
-  <div class="ec-case-header">
-    <div class="ec-op-label">Operação Papel Velho</div>
-    <h2>O caso Márcio, Renata e o tabelião corrupto</h2>
-    <p style="font-size:13.5px;opacity:.88;line-height:1.6;">Estudo de caso fictício para análise dos crimes contra a fé pública (CP, Título X). Os personagens e fatos são inteiramente fictícios.</p>
-    <div class="ec-case-meta">
-      <span class="ec-meta-tag">CP, arts. 289, 291, 297, 299, 300, 304</span>
-      <span class="ec-meta-tag">Súmulas 17 e 73 – STJ</span>
-      <span class="ec-meta-tag">Competência J. Federal × Estadual</span>
-      <span class="ec-meta-tag">Antefato impunível</span>
-      <span class="ec-meta-tag">Pós-graduação · Direito Penal IV</span>
-    </div>
+  <div class="fp-sec" style="margin-top:0">Narrativa dos fatos</div>
+  <div class="fp-narrative">
+    <p><strong>Márcio Henrique Soares</strong>, técnico em eletrônica, adquiriu por R$ 3.000,00, de um fornecedor desconhecido, um equipamento de impressão especialmente destinado à reprodução de cédulas. Usando o equipamento, fabricou diversas cédulas de R$ 100,00 com aparência bastante próxima das originais — a ponto de iludir comerciantes comuns. Márcio então guardou parte das cédulas e passou a introduzi-las na circulação em feiras e pequenos mercados.</p>
+    <p>Sua companheira, <strong>Renata Figueiredo</strong>, ciente da atividade, adquiriu de Márcio um lote de 30 cédulas falsas por R$ 1.500,00, com a intenção de utilizá-las em compras. Após usar 10 cédulas sem qualquer suspeita dos vendedores, Renata foi presa em flagrante ao tentar pagar com uma das cédulas em um supermercado.</p>
+    <p>Em paralelo, Márcio precisava de um documento que atestasse a propriedade de um imóvel para apresentar ao banco como garantia de empréstimo. Procurou o <strong>tabelião Antônio Brás</strong>, servidor público efetivo do Cartório do 3.º Ofício de Notas. Mediante R$ 8.000,00, Antônio Brás reconheceu como verdadeira a assinatura de um contrato particular no qual constava, falsamente, que Márcio era proprietário de um imóvel avaliado em R$ 500.000,00. Com esse documento, Márcio obteve empréstimo de R$ 150.000,00 do banco.</p>
+    <p>Descoberta a fraude, o MPF e o MP Estadual iniciaram investigações separadas, gerando conflito de atribuição.</p>
   </div>
 
-  <div class="ec-sec">
-    <div class="ec-sec-title">Narrativa dos fatos <span class="ec-badge">LEIA ATENTAMENTE</span></div>
-    <div class="ec-narrative">
-      <p><strong>Márcio Henrique Soares</strong>, técnico em eletrônica, adquiriu por R$ 3.000,00, de um fornecedor desconhecido, um equipamento de impressão especialmente destinado à reprodução de cédulas. Usando o equipamento, fabricou diversas cédulas de R$ 100,00 com aparência bastante próxima das originais — a ponto de iludir comerciantes comuns. Márcio então guardou parte das cédulas e passou a introduzi-las na circulação em feiras e pequenos mercados.</p>
-      <p>Sua companheira, <strong>Renata Figueiredo</strong>, ciente da atividade, adquiriu de Márcio um lote de 30 cédulas falsas por R$ 1.500,00, com a intenção de utilizá-las em compras. Após usar 10 cédulas sem qualquer suspeita dos vendedores, Renata foi presa em flagrante ao tentar pagar com uma das cédulas em um supermercado.</p>
-      <p>Em paralelo, <strong>Márcio</strong> precisava de um documento que atestasse a propriedade de um imóvel para apresentar ao banco como garantia de um empréstimo. Procurou o <strong>tabelião Antônio Brás</strong>, servidor público efetivo do Cartório do 3.º Ofício de Notas. Mediante o pagamento de R$ 8.000,00, Antônio Brás reconheceu como verdadeira a assinatura de um contrato particular no qual constava, falsamente, que Márcio era proprietário de um imóvel avaliado em R$ 500.000,00 — imóvel este que não era de Márcio. Com esse documento reconhecido, Márcio obteve um empréstimo de R$ 150.000,00 do banco.</p>
-      <p>Descoberta a fraude, o Ministério Público Federal e o Ministério Público Estadual iniciaram investigações separadas, gerando conflito de atribuição sobre quem deveria conduzir cada apuração.</p>
-    </div>
+  <div class="fp-sec">Documentos simulados</div>
+  <div class="fp-doc-sim">
+    <div class="fp-doc-title">Auto de Prisão em Flagrante — Renata Figueiredo</div>
+    <table>
+      <tr><td>Data/Hora:</td><td>15/03/2024 – 14h32</td></tr>
+      <tr><td>Flagranteada:</td><td>Renata Figueiredo dos Santos, 31 anos</td></tr>
+      <tr><td>Fato:</td><td>Tentou pagar compras com cédula de R$ 100,00 apontada como falsa pelo caixa do supermercado.</td></tr>
+      <tr><td>Conduta atribuída:</td><td>Art. 289, §1.º, CP (introduzir na circulação moeda falsa)</td></tr>
+      <tr><td>Perícia:</td><td>Falsificação NÃO grosseira — reproduz fielmente marcas de segurança visíveis a olho nu.</td></tr>
+    </table>
+  </div>
+  <div class="fp-doc-sim">
+    <div class="fp-doc-title">Contrato Particular — com reconhecimento de firma</div>
+    <table>
+      <tr><td>Partes:</td><td>"José Meireles da Silva" (falso vendedor) × Márcio Henrique Soares</td></tr>
+      <tr><td>Objeto:</td><td>Imóvel na Rua das Paineiras, 450 — avaliado em R$ 500.000,00</td></tr>
+      <tr><td>Reconhecimento:</td><td>3.º Ofício de Notas — Tabelião Antônio Brás — reconhece como VERDADEIRA assinatura que era FALSA</td></tr>
+      <tr><td>Efeito:</td><td>Usado como garantia para empréstimo de R$ 150.000,00</td></tr>
+    </table>
   </div>
 
-  <div class="ec-sec">
-    <div class="ec-sec-title">Documentos simulados</div>
-    <div class="ec-doc-sim">
-      <div class="ec-doc-title">Auto de Prisão em Flagrante — Renata Figueiredo</div>
-      <table>
-        <tr><td>Data/Hora:</td><td>15/03/2024 – 14h32</td></tr>
-        <tr><td>Autoridade:</td><td>Delegado de Polícia Civil – 2.ª DP</td></tr>
-        <tr><td>Flagranteada:</td><td>Renata Figueiredo dos Santos, 31 anos</td></tr>
-        <tr><td>Fato:</td><td>Ao tentar pagar compras com cédula de R$ 100,00 apontada como falsa pelo caixa do supermercado.</td></tr>
-        <tr><td>Apreensões:</td><td>20 cédulas de R$ 100,00 com aparência de autenticidade.</td></tr>
-        <tr><td>Conduta atribuída:</td><td>Art. 289, §1.º, CP (introduzir na circulação moeda falsa)</td></tr>
-      </table>
+  <div class="fp-sec">Perguntas para análise</div>
+  <div class="fp-q-list">
+
+    <div class="fp-q-item" id="fpq1">
+      <div class="fp-q-hd" onclick="fpQtog('fpq1')">
+        <div class="fp-q-num">1</div>
+        <div style="flex:1">
+          <div class="fp-q-text">Identifique e tipifique as condutas de Márcio relacionadas ao equipamento e às cédulas fabricadas.</div>
+          <div class="fp-q-meta"><span class="fp-bloom fp-bl1">Aplicar</span> Arts. 289 e 291 CP · concurso de crimes</div>
+        </div>
+        <span class="fp-q-arr" id="fp-arr-fpq1">▾</span>
+      </div>
+      <div class="fp-q-body" id="fp-qb-fpq1">
+        <p>Analise separadamente: (a) a aquisição do equipamento; (b) a fabricação das cédulas; (c) a guarda das cédulas; (d) a introdução na circulação. Há concurso de crimes ou princípio do antefato impunível?</p>
+        <div class="fp-ec-art-ref">Art. 291 CP (petrechos para falsificação de moeda) · Art. 289, caput e §1.º, CP</div>
+        <button class="fp-show-btn" onclick="fpShowAns('fpans1')">Revelar gabarito comentado</button>
+        <div class="fp-answer" id="fpans1">
+          <strong>Resposta:</strong> Márcio pratica: (1) Art. 291: adquiriu e guardou maquinismo destinado à falsificação de moeda — crime autônomo, não mero ato preparatório; (2) Art. 289, caput: fabricou moeda falsa; (3) Art. 289, §1.º: guardou e introduziu na circulação. Há <strong>concurso real</strong> entre o art. 291 e o art. 289, segundo Rogério Greco — os petrechos não são absorvidos pelo crime-fim. Quanto ao art. 289, a fabricação, guarda e circulação no mesmo contexto configuram crime único (tipo misto alternativo quanto às condutas subsequentes). Competência: Justiça Federal.
+        </div>
+      </div>
     </div>
-    <div class="ec-doc-sim">
-      <div class="ec-doc-title">Relatório de Perícia Criminal — Cédulas apreendidas</div>
-      <table>
-        <tr><td>Órgão:</td><td>Instituto de Criminalística — Polícia Federal</td></tr>
-        <tr><td>Objeto:</td><td>20 cédulas de R$ 100,00 (nº da nota: série HC)</td></tr>
-        <tr><td>Conclusão:</td><td>As cédulas analisadas são FALSAS, produto de impressão por equipamento profissional. Apresentam qualidade suficiente para iludir pessoa comum não especializada.</td></tr>
-        <tr><td>Observação:</td><td>A falsificação NÃO é grosseira. Reproduz fielmente marcas de segurança visíveis a olho nu.</td></tr>
-      </table>
+
+    <div class="fp-q-item" id="fpq2">
+      <div class="fp-q-hd" onclick="fpQtog('fpq2')">
+        <div class="fp-q-num">2</div>
+        <div style="flex:1">
+          <div class="fp-q-text">Qual é a responsabilidade penal de Renata? A circunstância de ela ter comprado as cédulas de Márcio interfere na tipificação?</div>
+          <div class="fp-q-meta"><span class="fp-bloom fp-bl2">Analisar</span> Art. 289, §1.º CP · tipo misto alternativo · dolo</div>
+        </div>
+        <span class="fp-q-arr" id="fp-arr-fpq2">▾</span>
+      </div>
+      <div class="fp-q-body" id="fp-qb-fpq2">
+        <p>Renata adquiriu, guardou e introduziu na circulação moeda falsa — três condutas do §1.º. Analise se o fato de ela ter pago pelas cédulas interfere na tipificação e se a Súmula 73 STJ poderia ser aplicada.</p>
+        <div class="fp-ec-art-ref">Art. 289, §1.º CP — tipo misto alternativo: basta uma das condutas previstas</div>
+        <button class="fp-show-btn" onclick="fpShowAns('fpans2')">Revelar gabarito comentado</button>
+        <div class="fp-answer" id="fpans2">
+          <strong>Resposta:</strong> Renata responde pelo art. 289, §1.º (circulação de moeda falsa) por ter adquirido, guardado e introduzido na circulação. Tipo misto alternativo: praticou várias condutas, mas há um único crime. O fato de ter pago pelas cédulas não configura a modalidade privilegiada (§2.º), pois este parágrafo exige boa-fé no recebimento — Renata sabia que eram falsas. A perícia atestou que a falsificação não era grosseira, afastando a Súmula 73 STJ. Competência: Justiça Federal.
+        </div>
+      </div>
     </div>
-    <div class="ec-doc-sim">
-      <div class="ec-doc-title">Contrato Particular de Compra e Venda — com reconhecimento de firma</div>
-      <table>
-        <tr><td>Data:</td><td>10/01/2024</td></tr>
-        <tr><td>Partes:</td><td>Suposto vendedor: "José Meireles da Silva" (falso); Comprador: Márcio Henrique Soares</td></tr>
-        <tr><td>Objeto:</td><td>Imóvel na Rua das Paineiras, 450 — avaliado por R$ 500.000,00</td></tr>
-        <tr><td>Reconhecimento:</td><td>3.º Ofício de Notas — Tabelião Antônio Brás — reconhece como VERDADEIRA a assinatura do vendedor (que, na realidade, é falsa)</td></tr>
-        <tr><td>Efeito:</td><td>Usado como garantia para empréstimo bancário de R$ 150.000,00</td></tr>
-      </table>
+
+    <div class="fp-q-item" id="fpq3">
+      <div class="fp-q-hd" onclick="fpQtog('fpq3')">
+        <div class="fp-q-num">3</div>
+        <div style="flex:1">
+          <div class="fp-q-text">Qual crime praticou Antônio Brás? E Márcio ao apresentar o documento ao banco — o falso é absorvido pelo estelionato?</div>
+          <div class="fp-q-meta"><span class="fp-bloom fp-bl2">Analisar</span> Arts. 300 e 304 CP · antefato impunível · Súm. 17 STJ</div>
+        </div>
+        <span class="fp-q-arr" id="fp-arr-fpq3">▾</span>
+      </div>
+      <div class="fp-q-body" id="fp-qb-fpq3">
+        <p>Analise: (a) o crime de Antônio Brás; (b) o crime de Márcio ao usar o documento; (c) se há absorção do falso pelo estelionato.</p>
+        <div class="fp-ec-art-ref">Art. 300 CP (falso reconhecimento de firma) · Art. 304 CP (uso de doc. falso) · Art. 171 CP (estelionato)</div>
+        <div class="fp-ec-stj-ref"><strong>STJ — Súmula 17:</strong> Quando o falso se exaure no estelionato, sem mais potencialidade lesiva, é por este absorvido.</div>
+        <button class="fp-show-btn" onclick="fpShowAns('fpans3')">Revelar gabarito comentado</button>
+        <div class="fp-answer" id="fpans3">
+          <strong>Resposta:</strong> (a) Antônio Brás pratica o art. 300 CP (falso reconhecimento de firma), crime próprio de tabelião, em concurso com corrupção passiva (art. 317, recebeu R$ 8.000,00). (b) Márcio pratica uso de documento falso (art. 304) em concurso com estelionato (art. 171) pelo empréstimo obtido com fraude. (c) Aplicação da Súmula 17 STJ: o documento foi usado uma única vez para o estelionato e, após obtido o empréstimo, não tem mais utilidade — exauriu-se no estelionato. O uso do documento falso é absorvido pelo estelionato. Competência do estelionato: Justiça Estadual (banco privado, sem interesse federal direto).
+        </div>
+      </div>
     </div>
-  </div>
 
-  <div class="ec-sec">
-    <div class="ec-sec-title">Perguntas para análise</div>
-    <div class="ec-q-list">
-
-      <div class="ec-q-item" id="ecq1">
-        <div class="ec-q-head" onclick="ecTog('ecq1')">
-          <div class="ec-q-num">1</div>
-          <div style="flex:1">
-            <div class="ec-q-text">Identifique e tipifique as condutas de Márcio relacionadas ao equipamento de impressão e às cédulas fabricadas.</div>
-            <div class="ec-q-bloom"><span class="ec-bl ec-bl-1">Aplicar</span> Arts. 289 e 291 CP · concurso de crimes</div>
-          </div>
-          <span class="ec-q-arrow" id="ec-arr-ecq1">▾</span>
+    <div class="fp-q-item" id="fpq4">
+      <div class="fp-q-hd" onclick="fpQtog('fpq4')">
+        <div class="fp-q-num">4</div>
+        <div style="flex:1">
+          <div class="fp-q-text">Como você resolveria o conflito de competência entre MPF e MP Estadual para cada conduta identificada?</div>
+          <div class="fp-q-meta"><span class="fp-bloom fp-bl3">Avaliar</span> CF art. 109 · Súm. 73 STJ · competência JF × JE</div>
         </div>
-        <div class="ec-q-body" id="ec-qb-ecq1">
-          <p>Analise separadamente: (a) a aquisição do equipamento; (b) a fabricação das cédulas; (c) a guarda das cédulas; (d) a introdução na circulação. Há concurso de crimes ou princípio do antefato impunível?</p>
-          <div class="ec-art-ref">Art. 291 CP (petrechos para falsificação de moeda) · Art. 289, caput e §1.º, CP (fabricação e introdução na circulação)</div>
-          <button class="ec-q-show-btn" onclick="ecShowAns('eca1')">Revelar gabarito comentado</button>
-          <div class="ec-answer" id="eca1">
-            <strong>Resposta:</strong> Márcio pratica: (1) Art. 291: adquiriu (e depois guardou) maquinismo especialmente destinado à falsificação de moeda — crime autônomo, não mero ato preparatório; (2) Art. 289, caput: fabricou moeda falsa; (3) Art. 289, §1.º: guardou e introduziu na circulação. Há concurso real entre o art. 291 e o art. 289, segundo Rogério Greco — os petrechos não são absorvidos pelo crime-fim. Quanto ao art. 289, a fabricação, a guarda e a circulação no mesmo contexto configuram crime único (tipo misto alternativo quanto às condutas subsequentes à fabricação). Competência: Justiça Federal.
-          </div>
+        <span class="fp-q-arr" id="fp-arr-fpq4">▾</span>
+      </div>
+      <div class="fp-q-body" id="fp-qb-fpq4">
+        <p>Separe cada conduta e aponte a competência: moeda falsa (Márcio e Renata); falso reconhecimento de firma (Antônio Brás); uso de doc. falso + estelionato (Márcio contra o banco).</p>
+        <div class="fp-ec-art-ref">CF, art. 109, IV · Súmula 73 STJ · Súmula 17 STJ</div>
+        <button class="fp-show-btn" onclick="fpShowAns('fpans4')">Revelar gabarito comentado</button>
+        <div class="fp-answer" id="fpans4">
+          <strong>Resposta:</strong> (1) Moeda falsa — Márcio e Renata: <strong>Justiça Federal</strong> (CF, art. 109, IV). Falsificação crível, afastando a Súm. 73 STJ. Investigação: Polícia Federal. (2) Antônio Brás — falso reconhecimento de firma e corrupção passiva em cartório estadual: competência da <strong>Justiça Estadual</strong>, salvo se demonstrado interesse federal direto. (3) Márcio — estelionato contra banco privado: <strong>Justiça Estadual</strong>, pois a vítima é entidade privada sem interesse federal. O falso foi absorvido pelo estelionato (Súm. 17 STJ). Solução: MPF conduz moeda falsa; MP Estadual conduz estelionato e falso reconhecimento.
         </div>
       </div>
-
-      <div class="ec-q-item" id="ecq2">
-        <div class="ec-q-head" onclick="ecTog('ecq2')">
-          <div class="ec-q-num">2</div>
-          <div style="flex:1">
-            <div class="ec-q-text">Qual é a responsabilidade penal de Renata? A circunstância de ela ter comprado as cédulas de Márcio interfere na tipificação?</div>
-            <div class="ec-q-bloom"><span class="ec-bl ec-bl-2">Analisar</span> Art. 289, §1.º CP · tipo misto alternativo · dolo</div>
-          </div>
-          <span class="ec-q-arrow" id="ec-arr-ecq2">▾</span>
-        </div>
-        <div class="ec-q-body" id="ec-qb-ecq2">
-          <p>Renata adquiriu, guardou e introduziu na circulação moeda falsa — três condutas previstas no §1.º do art. 289. Analise se o fato de ela ter pago por elas interfere na tipificação e se a crise de ser flagrada com as cédulas modifica o delito.</p>
-          <div class="ec-art-ref">Art. 289, §1.º CP — tipo misto alternativo: basta uma das condutas previstas</div>
-          <button class="ec-q-show-btn" onclick="ecShowAns('eca2')">Revelar gabarito comentado</button>
-          <div class="ec-answer" id="eca2">
-            <strong>Resposta:</strong> Renata responde pelo art. 289, §1.º (circulação de moeda falsa) por ter adquirido, guardado e introduzido na circulação. Trata-se de tipo misto alternativo: praticou várias condutas previstas, mas há um único crime. O fato de ter pago pelas cédulas não configura privilegiado (§2.º), pois esse parágrafo exige boa-fé no recebimento — Renata sabia que eram falsas. O flagrante durante a introdução na circulação (crime consumado = introduzir) não modifica a tipificação, mas fixa a competência na Justiça Federal. A perícia atestou que não houve falsificação grosseira, afastando a incidência da Súmula 73 STJ.
-          </div>
-        </div>
-      </div>
-
-      <div class="ec-q-item" id="ecq3">
-        <div class="ec-q-head" onclick="ecTog('ecq3')">
-          <div class="ec-q-num">3</div>
-          <div style="flex:1">
-            <div class="ec-q-text">Qual crime praticou Márcio ao apresentar o documento com reconhecimento de firma para obter o empréstimo? E o tabelião Antônio Brás?</div>
-            <div class="ec-q-bloom"><span class="ec-bl ec-bl-2">Analisar</span> Arts. 299, 300 e 304 CP · antefato impunível · Súm. 17 STJ</div>
-          </div>
-          <span class="ec-q-arrow" id="ec-arr-ecq3">▾</span>
-        </div>
-        <div class="ec-q-body" id="ec-qb-ecq3">
-          <p>O contrato particular tinha assinatura falsa. Antônio Brás reconheceu como verdadeira firma que sabia ser falsa. Márcio usou esse documento para obter empréstimo. Analise: (a) o crime de Antônio Brás; (b) o crime de Márcio ao usar o documento; (c) se há absorção do falso pelo estelionato (Súm. 17 STJ).</p>
-          <div class="ec-art-ref">Art. 300 CP (falso reconhecimento de firma por funcionário público) · Art. 304 CP (uso de doc. falso) · Art. 171 CP (estelionato)</div>
-          <div class="ec-stj-ref"><strong>STJ — Súmula 17:</strong> Quando o falso se exaure no estelionato, sem mais potencialidade lesiva, é por este absorvido.</div>
-          <button class="ec-q-show-btn" onclick="ecShowAns('eca3')">Revelar gabarito comentado</button>
-          <div class="ec-answer" id="eca3">
-            <strong>Resposta:</strong> (a) Antônio Brás pratica o crime do art. 300 CP (falso reconhecimento de firma ou letra), crime próprio de tabelião/escrivão, pois reconheceu como verdadeira firma falsa — em concurso com corrupção passiva (art. 317), já que recebeu R$ 8.000,00. (b) Márcio pratica uso de documento falso (art. 304) ao apresentar o contrato ao banco, em concurso com estelionato (art. 171) pelo empréstimo obtido com fraude. (c) Aplicação da Súmula 17 STJ: o documento falso foi usado uma única vez para o estelionato e, após obtido o empréstimo, não tem mais utilidade — exauriu-se no estelionato. Assim, o uso do documento falso é absorvido pelo estelionato. Competência do estelionato: Justiça Estadual (vítima = banco privado, sem interesse federal direto).
-          </div>
-        </div>
-      </div>
-
-      <div class="ec-q-item" id="ecq4">
-        <div class="ec-q-head" onclick="ecTog('ecq4')">
-          <div class="ec-q-num">4</div>
-          <div style="flex:1">
-            <div class="ec-q-text">O MPF e o MP Estadual disputam a atribuição. Como você resolveria o conflito de competência para cada conduta identificada?</div>
-            <div class="ec-q-bloom"><span class="ec-bl ec-bl-3">Avaliar</span> CF art. 109 · Súm. 73 STJ · competência federal × estadual</div>
-          </div>
-          <span class="ec-q-arrow" id="ec-arr-ecq4">▾</span>
-        </div>
-        <div class="ec-q-body" id="ec-qb-ecq4">
-          <p>Separe cada conduta e aponte a competência: fabricação e circulação de moeda falsa (Márcio); aquisição e circulação de moeda falsa (Renata); falso reconhecimento de firma (Antônio Brás); uso de documento falso + estelionato (Márcio contra o banco).</p>
-          <div class="ec-art-ref">CF, art. 109, IV · Súmula 73 STJ · Súmula 17 STJ</div>
-          <button class="ec-q-show-btn" onclick="ecShowAns('eca4')">Revelar gabarito comentado</button>
-          <div class="ec-answer" id="eca4">
-            <strong>Resposta:</strong> (1) Moeda falsa — Márcio e Renata: Justiça Federal (CF, art. 109, IV). A falsificação é crível, afastando a Súmula 73 STJ. Investigação: Polícia Federal. (2) Antônio Brás — falso reconhecimento de firma e corrupção passiva: o cartório é estadual, vítima = fé pública em ato de cartório estadual; competência da Justiça Estadual, salvo se o interesse federal for demonstrado. (3) Márcio — estelionato contra banco privado: Justiça Estadual, pois o banco é entidade privada sem interesse federal. O falso foi absorvido pelo estelionato (Súm. 17 STJ). Solução: processos conexos para o MPF (moeda falsa) e o MPSP/MPMG (estelionato + falso reconhecimento).
-          </div>
-        </div>
-      </div>
-
-      <div class="ec-q-item" id="ecq5">
-        <div class="ec-q-head" onclick="ecTog('ecq5')">
-          <div class="ec-q-num">5</div>
-          <div style="flex:1">
-            <div class="ec-q-text">Como advogado de Renata, qual seria a principal tese de defesa? Qual seria a estratégia do MP para rebatê-la?</div>
-            <div class="ec-q-bloom"><span class="ec-bl ec-bl-4">Criar</span> Estratégia forense · elemento subjetivo · boa-fé</div>
-          </div>
-          <span class="ec-q-arrow" id="ec-arr-ecq5">▾</span>
-        </div>
-        <div class="ec-q-body" id="ec-qb-ecq5">
-          <p>Reflita sobre: (a) a possível tese de ausência de dolo ou de que Renata teria recebido as cédulas de boa-fé; (b) a aplicabilidade do §2.º do art. 289; (c) os limites probatórios dessa tese diante do inquérito.</p>
-          <button class="ec-q-show-btn" onclick="ecShowAns('eca5')">Revelar resposta sugerida</button>
-          <div class="ec-answer" id="eca5">
-            <strong>Estratégia da defesa:</strong> A principal tese é a incidência do §2.º do art. 289 CP (modalidade privilegiada): Renata teria recebido as cédulas de boa-fé, ignorando que eram falsas, e só depois de conhecer a falsidade tentou colocá-las em circulação. Para sustentar essa tese, a defesa precisaria demonstrar ausência de prova de que Renata sabia da falsidade ao adquirir; o preço pago (R$ 1.500 por 30 cédulas de R$ 100 = desconto de 50%, o que, por si só, é indício de ciência da falsidade). <br><br><strong>Estratégia do MP:</strong> rebater a boa-fé apresentando: (1) o preço pago (indício de ciência); (2) o relacionamento com Márcio, que fabricava as cédulas; (3) a quantidade (30 cédulas) incompatível com uso casual; (4) ausência de qualquer sinal de surpresa ou denúncia após suposta descoberta.
-          </div>
-        </div>
-      </div>
-
     </div>
-  </div>
 
-  <div class="ec-sec">
-    <div class="ec-sec-title">Síntese — quadro dos crimes identificados</div>
-    <div style="overflow-x:auto;border-radius:10px;">
-    <table class="ec-summary-table">
+    <div class="fp-q-item" id="fpq5">
+      <div class="fp-q-hd" onclick="fpQtog('fpq5')">
+        <div class="fp-q-num">5</div>
+        <div style="flex:1">
+          <div class="fp-q-text">Como advogado de Renata, qual seria a principal tese de defesa? Qual seria a estratégia do MP para rebatê-la?</div>
+          <div class="fp-q-meta"><span class="fp-bloom fp-bl4">Criar</span> Estratégia forense · elemento subjetivo · boa-fé</div>
+        </div>
+        <span class="fp-q-arr" id="fp-arr-fpq5">▾</span>
+      </div>
+      <div class="fp-q-body" id="fp-qb-fpq5">
+        <p>Reflita sobre: (a) a possível tese de ausência de dolo ou boa-fé no recebimento; (b) a aplicabilidade do §2.º do art. 289; (c) os limites probatórios dessa tese diante do inquérito.</p>
+        <button class="fp-show-btn" onclick="fpShowAns('fpans5')">Revelar resposta sugerida</button>
+        <div class="fp-answer" id="fpans5">
+          <strong>Estratégia da defesa:</strong> principal tese é a incidência do §2.º do art. 289 CP (modalidade privilegiada): Renata teria recebido as cédulas de boa-fé e só depois de conhecer a falsidade tentou colocá-las em circulação. A defesa precisaria demonstrar ausência de prova de que Renata sabia da falsidade ao adquirir. <br><br><strong>Estratégia do MP:</strong> rebater a boa-fé com: (1) o preço pago — R$ 1.500 por 30 cédulas de R$ 100 (desconto de 50% = indício de ciência); (2) o relacionamento com Márcio, que fabricava as cédulas; (3) a quantidade (30 cédulas) incompatível com uso casual; (4) ausência de qualquer sinal de surpresa ou denúncia após suposta descoberta.
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /fp-q-list -->
+
+  <div class="fp-sec">Síntese — quadro dos crimes identificados</div>
+  <div style="overflow-x:auto;border-radius:8px;">
+    <table class="fp-summary-tbl">
       <thead>
         <tr>
           <th>Agente</th>
@@ -1105,78 +1163,139 @@
         </tr>
       </thead>
       <tbody>
-        <tr><td>Márcio</td><td>Adquiriu petrechos de falsificação</td><td>Art. 291 CP</td><td>Rec. 2–6 anos</td><td>Justiça Federal</td></tr>
-        <tr><td>Márcio</td><td>Fabricou, guardou e introduziu moeda falsa</td><td>Art. 289, caput e §1.º, CP</td><td>Rec. 3–12 anos</td><td>Justiça Federal</td></tr>
-        <tr><td>Renata</td><td>Adquiriu, guardou e introduziu moeda falsa</td><td>Art. 289, §1.º, CP</td><td>Rec. 3–12 anos</td><td>Justiça Federal</td></tr>
-        <tr><td>Antônio Brás</td><td>Reconheceu como verdadeira firma que sabia ser falsa + recebeu vantagem indevida</td><td>Arts. 300 + 317 CP</td><td>Rec. 1–5 anos + rec. 2–12 anos</td><td>Justiça Estadual</td></tr>
-        <tr><td>Márcio</td><td>Usou doc. falso para obter empréstimo (absorvido pelo estelionato — Súm. 17 STJ)</td><td>Art. 171 CP (absorve art. 304)</td><td>Rec. 1–5 anos</td><td>Justiça Estadual</td></tr>
+        <tr>
+          <td>Márcio</td>
+          <td>Adquiriu petrechos de falsificação</td>
+          <td>Art. 291 CP</td>
+          <td>Rec. 2–6 anos</td>
+          <td>Justiça Federal</td>
+        </tr>
+        <tr>
+          <td>Márcio</td>
+          <td>Fabricou, guardou e introduziu moeda falsa</td>
+          <td>Art. 289, caput e §1.º</td>
+          <td>Rec. 3–12 anos</td>
+          <td>Justiça Federal</td>
+        </tr>
+        <tr>
+          <td>Renata</td>
+          <td>Adquiriu, guardou e introduziu moeda falsa</td>
+          <td>Art. 289, §1.º</td>
+          <td>Rec. 3–12 anos</td>
+          <td>Justiça Federal</td>
+        </tr>
+        <tr>
+          <td>Antônio Brás</td>
+          <td>Falso reconhecimento de firma + recebeu vantagem indevida</td>
+          <td>Arts. 300 + 317</td>
+          <td>Rec. 1–5a + Rec. 2–12a</td>
+          <td>Justiça Estadual</td>
+        </tr>
+        <tr>
+          <td>Márcio</td>
+          <td>Estelionato contra banco (uso doc. falso absorvido — Súm. 17 STJ)</td>
+          <td>Art. 171 CP</td>
+          <td>Rec. 1–5 anos</td>
+          <td>Justiça Estadual</td>
+        </tr>
       </tbody>
     </table>
-    </div>
   </div>
 
-</div>
+</div><!-- /fp-p-caso -->
 
+<!-- ═══════════════════════════════════════════════════════ -->
+<!--  JAVASCRIPT (IIFE)                                      -->
+<!-- ═══════════════════════════════════════════════════════ -->
 <script>
-function show(tab) {
-  document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
-  document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
-  document.getElementById('tab-' + tab).classList.add('active');
-  event.target.classList.add('active');
-}
+(function () {
+  /* ── Abas ─────────────────────────────────────────────── */
+  window.fpTab = function (id, btn) {
+    document.querySelectorAll('.fp-painel').forEach(p => p.classList.remove('ativo'))
+    document.querySelectorAll('.fp-tab').forEach(b => b.classList.remove('ativo'))
+    document.getElementById('fp-p-' + id).classList.add('ativo')
+    btn.classList.add('ativo')
+  }
 
-// Quadro Sinóptico filter
-function qsFilter(cat, btn) {
-  document.querySelectorAll('.qs-fbtn').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-  document.querySelectorAll('#qs-main-table tbody tr').forEach(tr => {
-    tr.style.display = (cat === 'all' || tr.dataset.cat === cat) ? '' : 'none';
-  });
-}
+  /* ── Filtro do quadro sinóptico ───────────────────────── */
+  window.fpFilter = function (cat, btn) {
+    document.querySelectorAll('.fp-fbtn').forEach(b => b.classList.remove('ativo'))
+    btn.classList.add('ativo')
+    document.querySelectorAll('#fp-main-tbl tbody tr').forEach(tr => {
+      tr.style.display = (cat === 'all' || tr.dataset.cat === cat) ? '' : 'none'
+    })
+  }
 
-// Roteiro functions
-const ROT_TOTAL = 12;
-function rotGetState(){try{return JSON.parse(localStorage.getItem('fp_rot_v2')||'{}')}catch(e){return{}}}
-function rotSetState(s){try{localStorage.setItem('fp_rot_v2',JSON.stringify(s))}catch(e){}}
-function rotCheck(e,id){
-  e.stopPropagation();
-  const s=rotGetState();s[id]=!s[id];rotSetState(s);
-  document.getElementById(id).classList.toggle('done',!!s[id]);
-}
-function rotExpand(id){
-  const c=document.getElementById('rot-sc-'+id);
-  const btn=document.querySelector('#'+id+' .rot-step-expand');
-  if(c.classList.contains('open')){c.classList.remove('open');btn.textContent='+';}
-  else{c.classList.add('open');btn.textContent='−';}
-}
-function rotToggleUnit(uid){
-  const b=document.getElementById('rot-body-'+uid);
-  const t=document.getElementById('rot-tog-'+uid);
-  b.classList.toggle('open');t.classList.toggle('open');
-}
-function rotReset(){
-  rotSetState({});
-  document.querySelectorAll('.rot-step').forEach(s=>s.classList.remove('done'));
-}
-(function(){
-  const s=rotGetState();
-  Object.keys(s).forEach(id=>{if(s[id])document.getElementById(id)&&document.getElementById(id).classList.add('done');});
-})();
+  /* ── Mapa mental: ramos ───────────────────────────────── */
+  let fpActiveBranch = null
+  window.fpBranch = function (id) {
+    const detail = document.getElementById('fp-d-' + id)
+    const branches = document.querySelectorAll('.fp-mm-branch')
 
-// Estudo de Caso functions
-function ecTog(id){
-  const b=document.getElementById('ec-qb-'+id);
-  const a=document.getElementById('ec-arr-'+id);
-  const open=b.classList.contains('open');
-  b.classList.toggle('open',!open);
-  a.classList.toggle('open',!open);
-}
-function ecShowAns(id){
-  const a=document.getElementById(id);
-  a.classList.toggle('show');
-  const btn=a.previousElementSibling;
-  btn.textContent=a.classList.contains('show')?'Ocultar resposta':'Revelar gabarito comentado';
-}
+    if (fpActiveBranch === id) {
+      detail.classList.remove('ativo')
+      branches.forEach(b => b.classList.remove('ativo'))
+      fpActiveBranch = null
+      return
+    }
+    document.querySelectorAll('.fp-mm-detail').forEach(d => d.classList.remove('ativo'))
+    branches.forEach(b => b.classList.remove('ativo'))
+    detail.classList.add('ativo')
+    // mark active branch
+    const idx = ['moeda','papeis','selos','docs','demais','juris'].indexOf(id)
+    if (idx >= 0) branches[idx].classList.add('ativo')
+    fpActiveBranch = id
+    detail.scrollIntoView({ behavior: 'smooth', block: 'nearest' })
+  }
+
+  /* ── Roteiro: unidades ────────────────────────────────── */
+  window.fpUnit = function (id) {
+    const body = document.getElementById('fp-body-' + id)
+    const tog  = document.getElementById('fp-tog-' + id)
+    const open = body.classList.toggle('aberto')
+    tog.classList.toggle('aberto', open)
+  }
+
+  /* ── Roteiro: expandir passos ─────────────────────────── */
+  window.fpExpand = function (id) {
+    const body = document.getElementById('fp-sc-' + id)
+    const btn  = document.querySelector('#' + id + ' .fp-step-exp')
+    if (body.classList.contains('aberto')) {
+      body.classList.remove('aberto'); btn.textContent = '+'
+    } else {
+      body.classList.add('aberto'); btn.textContent = '−'
+    }
+  }
+
+  /* ── Roteiro: checkboxes com persistência ─────────────── */
+  const LS_KEY = 'fp_rot_v1'
+  function fpGetState () { try { return JSON.parse(localStorage.getItem(LS_KEY) || '{}') } catch (e) { return {} } }
+  function fpSetState (s) { try { localStorage.setItem(LS_KEY, JSON.stringify(s)) } catch (e) {} }
+
+  // restore state
+  ;(function () {
+    const s = fpGetState()
+    Object.keys(s).forEach(id => { if (s[id]) { const el = document.getElementById(id); if (el) el.classList.add('feito') } })
+  })()
+
+  window.fpCheck = function (e, id) {
+    e.stopPropagation()
+    const s = fpGetState(); s[id] = !s[id]; fpSetState(s)
+    document.getElementById(id).classList.toggle('feito', !!s[id])
+  }
+
+  /* ── Estudo de caso: acordeão ─────────────────────────── */
+  window.fpQtog = function (id) {
+    const body = document.getElementById('fp-qb-' + id)
+    const arr  = document.getElementById('fp-arr-' + id)
+    const open = body.classList.toggle('aberto')
+    arr.classList.toggle('aberto', open)
+  }
+
+  /* ── Estudo de caso: revelar gabarito ─────────────────── */
+  window.fpShowAns = function (id) {
+    const el = document.getElementById(id)
+    el.classList.toggle('show')
+  }
+})()
 </script>
-</body>
-</html>

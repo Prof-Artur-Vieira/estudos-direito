@@ -11,7 +11,7 @@ const materias = [
         temas: [
           {
             titulo: "Crimes contra a Fé Pública",
-            descricao: "Mapa mental · Mapa conceitual · Quadro sinóptico · Roteiro · Estudo de caso",
+            descricao: "Visão geral · Mapa mental · Roteiro de estudo · Estudo de caso",
             arquivo: "conteudo/penal/penal-iv/01-fe-publica.html"
           },
           {

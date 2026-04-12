@@ -1,119 +1,60 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Teoria Geral das Provas — Processo Penal II</title>
 <style>
-    :root {
-    --bg:      #ffffff;
-    --bg2:     #f7f7f7;
-    --bg3:     #eeeeee;
-    --border:  #d0d0d0;
-    --text:    #1a1a1a;
-    --text2:   #444444;
-    --accent:  #1F497D;
-    --accent2: #1F497D;
-    --accent-light: #dce6f1;
-    --blue:    #1F497D;
-    --blue-light: #dce6f1;
-    --green:        #1a5c1a;
-    --green-light:  #d6f0d6;
-    --red:          #8b1a1a;
-    --red-light:    #fce8e8;
-    --orange:       #7a3800;
-    --orange-light: #fdebd6;
-    --purple:       #4a1a8a;
-    --purple-light: #ede5fb;
-    --teal:         #0a5c4a;
-    --teal-light:   #d6f0e8;
-    --yellow:       #5a4000;
-    --yellow-light: #fdf6d6;
+:root {
+  --pp1-green:  #1a5c1a; --pp1-green-lt: #d6f0d6;
+  --pp1-red:    #8b1a1a; --pp1-red-lt:   #fce8e8;
+  --pp1-orange: #7a3800; --pp1-orange-lt:#fdebd6;
+  --pp1-purple: #4a1a8a; --pp1-purple-lt:#ede5fb;
+  --pp1-teal:   #0a5c4a; --pp1-teal-lt:  #d6f0e8;
+  --pp1-yellow: #5a4000; --pp1-yellow-lt:#fdf6d6;
+  --pp1-bg2:    #f5f7fa;
+  --pp1-bg3:    #edf0f4;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --pp1-green:  #6fd86f; --pp1-green-lt:  #0d2e0d;
+    --pp1-red:    #f08080; --pp1-red-lt:    #2e0d0d;
+    --pp1-orange: #f0a060; --pp1-orange-lt: #2e1500;
+    --pp1-purple: #c0a0f8; --pp1-purple-lt: #200a40;
+    --pp1-teal:   #60d8b8; --pp1-teal-lt:   #072e22;
+    --pp1-yellow: #f0d060; --pp1-yellow-lt: #2e2000;
+    --pp1-bg2:    #1a2840;
+    --pp1-bg3:    #1f3052;
   }
-  @media (prefers-color-scheme: dark) {
-    :root {
-      --bg:      #0d1b2e;
-      --bg2:     #142238;
-      --bg3:     #1b2d47;
-      --border:  #2a4060;
-      --text:    #e8eef5;
-      --text2:   #a0b4cc;
-      --accent:  #7a9cf0;
-      --accent2: #9ab4f8;
-      --accent-light: #1a2550;
-      --blue:         #9ab4f8;
-      --blue-light:   #1a2550;
-      --green:        #6fd86f;
-      --green-light:  #0d2e0d;
-      --red:          #f08080;
-      --red-light:    #2e0d0d;
-      --orange:       #f0a060;
-      --orange-light: #2e1500;
-      --purple:       #c0a0f8;
-      --purple-light: #200a40;
-      --teal:         #60d8b8;
-      --teal-light:   #072e22;
-      --yellow:       #f0d060;
-      --yellow-light: #2e2000;
-    }
-  }
-  * { margin:0; padding:0; box-sizing:border-box; }
-  body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: 'Georgia', 'Times New Roman', serif;
-    line-height: 1.7;
-  }
+}
 
-  /* HEADER */
-  header {
-    background: var(--bg3);
-    border-bottom: 2px solid var(--accent);
-    padding: 2.5rem 2rem 2rem;
-    position: relative;
-    overflow: hidden;
-  }
-  header::before {
-    content: '§';
-    position: absolute; right: 3rem; top: 50%; transform: translateY(-50%);
-    font-size: 8rem; color: var(--accent-light); font-weight: bold;
-    pointer-events: none;
-  }
-  header h1 { font-size: 1.9rem; color: var(--accent2); letter-spacing: 0.03em; }
-  header p { color: var(--text2); font-size: 0.95rem; margin-top: 0.4rem; }
-  .badge {
-    display: inline-block; background: var(--accent); color: #fff;
-    padding: 0.15rem 0.7rem; border-radius: 3px; font-size: 0.75rem;
-    font-family: monospace; font-weight: bold; margin-bottom: 0.8rem;
-  }
+/* Titulo */
+.pp1-titulo {
+  font-family: var(--serif); font-size: 19px; font-weight: 700;
+  color: var(--blue); margin-bottom: 16px;
+  padding-bottom: 10px; border-bottom: 2px solid var(--border);
+}
+/* Abas */
+.pp1-tabs { display: flex; gap: 4px; margin-bottom: 22px; flex-wrap: wrap; }
+.pp1-tab {
+  padding: 7px 16px; font-size: 13px; font-weight: 600;
+  font-family: var(--sans);
+  border: 1.5px solid var(--blue); border-radius: 6px; cursor: pointer;
+  background: var(--surface); color: var(--blue);
+  transition: background .15s, color .15s;
+}
+.pp1-tab:hover { background: var(--blue-hover); }
+.pp1-tab.ativo  { background: var(--blue); color: #fff; }
+.pp1-painel { display: none; }
+.pp1-painel.ativo { display: block; }
 
-  /* NAV TABS */
-  nav { background: var(--bg2); border-bottom: 1px solid var(--border); display: grid; grid-template-columns: 1fr 1fr; }
-  nav button {
-    background: none; border: none; border-right: 1px solid var(--border); color: var(--text2); padding: 0.9rem 1.4rem;
-    cursor: pointer; font-family: inherit; font-size: 0.88rem; text-align: left;
-    border-bottom: 3px solid transparent; transition: all 0.2s;
-  }
-  nav button:hover { color: var(--text); background: var(--bg3); }
-  nav button.active { color: var(--accent2); border-bottom-color: var(--accent); background: var(--bg3); }
-
-  /* CONTENT */
-  .tab-content { display: none; padding: 2rem; max-width: 1100px; margin: 0 auto; }
-  .tab-content.active { display: block; }
-
-  /* SECTION TITLES */
+/* SECTION TITLES */
   .section-title {
-    font-size: 1.3rem; color: var(--accent2); border-left: 4px solid var(--accent);
+    font-size: 1.3rem; color: var(--blue); border-left: 4px solid var(--blue);
     padding-left: 1rem; margin-bottom: 1.5rem; margin-top: 2.5rem;
   }
   .section-title:first-child { margin-top: 0; }
 
   /* CARDS */
   .card {
-    background: var(--bg2); border: 1px solid var(--border); border-radius: 8px;
+    background: var(--pp1-bg2); border: 1px solid var(--border); border-radius: 8px;
     padding: 1.4rem; margin-bottom: 1.2rem; transition: border-color 0.2s;
   }
-  .card:hover { border-color: var(--accent); }
+  .card:hover { border-color: var(--blue); }
   .card h3 { color: var(--blue); font-size: 1rem; margin-bottom: 0.6rem; }
   .card p, .card li { color: var(--text2); font-size: 0.92rem; }
   .card ul { padding-left: 1.2rem; }
@@ -125,14 +66,14 @@
 
   /* TABLE */
   .table-wrap { overflow-x: auto; margin-bottom: 1.5rem; }
-  table { width: 100%; border-collapse: collapse; font-size: 0.88rem; }
-  th {
-    background: var(--bg3); color: var(--accent2); border-bottom: 2px solid var(--accent-light); padding: 0.75rem 1rem;
+  .pp1-wrap table { width: 100%; border-collapse: collapse; font-size: 0.88rem; }
+  .pp1-wrap th {
+    background: var(--pp1-bg3); color: var(--blue); border-bottom: 2px solid var(--blue-light); padding: 0.75rem 1rem;
     text-align: left; border: 1px solid var(--border); font-weight: 600;
   }
-  td { padding: 0.65rem 1rem; border: 1px solid var(--border); color: var(--text2); vertical-align: top; }
-  tr:nth-child(even) td { background: rgba(255,255,255,0.02); }
-  tr:hover td { background: var(--accent-light); }
+  .pp1-wrap td { padding: 0.65rem 1rem; border: 1px solid var(--border); color: var(--text2); vertical-align: top; }
+  .pp1-wrap tr:nth-child(even) td { background: rgba(255,255,255,0.02); }
+  .pp1-wrap tr:hover td { background: var(--blue-light); }
 
   /* TAGS */
   .tag {
@@ -140,11 +81,11 @@
     font-size: 0.75rem; font-family: monospace; font-weight: bold; margin: 0.15rem;
   }
   .tag-blue  { background: var(--blue-light); color: var(--blue); }
-  .tag-green { background: var(--green-light); color: var(--green); }
-  .tag-red   { background: var(--red-light);  color: var(--red); }
-  .tag-gold  { background: var(--accent-light); color: var(--accent2); }
-  .tag-purple{ background: var(--purple-light);color: var(--purple); }
-  .tag-orange{ background: var(--orange-light);color: var(--orange); }
+  .tag-green { background: var(--pp1-green-lt); color: var(--pp1-green); }
+  .tag-red   { background: var(--pp1-red-lt);  color: var(--pp1-red); }
+  .tag-gold  { background: var(--blue-light); color: var(--blue); }
+  .tag-purple{ background: var(--pp1-purple-lt);color: var(--pp1-purple); }
+  .tag-orange{ background: var(--pp1-orange-lt);color: var(--pp1-orange); }
 
   /* JURISPRUDÊNCIA */
   .juris {
@@ -156,61 +97,61 @@
 
   /* ALERTA */
   .alert {
-    background: var(--red-light); border: 1px solid var(--red);
+    background: var(--pp1-red-lt); border: 1px solid var(--pp1-red);
     border-radius: 6px; padding: 1rem 1.2rem; margin-bottom: 1rem;
   }
-  .alert strong { color: var(--red); }
+  .alert strong { color: var(--pp1-red); }
   .alert p { color: var(--text2); font-size: 0.9rem; margin-top: 0.3rem; }
 
   .tip {
-    background: var(--green-light); border: 1px solid var(--green);
+    background: var(--pp1-green-lt); border: 1px solid var(--pp1-green);
     border-radius: 6px; padding: 1rem 1.2rem; margin-bottom: 1rem;
   }
-  .tip strong { color: var(--green); }
+  .tip strong { color: var(--pp1-green); }
   .tip p { color: var(--text2); font-size: 0.9rem; margin-top: 0.3rem; }
 
   /* MAPA MENTAL */
   .mapa {
-    background: var(--bg2); border: 1px solid var(--border); border-radius: 10px;
+    background: var(--pp1-bg2); border: 1px solid var(--border); border-radius: 10px;
     padding: 1.8rem; margin-bottom: 1.5rem;
   }
   .mapa-center {
-    text-align: center; background: var(--accent); color: #fff;
+    text-align: center; background: var(--blue); color: #fff;
     border-radius: 8px; padding: 0.8rem 1.5rem; font-weight: bold;
     font-size: 1.1rem; display: inline-block; margin-bottom: 2rem;
   }
   .mapa-row { display: flex; gap: 0.8rem; flex-wrap: wrap; margin-bottom: 0.8rem; }
   .mapa-node {
-    background: var(--bg3); border: 1px solid var(--border); border-radius: 6px;
+    background: var(--pp1-bg3); border: 1px solid var(--border); border-radius: 6px;
     padding: 0.6rem 1rem; font-size: 0.85rem; color: var(--text);
     position: relative; cursor: default;
   }
   .mapa-node.blue { border-color: var(--blue); color: var(--blue); background: rgba(88,166,255,0.08); }
-  .mapa-node.gold { border-color: var(--accent); color: var(--accent2); background: var(--accent-light); }
-  .mapa-node.red  { border-color: var(--red); color: var(--red); background: var(--red-light); }
-  .mapa-node.green{ border-color: var(--green); color: var(--green); background: var(--green-light); }
-  .mapa-node.purple{border-color: var(--purple); color: var(--purple); background: rgba(188,140,255,0.08); }
+  .mapa-node.gold { border-color: var(--blue); color: var(--blue); background: var(--blue-light); }
+  .mapa-node.red  { border-color: var(--pp1-red); color: var(--pp1-red); background: var(--pp1-red-lt); }
+  .mapa-node.green{ border-color: var(--pp1-green); color: var(--pp1-green); background: var(--pp1-green-lt); }
+  .mapa-node.purple{border-color: var(--pp1-purple); color: var(--pp1-purple); background: rgba(188,140,255,0.08); }
   .mapa-label { font-size: 0.75rem; color: var(--text2); margin-bottom: 0.4rem; font-style: italic; }
 
   /* FLOWCHART */
   .flow { display: flex; align-items: stretch; gap: 0; flex-wrap: wrap; margin-bottom: 1.5rem; }
   .flow-step {
-    background: var(--bg3); border: 1px solid var(--border); border-radius: 6px;
+    background: var(--pp1-bg3); border: 1px solid var(--border); border-radius: 6px;
     padding: 0.8rem 1.1rem; font-size: 0.85rem; text-align: center;
     min-width: 120px; flex: 1;
   }
   .flow-step span { display: block; font-size: 0.75rem; color: var(--text2); margin-top: 0.2rem; }
-  .flow-arrow { display: flex; align-items: center; padding: 0 0.4rem; color: var(--accent); font-size: 1.2rem; }
+  .flow-arrow { display: flex; align-items: center; padding: 0 0.4rem; color: var(--blue); font-size: 1.2rem; }
 
   /* ROTEIRO */
   .roteiro-item {
     display: flex; gap: 1rem; align-items: flex-start;
-    background: var(--bg2); border: 1px solid var(--border); border-radius: 6px;
+    background: var(--pp1-bg2); border: 1px solid var(--border); border-radius: 6px;
     padding: 1rem 1.2rem; margin-bottom: 0.8rem; transition: border-color 0.2s;
   }
-  .roteiro-item:hover { border-color: var(--accent); }
+  .roteiro-item:hover { border-color: var(--blue); }
   .roteiro-num {
-    background: var(--accent); color: #fff; border-radius: 50%;
+    background: var(--blue); color: #fff; border-radius: 50%;
     width: 28px; height: 28px; display: flex; align-items: center; justify-content: center;
     font-weight: bold; font-size: 0.85rem; flex-shrink: 0; margin-top: 0.1rem;
   }
@@ -219,34 +160,34 @@
 
   /* CASO PRÁTICO */
   .caso {
-    background: var(--bg2); border: 1px solid var(--border); border-radius: 8px;
+    background: var(--pp1-bg2); border: 1px solid var(--border); border-radius: 8px;
     overflow: hidden; margin-bottom: 1.5rem;
   }
-  .caso-header {
-    background: var(--bg3); padding: 1rem 1.4rem;
+  .caso-.pp1-header {
+    background: var(--pp1-bg3); padding: 1rem 1.4rem;
     border-bottom: 1px solid var(--border); display: flex; justify-content: space-between;
     align-items: center;
   }
-  .caso-header h3 { color: var(--accent2); font-size: 1rem; }
-  .caso-body { padding: 1.4rem; }
-  .caso-fatos { color: var(--text); font-size: 0.92rem; line-height: 1.8; margin-bottom: 1.2rem; }
+  .caso-.pp1-header h3 { color: var(--blue); font-size: 1rem; }
+  .caso-
+.caso-fatos { color: var(--text); font-size: 0.92rem; line-height: 1.8; margin-bottom: 1.2rem; }
   .caso-perguntas { list-style: none; padding: 0; }
   .caso-perguntas li {
-    background: var(--bg3); border-left: 3px solid var(--purple);
+    background: var(--pp1-bg3); border-left: 3px solid var(--pp1-purple);
     padding: 0.7rem 1rem; border-radius: 0 4px 4px 0; margin-bottom: 0.5rem;
     font-size: 0.9rem; color: var(--text2);
   }
-  .caso-perguntas li strong { color: var(--purple); }
-  details { margin-bottom: 0.5rem; }
-  details summary {
-    cursor: pointer; padding: 0.7rem 1rem; background: var(--bg3);
-    border-radius: 4px; color: var(--teal); font-size: 0.88rem; font-weight: bold;
+  .caso-perguntas li strong { color: var(--pp1-purple); }
+  .pp1-wrap details { margin-bottom: 0.5rem; }
+  .pp1-wrap details summary {
+    cursor: pointer; padding: 0.7rem 1rem; background: var(--pp1-bg3);
+    border-radius: 4px; color: var(--pp1-teal); font-size: 0.88rem; font-weight: bold;
     list-style: none;
   }
-  details summary::-webkit-details-marker { display: none; }
-  details summary::before { content: '▶ '; font-size: 0.7rem; }
-  details[open] summary::before { content: '▼ '; }
-  details p { padding: 0.8rem 1rem; background: var(--green-light); color: var(--text2); font-size: 0.88rem; border-radius: 0 0 4px 4px; }
+  .pp1-wrap details summary::-webkit-details-marker { display: none; }
+  .pp1-wrap details summary::before { content: '▶ '; font-size: 0.7rem; }
+  .pp1-wrap details[open] summary::before { content: '▼ '; }
+  .pp1-wrap details p { padding: 0.8rem 1rem; background: var(--pp1-green-lt); color: var(--text2); font-size: 0.88rem; border-radius: 0 0 4px 4px; }
 
   /* ARTIGO */
   .artigo {
@@ -256,48 +197,48 @@
   }
   .artigo strong { color: var(--blue); }
 
-  hr { border: none; border-top: 1px solid var(--border); margin: 2rem 0; }
+  .pp1-wrap hr { border: none; border-top: 1px solid var(--border); margin: 2rem 0; }
 
   @media(max-width:600px) {
     .grid-2, .grid-3 { grid-template-columns: 1fr; }
-    header h1 { font-size: 1.4rem; }
-    .tab-content { padding: 1rem; }
+    .pp1-.pp1-header-h1 { font-size: 1.4rem; }
+    .pp1-painel { padding: 1rem; }
   }
   @media (max-width: 768px) {
-    nav {
+    .pp1-nav {
       display: flex;
       overflow-x: auto;
       -webkit-overflow-scrolling: touch;
       grid-template-columns: unset;
     }
-    nav button {
+    .pp1-tab {
       white-space: nowrap;
       flex-shrink: 0;
       border-right: 1px solid var(--border);
     }
   }
+
+
+
+
 </style>
-</head>
-<body>
 
-<header>
-  <div class="badge">PROCESSO PENAL II</div>
-  <h1>Teoria Geral das Provas</h1>
-  <p>Prof. Artur Vieira · Direito Processual Penal II · Material de Apoio</p>
-</header>
+<div class="pp1-wrap">
 
-<nav>
-  <button class="active" onclick="show('mapa')">🗺 Mapa Mental</button>
-  <button onclick="show('conceitos')">📖 Conceitos Essenciais</button>
-  <button onclick="show('ilicita')">🚫 Prova Ilícita</button>
-  <button onclick="show('sistemas')">⚖️ Sistemas de Avaliação</button>
-  <button onclick="show('tabela')">📊 Tabelas Comparativas</button>
-  <button onclick="show('roteiro')">📋 Roteiro de Estudo</button>
-  <button onclick="show('casos')">⚖️ Casos Práticos</button>
-</nav>
+<div class="pp1-titulo">Teoria Geral das Provas</div>
+
+<div class="pp1-tabs">
+  <button class="pp1-tab ativo" onclick="pp1Tab(event,'pp1-mapa')">🗺 Mapa Mental</button>
+  <button class="pp1-tab" onclick="pp1Tab(event,'pp1-conceitos')">📖 Conceitos Essenciais</button>
+  <button class="pp1-tab" onclick="pp1Tab(event,'pp1-ilicita')">🚫 Prova Ilícita</button>
+  <button class="pp1-tab" onclick="pp1Tab(event,'pp1-sistemas')">⚖️ Sistemas de Avaliação</button>
+  <button class="pp1-tab" onclick="pp1Tab(event,'pp1-tabela')">📊 Tabelas Comparativas</button>
+  <button class="pp1-tab" onclick="pp1Tab(event,'pp1-roteiro')">📋 Roteiro de Estudo</button>
+  <button class="pp1-tab" onclick="pp1Tab(event,'pp1-casos')">⚖️ Casos Práticos</button>
+</div>
 
 <!-- ============================================================ MAPA MENTAL -->
-<div id="mapa" class="tab-content active">
+<div id="pp1-mapa" class="pp1-painel ativo">
   <div class="section-title">Mapa Mental — Teoria Geral das Provas</div>
 
   <div class="mapa">
@@ -349,7 +290,7 @@
     <div class="mapa-row">
       <div class="mapa-node purple">Íntima convicção<br><small>Jurado (Júri)</small></div>
       <div class="mapa-node purple">Prova tarifada<br><small>Exceção (corpo de delito, estado civil)</small></div>
-      <div class="mapa-node purple" style="border-color:var(--orange); color:var(--orange); background:rgba(255,166,87,0.1)">
+      <div class="mapa-node purple" style="border-color:var(--pp1-orange); color:var(--pp1-orange); background:rgba(255,166,87,0.1)">
         ✓ Convencimento motivado<br><small>Regra geral — Art. 93, IX, CF</small>
       </div>
     </div>
@@ -381,7 +322,7 @@
 </div>
 
 <!-- ============================================================ CONCEITOS -->
-<div id="conceitos" class="tab-content">
+<div id="pp1-conceitos" class="pp1-painel">
   <div class="section-title">Distinção: Prova × Elementos Informativos</div>
 
   <div class="grid-2">
@@ -415,17 +356,17 @@
     <div class="card">
       <h3>⏱ Cautelares</h3>
       <p>Risco de desaparecimento do objeto pelo decurso do tempo. Contraditório diferido.</p>
-      <p style="margin-top:0.5rem; color:var(--orange)">Ex.: Interceptação telefônica (exige fator surpresa)</p>
+      <p style="margin-top:0.5rem; color:var(--pp1-orange)">Ex.: Interceptação telefônica (exige fator surpresa)</p>
     </div>
     <div class="card">
       <h3>🔒 Não Repetíveis</h3>
       <p>Uma vez produzida, não pode ser novamente coletada (desaparecimento/destruição).</p>
-      <p style="margin-top:0.5rem; color:var(--orange)">Ex.: Exame de corpo de delito · Perícias em geral</p>
+      <p style="margin-top:0.5rem; color:var(--pp1-orange)">Ex.: Exame de corpo de delito · Perícias em geral</p>
     </div>
     <div class="card">
       <h3>📋 Antecipadas</h3>
       <p>Feitas com contraditório <strong>real</strong>, perante autoridade judicial, mas em momento distinto do previsto.</p>
-      <p style="margin-top:0.5rem; color:var(--orange)">Ex.: Depoimento <em>ad perpetuam rei memoriam</em> · Art. 225 CPP</p>
+      <p style="margin-top:0.5rem; color:var(--pp1-orange)">Ex.: Depoimento <em>ad perpetuam rei memoriam</em> · Art. 225 CPP</p>
     </div>
   </div>
 
@@ -489,7 +430,7 @@
 </div>
 
 <!-- ============================================================ PROVA ILÍCITA -->
-<div id="ilicita" class="tab-content">
+<div id="pp1-ilicita" class="pp1-painel">
   <div class="section-title">Prova Ilícita × Prova Ilegítima</div>
 
   <div class="grid-2">
@@ -587,7 +528,7 @@
 </div>
 
 <!-- ============================================================ SISTEMAS -->
-<div id="sistemas" class="tab-content">
+<div id="pp1-sistemas" class="pp1-painel">
   <div class="section-title">Sistemas de Avaliação da Prova</div>
 
   <div class="table-wrap">
@@ -602,19 +543,19 @@
       </thead>
       <tbody>
         <tr>
-          <td><strong style="color:var(--orange)">Íntima Convicção</strong><br>(Livre Convicção)</td>
+          <td><strong style="color:var(--pp1-orange)">Íntima Convicção</strong><br>(Livre Convicção)</td>
           <td>Juiz valoriza livremente as provas, inclusive externas aos autos. <strong>Não precisa fundamentar.</strong></td>
           <td><span class="tag tag-gold">Somente no Júri</span><br>Jurados — sigilo das votações (art. 5º, XXXVIII, CF)</td>
           <td>Art. 5º, XXXVIII, CF</td>
         </tr>
         <tr>
-          <td><strong style="color:var(--red)">Prova Tarifada</strong><br>(Regras Legais)</td>
+          <td><strong style="color:var(--pp1-red)">Prova Tarifada</strong><br>(Regras Legais)</td>
           <td>Cada prova tem valor probatório <strong>fixado em abstrato</strong> pelo legislador. Ideia da confissão como "rainha das provas".</td>
           <td><span class="tag tag-red">Exceção</span><br>Estado civil (art. 155, §único) · Corpo de delito (art. 158)</td>
           <td>Arts. 155, §único e 158 CPP</td>
         </tr>
         <tr>
-          <td><strong style="color:var(--green)">Convencimento Motivado</strong><br>(Persuasão Racional)</td>
+          <td><strong style="color:var(--pp1-green)">Convencimento Motivado</strong><br>(Persuasão Racional)</td>
           <td>Livre valoração das provas, <strong>todas com mesmo valor</strong>, mas obrigatoriedade de fundamentar. Somente o que está nos autos.</td>
           <td><span class="tag tag-green">Regra Geral</span><br>Sistema adotado no Brasil</td>
           <td>Art. 93, IX, CF · Art. 155 CPP</td>
@@ -629,12 +570,12 @@
     <div class="card">
       <h3>⚠️ Inciso I — Antes da Ação Penal (Inconstitucional)</h3>
       <p>Permite ao juiz ordenar produção antecipada de provas urgentes <strong>mesmo antes de iniciada a ação penal</strong>. Crítica: juiz inquisidor, viola imparcialidade.</p>
-      <p style="margin-top:0.5rem; color:var(--red)">Aury Lopes Jr.: "inquisitório substancialmente inconstitucional, tacitamente revogado pelo art. 3º-A do CPP" (suspenso pela liminar do Min. Fux)</p>
+      <p style="margin-top:0.5rem; color:var(--pp1-red)">Aury Lopes Jr.: "inquisitório substancialmente inconstitucional, tacitamente revogado pelo art. 3º-A do CPP" (suspenso pela liminar do Min. Fux)</p>
     </div>
     <div class="card">
       <h3>✅ Inciso II — No Curso da Instrução (Subsidiário)</h3>
       <p>Permite ao juiz determinar diligências para <strong>dirimir dúvida</strong> sobre ponto relevante. Admitido de forma subsidiária.</p>
-      <p style="margin-top:0.5rem; color:var(--green)">O juiz não busca provas para condenar — apenas esclarece dúvidas, sem saber previamente quem será beneficiado.</p>
+      <p style="margin-top:0.5rem; color:var(--pp1-green)">O juiz não busca provas para condenar — apenas esclarece dúvidas, sem saber previamente quem será beneficiado.</p>
     </div>
   </div>
 
@@ -681,7 +622,7 @@
 </div>
 
 <!-- ============================================================ TABELAS -->
-<div id="tabela" class="tab-content">
+<div id="pp1-tabela" class="pp1-painel">
   <div class="section-title">Prova × Elemento Informativo — Diferenças</div>
   <div class="table-wrap">
     <table>
@@ -753,7 +694,7 @@
 </div>
 
 <!-- ============================================================ ROTEIRO -->
-<div id="roteiro" class="tab-content">
+<div id="pp1-roteiro" class="pp1-painel">
   <div class="section-title">Roteiro de Estudo — Teoria Geral das Provas</div>
 
   <div class="roteiro-item">
@@ -837,7 +778,7 @@
 </div>
 
 <!-- ============================================================ CASOS PRÁTICOS -->
-<div id="casos" class="tab-content">
+<div id="pp1-casos" class="pp1-painel">
   <div class="section-title">Casos Práticos — Teoria Geral das Provas</div>
 
   <div class="caso">
@@ -914,13 +855,18 @@
   </div>
 </div>
 
+</div>
+
 <script>
-function show(id) {
-  document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
-  document.querySelectorAll('nav button').forEach(el => el.classList.remove('active'));
-  document.getElementById(id).classList.add('active');
-  event.target.classList.add('active');
-}
+(function () {
+  window.pp1Tab = function (e, id) {
+    var wrap = e.target.closest('.pp1-wrap')
+    if (!wrap) return
+    wrap.querySelectorAll('.pp1-tab').forEach(function(b) { b.classList.remove('ativo') })
+    wrap.querySelectorAll('.pp1-painel').forEach(function(p) { p.classList.remove('ativo') })
+    e.target.classList.add('ativo')
+    var el = document.getElementById(id)
+    if (el) el.classList.add('ativo')
+  }
+})()
 </script>
-</body>
-</html>

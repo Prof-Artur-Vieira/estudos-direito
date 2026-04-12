@@ -1,105 +1,76 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Processo Penal II — Materiais de Apoio</title>
 <style>
-  :root {
-    --bg:      #ffffff;
-    --bg2:     #f7f7f7;
-    --bg3:     #eeeeee;
-    --border:  #d0d0d0;
-    --text:    #1a1a1a;
-    --text2:   #444444;
-    --accent:  #1F497D;
-    --accent2: #1F497D;
-    --accent-light: #dce6f1;
-    --blue:    #1F497D;
-    --blue-light: #dce6f1;
-    --green:        #1a5c1a;
-    --green-light:  #d6f0d6;
-    --red:          #8b1a1a;
-    --red-light:    #fce8e8;
-    --orange:       #7a3800;
-    --orange-light: #fdebd6;
-    --purple:       #4a1a8a;
-    --purple-light: #ede5fb;
-    --teal:         #0a5c4a;
-    --teal-light:   #d6f0e8;
-    --yellow:       #5a4000;
-    --yellow-light: #fdf6d6;
-  }
-  @media (prefers-color-scheme: dark) {
-    :root {
-      --bg:      #0d1b2e;
-      --bg2:     #142238;
-      --bg3:     #1b2d47;
-      --border:  #2a4060;
-      --text:    #e8eef5;
-      --text2:   #a0b4cc;
-      --accent:  #7a9cf0;
-      --accent2: #9ab4f8;
-      --accent-light: #1a2550;
-      --blue:         #9ab4f8;
-      --blue-light:   #1a2550;
-      --green:        #6fd86f;
-      --green-light:  #0d2e0d;
-      --red:          #f08080;
-      --red-light:    #2e0d0d;
-      --orange:       #f0a060;
-      --orange-light: #2e1500;
-      --purple:       #c0a0f8;
-      --purple-light: #200a40;
-      --teal:         #60d8b8;
-      --teal-light:   #072e22;
-      --yellow:       #f0d060;
-      --yellow-light: #2e2000;
-    }
-  }
-  * { margin:0; padding:0; box-sizing:border-box; }
-  body { background:var(--bg); color:var(--text); font-family:'Georgia', serif; min-height:100vh; display:flex; flex-direction:column; align-items:center; padding:3rem 1.5rem; }
-  h1 { font-size:2rem; margin-bottom:0.5rem; color:var(--text); }
-  p.sub { color:var(--text2); margin-bottom:3rem; font-size:0.95rem; }
-  .cards { display:grid; grid-template-columns:repeat(auto-fit, minmax(280px,1fr)); gap:1.5rem; width:100%; max-width:900px; }
-  .card { background:var(--bg2); border:1px solid var(--border); border-radius:10px; padding:1.8rem; text-decoration:none; color:var(--text); transition:all 0.2s; display:block; }
-  .card:hover { transform:translateY(-3px); }
-  .card .num { font-size:0.8rem; font-family:monospace; margin-bottom:0.8rem; }
-  .card h2 { font-size:1.2rem; margin-bottom:0.6rem; }
-  .card p { color:var(--text2); font-size:0.88rem; }
-  .card-1 { border-top: 3px solid var(--accent2); }
-  .card-1 .num { color: var(--accent2); }
-  .card-2 { border-top: 3px solid var(--teal); }
-  .card-2 .num { color: var(--teal); }
-  .card-3 { border-top: 3px solid var(--accent2); }
-  .card-3 .num { color: var(--accent2); }
-  footer { margin-top:4rem; color:var(--text2); font-size:0.82rem; text-align:center; }
+.ppii-idx {
+  padding: 1.5rem 0 2rem;
+}
+.ppii-idx-h1 {
+  font-family: var(--serif);
+  font-size: 1.55rem; font-weight: 700;
+  color: var(--blue); margin-bottom: 0.3rem;
+}
+.ppii-idx-sub {
+  color: var(--text2); font-size: 0.88rem;
+  margin-bottom: 2rem; font-family: var(--sans);
+}
+.ppii-idx-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.2rem;
+}
+.ppii-idx-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 1.6rem;
+  text-decoration: none;
+  color: var(--text);
+  display: block;
+  transition: box-shadow .2s, transform .2s;
+  cursor: pointer;
+}
+.ppii-idx-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+.ppii-idx-num {
+  font-size: 0.72rem; font-family: var(--sans); font-weight: 700;
+  letter-spacing: .1em; text-transform: uppercase;
+  margin-bottom: 0.6rem;
+}
+.ppii-idx-card h2 {
+  font-family: var(--serif);
+  font-size: 1.1rem; font-weight: 700;
+  color: var(--text); margin-bottom: 0.5rem;
+}
+.ppii-idx-card p {
+  color: var(--text2); font-size: 0.84rem;
+  line-height: 1.55; font-family: var(--sans);
+}
+.ppii-idx-card-1 { border-top: 3px solid var(--blue); }
+.ppii-idx-card-1 .ppii-idx-num { color: var(--blue); }
+.ppii-idx-card-2 { border-top: 3px solid var(--gold); }
+.ppii-idx-card-2 .ppii-idx-num { color: var(--gold); }
+.ppii-idx-card-3 { border-top: 3px solid var(--blue-mid); }
+.ppii-idx-card-3 .ppii-idx-num { color: var(--blue-mid); }
 </style>
-</head>
-<body>
-  <h1>Processo Penal II</h1>
-  <p class="sub">Prof. Artur Vieira · Materiais de Apoio · Mapas, Tabelas e Casos Práticos</p>
 
-  <div class="cards">
-    <a href="01-teoria-geral-provas.html" class="card card-1">
-      <div class="num">UNIDADE 1</div>
+<div class="ppii-idx">
+  <div class="ppii-idx-h1">Direito Processual Penal II</div>
+  <p class="ppii-idx-sub">Prof. Artur Vieira · Materiais de Apoio · Mapas, Tabelas e Casos Práticos</p>
+  <div class="ppii-idx-cards">
+    <a href="01-teoria-geral-provas.html" class="ppii-idx-card ppii-idx-card-1">
+      <div class="ppii-idx-num">Unidade 1</div>
       <h2>Teoria Geral das Provas</h2>
       <p>Mapa mental completo · Prova vs elemento informativo · Sistemas de avaliação · Prova ilícita e derivação · Cadeia de custódia · Casos práticos</p>
     </a>
-    <a href="02-provas-em-especie.html" class="card card-2">
-      <div class="num">UNIDADE 2</div>
+    <a href="02-provas-em-especie.html" class="ppii-idx-card ppii-idx-card-2">
+      <div class="ppii-idx-num">Unidade 2</div>
       <h2>Provas em Espécie</h2>
       <p>Perícia · Interrogatório · Confissão · Prova testemunhal · Reconhecimento de pessoas · Busca e apreensão · Acareação · Casos práticos</p>
     </a>
-    <a href="03-prisoes.html" class="card card-3">
-      <div class="num">UNIDADE 3</div>
+    <a href="03-prisoes.html" class="ppii-idx-card ppii-idx-card-3">
+      <div class="ppii-idx-num">Unidade 3</div>
       <h2>Prisões e Cautelares</h2>
       <p>Flagrante (todas as espécies) · Preventiva · Temporária · Medidas cautelares diversas · Prisão domiciliar · Fiança · Audiência de custódia · Casos práticos</p>
     </a>
   </div>
-
-  <footer>
-    Material desenvolvido para uso acadêmico · Atualizado com jurisprudência STF e STJ · Lei 13.964/2019 · Lei 15.272/2025
-  </footer>
-</body>
-</html>
+</div>
