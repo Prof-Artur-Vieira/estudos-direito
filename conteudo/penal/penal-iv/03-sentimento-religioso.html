@@ -715,6 +715,62 @@
 
 <script>
 ;(function() {
-  // Task 7 — JavaScript
+
+  /* ── Abas ── */
+  window.srTab = function(id, btn) {
+    const wrap = btn.closest('.sr-tabs').parentElement
+    wrap.querySelectorAll('.sr-painel').forEach(p => p.classList.remove('ativo'))
+    wrap.querySelectorAll('.sr-tab').forEach(b => b.classList.remove('ativo'))
+    wrap.querySelector('#sr-' + id).classList.add('ativo')
+    btn.classList.add('ativo')
+  }
+
+  /* ── Mapa Mental ── */
+  const srData = ['208','209','210','211','212']
+  window.srBranch = function(key) {
+    srData.forEach(k => {
+      const b = document.getElementById('srb-' + k)
+      const d = document.getElementById('srd-' + k)
+      if (b) b.classList.remove('ativo')
+      if (d) d.classList.remove('ativo')
+    })
+    const branch = document.getElementById('srb-' + key)
+    const detail = document.getElementById('srd-' + key)
+    if (branch) branch.classList.add('ativo')
+    if (detail) detail.classList.add('ativo')
+    if (detail) detail.scrollIntoView({ behavior: 'smooth', block: 'nearest' })
+  }
+
+  /* ── Roteiro: unidades (blocos) ── */
+  window.srUnit = function(hd) {
+    const body = hd.nextElementSibling
+    const tog  = hd.querySelector('.sr-unit-tog')
+    const open = body.classList.contains('aberto')
+    body.classList.toggle('aberto', !open)
+    tog.classList.toggle('aberto', !open)
+  }
+
+  /* ── Roteiro: steps (checkboxes) ── */
+  window.srStep = function(hd) {
+    const step = hd.parentElement
+    const body = hd.nextElementSibling
+    const exp  = hd.querySelector('.sr-step-exp')
+    const bodyOpen = body.classList.contains('aberto')
+    body.classList.toggle('aberto', !bodyOpen)
+    if (exp) exp.style.transform = bodyOpen ? '' : 'rotate(90deg)'
+    if (!bodyOpen) {
+      step.classList.toggle('feito', step.classList.contains('feito') ? false : false)
+    }
+  }
+
+  /* ── Estudo de Caso: acordeão ── */
+  window.srToggle = function(hd) {
+    const body = hd.nextElementSibling
+    const arr  = hd.querySelector('.sr-q-arr')
+    const open = body.classList.contains('aberto')
+    body.classList.toggle('aberto', !open)
+    if (arr) arr.classList.toggle('aberto', !open)
+  }
+
 })()
 </script>
