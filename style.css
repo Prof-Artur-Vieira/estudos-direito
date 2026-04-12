@@ -599,6 +599,30 @@ main {
   background: var(--blue-mid);
 }
 
+/* ── Foco visível (acessibilidade) ── */
+:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* ── Print ── */
+@media print {
+  header, #btn-topo, nav#breadcrumb { display: none !important; }
+  body { background: white; }
+  body::before { display: none; }
+  main { max-width: 100%; padding: 0; }
+  #conteudo-area {
+    box-shadow: none;
+    border-radius: 0;
+    padding: 0;
+    max-width: 100%;
+    border: none;
+  }
+  .arvore, .cards-turmas, .cards-temas { display: none; }
+  a { color: inherit; text-decoration: none; }
+}
+
 /* ── Mobile ≤ 768px ── */
 @media (max-width: 768px) {
   /* Header */
