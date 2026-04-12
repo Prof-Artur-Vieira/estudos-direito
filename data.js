@@ -21,6 +21,7 @@ const materias = [
           },
           {
             titulo: "Crimes contra o Sentimento Religioso",
+            descricao: "Tabela comparativa · Mapa mental · Roteiro de estudo · Estudo de caso",
             arquivo: "conteudo/penal/penal-iv/03-sentimento-religioso.html"
           }
         ]
