@@ -18,6 +18,10 @@ const materias = [
             titulo: "Crimes contra a Adm. Pública",
             descricao: "Mapa mental · Mapa conceitual · Quadro sinóptico · Roteiro · Estudo de caso",
             arquivo: "conteudo/penal/penal-iv/02-adm-publica.html"
+          },
+          {
+            titulo: "Crimes contra o Sentimento Religioso",
+            arquivo: "conteudo/penal/penal-iv/03-sentimento-religioso.html"
           }
         ]
       }
