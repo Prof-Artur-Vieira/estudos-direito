@@ -1019,6 +1019,10 @@ main {
   #conteudo-area {
     border: 1px solid var(--border);
   }
+
+  .flash-btn-nao { background: rgba(220,38,38,.2); color: #fca5a5; }
+  .flash-btn-sim { background: rgba(22,163,74,.2); color: #86efac; }
+  .flash-btn-deletar:hover { color: #fca5a5; }
 }
 
 /* ── Botão voltar ao topo ── */

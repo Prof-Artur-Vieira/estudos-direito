@@ -247,12 +247,19 @@ function mostrarTabConteudo() {
   document.getElementById('tab-flash')?.classList.remove('ativa')
 }
 
+// Stub — será substituído na Task 7
+function renderFlashSessao(turma) {
+  const area = document.getElementById('tab-area-flash')
+  if (area) area.innerHTML = '<p style="padding:24px;text-align:center;color:var(--text2)">Carregando flashcards...</p>'
+}
+
 function mostrarTabFlash() {
   document.getElementById('tab-area-conteudo').style.display = 'none'
-  document.getElementById('tab-area-flash').style.display = ''
+  const flashArea = document.getElementById('tab-area-flash')
+  if (flashArea) flashArea.style.display = ''
   document.getElementById('tab-conteudo')?.classList.remove('ativa')
   document.getElementById('tab-flash')?.classList.add('ativa')
-  renderFlashSessao(estado.turmaAtual)
+  if (flashArea && !flashArea.hasChildNodes()) renderFlashSessao(estado.turmaAtual)
 }
 
 function executarScripts(container) {
