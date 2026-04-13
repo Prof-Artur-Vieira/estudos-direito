@@ -43,6 +43,16 @@ function skeletonSobre() {
   </div>`
 }
 
+// ── HTML escape helper ──────────────────────────────────
+function esc(str) {
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;')
+}
+
 // ── Temas visitados ──────────────────────────────────────
 const visitados = new Set(JSON.parse(localStorage.getItem('temas_visitados') || '[]'))
 
@@ -249,7 +259,11 @@ function mostrarTabConteudo() {
 
 // localStorage helpers — expandidos na Task 8
 function flashcardsDoAluno(turmaId) {
-  return JSON.parse(localStorage.getItem(`flashcards_${turmaId}`) || '[]')
+  try {
+    return JSON.parse(localStorage.getItem(`flashcards_${turmaId}`) || '[]')
+  } catch {
+    return []
+  }
 }
 
 function renderMeuDeckHTML(turma) {
@@ -288,7 +302,7 @@ function renderFlashSessao(turma) {
 function renderCardHTML(todos, index, acertos, virado) {
   const card = todos[index]
   const total = todos.length
-  const pct = Math.round((index / total) * 100)
+  const pct = Math.round(((index + 1) / total) * 100)
   const profCount = estado.turmaAtual?.flashcards?.length || 0
 
   return `
@@ -298,11 +312,11 @@ function renderCardHTML(todos, index, acertos, virado) {
     </div>
     <div class="flash-barra-wrap">
       <div class="flash-barra-progresso"><div class="flash-barra-fill" style="width:${pct}%"></div></div>
-      <div class="flash-barra-label"><span>${index} vistos</span><span>${acertos} acertos</span></div>
+      <div class="flash-barra-label"><span>Card ${index + 1} de ${total}</span><span>${acertos} acertos</span></div>
     </div>
     <div class="flash-card" onclick="virarCard()">
       <div class="flash-card-label">${virado ? 'Resposta' : 'Pergunta'}</div>
-      <div class="flash-card-texto">${virado ? card.verso : card.frente}</div>
+      <div class="flash-card-texto">${esc(virado ? card.verso : card.frente)}</div>
       ${!virado ? '<div class="flash-card-dica">toque para revelar</div>' : ''}
     </div>
     <div class="flash-acoes">
@@ -310,7 +324,7 @@ function renderCardHTML(todos, index, acertos, virado) {
         <button class="flash-btn flash-btn-nao" onclick="avaliarCard(false)">✗ Não sabia</button>
         <button class="flash-btn flash-btn-sim" onclick="avaliarCard(true)">✓ Sabia!</button>
       ` : `
-        <button class="flash-btn flash-btn-ver" onclick="virarCard()">Ver resposta</button>
+        <button class="flash-btn flash-btn-ver" onclick="event.stopPropagation();virarCard()">Ver resposta</button>
       `}
     </div>
   `
@@ -320,6 +334,7 @@ function virarCard() {
   const area = document.getElementById('flash-sessao-area')
   if (!area) return
   const turma = estado.turmaAtual
+  if (!turma) return
   const todos = [...(turma.flashcards || []), ...flashcardsDoAluno(turma.id)]
   const index = parseInt(area.dataset.index || '0')
   const acertos = parseInt(area.dataset.acertos || '0')
@@ -332,6 +347,7 @@ function avaliarCard(acertou) {
   const area = document.getElementById('flash-sessao-area')
   if (!area) return
   const turma = estado.turmaAtual
+  if (!turma) return
   const todos = [...(turma.flashcards || []), ...flashcardsDoAluno(turma.id)]
   const index = parseInt(area.dataset.index || '0')
   const acertos = parseInt(area.dataset.acertos || '0') + (acertou ? 1 : 0)
