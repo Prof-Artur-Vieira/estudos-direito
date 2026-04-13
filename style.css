@@ -585,7 +585,12 @@ main {
 .card-materia:hover {
   box-shadow: var(--shadow-md);
   transform: translateY(-2px);
-  border-color: var(--blue-light);
+  border-color: var(--blue-accent);
+}
+
+.card-materia:active {
+  transform: translateY(0);
+  box-shadow: var(--shadow-sm);
 }
 
 .card-materia-icon {

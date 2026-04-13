@@ -114,6 +114,7 @@ function renderArvore(fromPop = false) {
         const pct = totalTemas > 0 ? Math.round(totalVisitados / totalTemas * 100) : 0
         return `
           <div class="card-materia" role="button" tabindex="0"
+               aria-label="Abrir ${m.titulo}"
                onclick="selecionarMateria('${m.id}')"
                onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();selecionarMateria('${m.id}')}">
             <div class="card-materia-icon">${m.icone}</div>
@@ -127,7 +128,7 @@ function renderArvore(fromPop = false) {
                 <div class="barra-progresso-label">${totalVisitados} de ${totalTemas} temas lidos</div>
               ` : ''}
             </div>
-            <div class="card-materia-arrow">›</div>
+            <div class="card-materia-arrow" aria-hidden="true">›</div>
           </div>
         `
       }).join('')}
