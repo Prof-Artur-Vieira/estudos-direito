@@ -269,7 +269,7 @@ function flashcardsDoAluno(turmaId) {
 
 function salvarFlashcard(turmaId, frente, verso) {
   const cards = flashcardsDoAluno(turmaId)
-  cards.push({ id: Date.now().toString(), frente: frente.trim(), verso: verso.trim() })
+  cards.push({ id: `${Date.now()}-${Math.random().toString(36).slice(2, 7)}`, frente: frente.trim(), verso: verso.trim() })
   localStorage.setItem(`flashcards_${turmaId}`, JSON.stringify(cards))
 }
 
@@ -311,6 +311,7 @@ function renderMeuDeckHTML(turma) {
 }
 
 function adicionarFlashcard(turmaId) {
+  if (!estado.turmaAtual) return
   const frente = document.getElementById('flash-novo-frente')?.value || ''
   const verso  = document.getElementById('flash-novo-verso')?.value || ''
   if (!frente.trim() || !verso.trim()) {
@@ -322,6 +323,7 @@ function adicionarFlashcard(turmaId) {
 }
 
 function deletarEAtualizar(turmaId, id) {
+  if (!estado.turmaAtual) return
   if (!confirm('Remover este card?')) return
   deletarFlashcard(turmaId, id)
   renderFlashSessao(estado.turmaAtual)
