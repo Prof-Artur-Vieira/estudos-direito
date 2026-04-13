@@ -19,7 +19,7 @@ function skeletonConteudo() {
 function skeletonSobre() {
   return `
   <div style="border-radius:10px;overflow:hidden;box-shadow:var(--shadow-md);animation:fadeUp .3s ease both">
-    <div style="background:linear-gradient(135deg,#162f52 0%,#1F497D 100%);border-bottom:2px solid var(--gold);padding:2.2rem 2rem;display:flex;align-items:center;gap:2rem;flex-wrap:wrap">
+    <div style="background:linear-gradient(135deg,#162f52 0%,#1F497D 100%);border-bottom:2px solid var(--blue-accent);padding:2.2rem 2rem;display:flex;align-items:center;gap:2rem;flex-wrap:wrap">
       <div class="sk-inv" style="width:110px;height:110px;border-radius:50%;flex-shrink:0"></div>
       <div style="flex:1;min-width:150px">
         <div class="sk-inv" style="height:20px;width:180px;margin-bottom:12px"></div>

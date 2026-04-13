@@ -560,7 +560,7 @@ main {
     --blue-mid:    #6a9fd4;
     --blue-light:  #1a2550;
     --blue-hover:  #1e3050;
-    --blue-accent: #6abaff;
+    --blue-accent: #6ABAFF;
     --gold:        #e8c96a;
     --gold-light:  #2a2000;
     --bg:          #0d1b2e;
@@ -662,7 +662,7 @@ main {
 
 /* ── Foco visível (acessibilidade) ── */
 :focus-visible {
-  outline: 2px solid var(--gold);
+  outline: 2px solid var(--blue-accent);
   outline-offset: 3px;
   border-radius: 4px;
 }
