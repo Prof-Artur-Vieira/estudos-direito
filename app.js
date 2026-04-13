@@ -53,20 +53,6 @@ function esc(str) {
     .replace(/'/g, '&#39;')
 }
 
-// ── Temas visitados ──────────────────────────────────────
-const visitados = new Set(JSON.parse(localStorage.getItem('temas_visitados') || '[]'))
-
-function marcarVisitado(arquivo) {
-  visitados.add(arquivo)
-  localStorage.setItem('temas_visitados', JSON.stringify([...visitados]))
-}
-
-function resetarProgresso() {
-  if (!confirm('Apagar todo o histórico de temas lidos?')) return
-  visitados.clear()
-  localStorage.removeItem('temas_visitados')
-  renderArvore()
-}
 
 // ── Estado ──────────────────────────────────────────────
 const estado = { materiaAtual: null, turmaAtual: null }
@@ -117,12 +103,7 @@ function renderArvore(fromPop = false) {
     </div>
     <p class="secao-titulo">Matérias</p>
     <div class="materias-cards">
-      ${materias.map(m => {
-        const totalTemas = m.turmas.reduce((acc, t) => acc + t.temas.length, 0)
-        const totalVisitados = m.turmas.reduce((acc, t) =>
-          acc + t.temas.filter(tema => visitados.has(tema.arquivo)).length, 0)
-        const pct = totalTemas > 0 ? Math.round(totalVisitados / totalTemas * 100) : 0
-        return `
+      ${materias.map(m => `
           <div class="card-materia" role="button" tabindex="0"
                aria-label="Abrir ${m.titulo}"
                onclick="selecionarMateria('${m.id}')"
@@ -131,17 +112,10 @@ function renderArvore(fromPop = false) {
             <div class="card-materia-body">
               <div class="card-materia-titulo">${m.titulo}</div>
               <div class="card-materia-sub">${m.turmas.length} turma${m.turmas.length !== 1 ? 's' : ''}</div>
-              ${totalTemas > 0 ? `
-                <div class="barra-progresso">
-                  <div class="barra-progresso-fill" style="width:${pct}%"></div>
-                </div>
-                <div class="barra-progresso-label">${totalVisitados} de ${totalTemas} temas lidos</div>
-              ` : ''}
             </div>
             <div class="card-materia-arrow" aria-hidden="true">›</div>
           </div>
-        `
-      }).join('')}
+        `).join('')}
     </div>
   `
 }
@@ -498,7 +472,6 @@ function abrirTema(index, fromPop = false) {
   }, '')
   window.scrollTo(0, 0)
 
-  marcarVisitado(tema.arquivo)
   app.innerHTML = skeletonConteudo()
 
   const base = tema.arquivo.substring(0, tema.arquivo.lastIndexOf('/') + 1)

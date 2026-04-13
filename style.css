@@ -658,26 +658,6 @@ main {
   flex-shrink: 0;
 }
 
-/* Barra de progresso genérica */
-.barra-progresso {
-  height: 4px;
-  background: var(--blue-light);
-  border-radius: 2px;
-  overflow: hidden;
-}
-
-.barra-progresso-fill {
-  height: 100%;
-  background: var(--blue-accent);
-  border-radius: 2px;
-  transition: width .3s ease;
-}
-
-.barra-progresso-label {
-  font-size: 10px;
-  color: var(--text2);
-  margin-top: 3px;
-}
 
 /* ── Abas de turma ── */
 .turma-tabs {
