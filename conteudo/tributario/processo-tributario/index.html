@@ -1,45 +1,86 @@
 <style>
-.pt-idx {
-  padding: 1.5rem 0 2rem;
-}
+.pt-idx { padding:1.5rem 0 2rem; }
 .pt-idx-h1 {
-  font-family: var(--serif);
-  font-size: 1.55rem; font-weight: 700;
-  color: var(--blue); margin-bottom: 0.3rem;
+  font-family:var(--serif); font-size:1.55rem; font-weight:700;
+  color:var(--blue); margin-bottom:0.3rem;
 }
 .pt-idx-sub {
-  color: var(--text2); font-size: 0.88rem;
-  margin-bottom: 2rem; font-family: var(--sans);
+  color:var(--text2); font-size:0.88rem;
+  margin-bottom:2rem; font-family:var(--sans);
 }
-.pt-idx-empty {
-  background: var(--surface);
-  border: 1.5px dashed var(--border);
-  border-radius: 10px;
-  padding: 2.5rem 2rem;
-  text-align: center;
-  color: var(--text2);
-  font-family: var(--sans);
+.pt-idx-grid {
+  display:grid; grid-template-columns:repeat(auto-fill, minmax(280px,1fr));
+  gap:14px;
 }
-.pt-idx-empty .pt-idx-icon {
-  font-size: 2.5rem; margin-bottom: 1rem;
+.pt-idx-card {
+  background:var(--surface); border:1px solid var(--border);
+  border-radius:10px; padding:18px 20px;
+  border-top:3px solid var(--blue);
+  cursor:pointer; transition:box-shadow .15s, transform .15s;
+  text-decoration:none; display:block;
 }
-.pt-idx-empty h2 {
-  font-family: var(--serif);
-  font-size: 1.1rem; font-weight: 700;
-  color: var(--text); margin-bottom: 0.5rem;
+.pt-idx-card:hover {
+  box-shadow:0 4px 16px rgba(31,73,125,.14);
+  transform:translateY(-2px);
 }
-.pt-idx-empty p {
-  font-size: 0.85rem; line-height: 1.6;
+.pt-idx-card-num {
+  font-size:11px; font-weight:700; color:var(--blue);
+  letter-spacing:.08em; text-transform:uppercase;
+  margin-bottom:6px; font-family:var(--sans);
+}
+.pt-idx-card-title {
+  font-family:var(--serif); font-size:15px; font-weight:700;
+  color:var(--blue); margin-bottom:6px;
+}
+.pt-idx-card-desc {
+  font-size:12.5px; color:var(--text2); line-height:1.55;
+  font-family:var(--sans);
+}
+.pt-idx-card-tags {
+  margin-top:10px; display:flex; flex-wrap:wrap; gap:5px;
+}
+.pt-idx-tag {
+  font-size:11px; font-weight:600; border-radius:4px;
+  padding:2px 8px; background:var(--blue-light); color:var(--blue);
 }
 </style>
 
 <div class="pt-idx">
   <div class="pt-idx-h1">Processo Tributário</div>
   <p class="pt-idx-sub">Prof. Artur Vieira · Materiais de Apoio · Mapas, Tabelas e Casos Práticos</p>
-  <div class="pt-idx-empty">
-    <div class="pt-idx-icon">📋</div>
-    <h2>Conteúdo em desenvolvimento</h2>
-    <p>Os materiais de Processo Tributário serão adicionados em breve.<br>
-    Acompanhe as atualizações do site.</p>
+  <div class="pt-idx-grid">
+    <a href="01-fazenda-publica.html" class="pt-idx-card">
+      <div class="pt-idx-card-num">Tema 01</div>
+      <div class="pt-idx-card-title">A Fazenda Pública em Juízo</div>
+      <div class="pt-idx-card-desc">Conceito e abrangência · Prerrogativas processuais · Reexame necessário · Honorários escalonados · Precatórios e RPV</div>
+      <div class="pt-idx-card-tags">
+        <span class="pt-idx-tag">Art. 100 CF</span>
+        <span class="pt-idx-tag">Art. 183 CPC</span>
+        <span class="pt-idx-tag">Art. 496 CPC</span>
+        <span class="pt-idx-tag">Lei 12.016/09</span>
+      </div>
+    </a>
+    <a href="02-lancamento.html" class="pt-idx-card">
+      <div class="pt-idx-card-num">Tema 02</div>
+      <div class="pt-idx-card-title">O Lançamento Tributário</div>
+      <div class="pt-idx-card-desc">As 5 funções do lançamento · Modalidades (direto, misto, homologação) · Regra do tempo e vigência · Revisão e alteração do crédito</div>
+      <div class="pt-idx-card-tags">
+        <span class="pt-idx-tag">Art. 142 CTN</span>
+        <span class="pt-idx-tag">Art. 143 CTN</span>
+        <span class="pt-idx-tag">Art. 144 CTN</span>
+        <span class="pt-idx-tag">PAT</span>
+      </div>
+    </a>
+    <a href="03-execucao-fiscal.html" class="pt-idx-card">
+      <div class="pt-idx-card-num">Tema 03</div>
+      <div class="pt-idx-card-title">A Execução Fiscal (LEF)</div>
+      <div class="pt-idx-card-desc">Do nascimento ao título · Citação e garantia · Embargos vs. Exceção de pré-executividade · Expropriação · Redirecionamento e prescrição intercorrente</div>
+      <div class="pt-idx-card-tags">
+        <span class="pt-idx-tag">Lei 6.830/80</span>
+        <span class="pt-idx-tag">Art. 135 CTN</span>
+        <span class="pt-idx-tag">Súm. 435 STJ</span>
+        <span class="pt-idx-tag">Tema 444 STJ</span>
+      </div>
+    </a>
   </div>
 </div>

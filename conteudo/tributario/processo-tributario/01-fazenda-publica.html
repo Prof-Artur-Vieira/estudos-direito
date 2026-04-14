@@ -1,0 +1,491 @@
+<style>
+/* ── Cores extras ────────────────────────────────────── */
+:root {
+  --pt-green:  #276749; --pt-green-lt: #edfaf3;
+  --pt-orange: #b84c0c; --pt-orange-lt:#fff5ee;
+  --pt-red:    #8b1a1a; --pt-red-lt:   #fce8e8;
+  --pt-teal:   #0d5c5c; --pt-teal-lt:  #e6f7f7;
+  --pt-purple: #3c3489; --pt-purple-lt:#eeedfe;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --pt-green:  #6fd86f; --pt-green-lt: #0d2e0d;
+    --pt-orange: #f0a060; --pt-orange-lt:#2e1500;
+    --pt-red:    #f08080; --pt-red-lt:   #2e0d0d;
+    --pt-teal:   #60d8b8; --pt-teal-lt:  #072e22;
+    --pt-purple: #a89cf7; --pt-purple-lt:#1a1840;
+  }
+}
+
+/* ── Abas ────────────────────────────────────────────── */
+.pt-tabs { display:flex; gap:4px; margin-bottom:22px; flex-wrap:wrap; }
+.pt-tab {
+  padding:7px 18px; font-size:13px; font-weight:600;
+  font-family:var(--sans); border:1.5px solid var(--blue);
+  border-radius:6px; cursor:pointer;
+  background:var(--surface); color:var(--blue);
+  transition:background .15s, color .15s;
+}
+.pt-tab:hover { background:var(--blue-hover); }
+.pt-tab.ativo { background:var(--blue); color:#fff; }
+.pt-painel { display:none; }
+.pt-painel.ativo { display:block; }
+
+/* ── Título ──────────────────────────────────────────── */
+.pt-titulo {
+  font-family:var(--serif); font-size:19px; font-weight:700;
+  color:var(--blue); margin-bottom:18px;
+  padding-bottom:10px; border-bottom:2px solid var(--border);
+}
+
+/* ── Componentes compartilhados ──────────────────────── */
+.pt-section-title {
+  font-family:var(--serif); font-size:15px; font-weight:700; color:var(--blue);
+  border-left:3px solid var(--gold); padding-left:10px; margin:24px 0 12px;
+}
+.pt-section-title:first-child { margin-top:0; }
+
+.pt-table-wrap { overflow-x:auto; margin:10px 0 18px; }
+.pt-table { width:100%; border-collapse:collapse; font-size:13px; }
+.pt-table thead th {
+  background:var(--blue); color:#fff;
+  padding:8px 12px; text-align:left; font-weight:600; font-family:var(--sans);
+}
+.pt-table tbody td {
+  padding:7px 12px; border-bottom:1px solid var(--border);
+  vertical-align:top; color:var(--text);
+}
+.pt-table tbody tr:nth-child(even) td { background:var(--blue-light); }
+.pt-table tbody td:first-child { font-weight:600; color:var(--blue); }
+
+.pt-grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(210px,1fr)); gap:10px; margin:10px 0 18px; }
+.pt-card {
+  background:var(--surface); border:1px solid var(--border);
+  border-radius:8px; padding:14px 16px; border-top:3px solid var(--blue);
+}
+.pt-card.verde   { border-top-color:var(--pt-green); }
+.pt-card.laranja { border-top-color:var(--pt-orange); }
+.pt-card.teal    { border-top-color:var(--pt-teal); }
+.pt-card.roxo    { border-top-color:var(--pt-purple); }
+.pt-card.vermelho{ border-top-color:var(--pt-red); }
+.pt-card h4 { font-size:13.5px; color:var(--blue); margin-bottom:6px; font-weight:700; }
+.pt-card p, .pt-card li { font-size:12.5px; color:var(--text2); line-height:1.55; }
+.pt-card ul { padding-left:14px; margin-top:5px; }
+
+.pt-alert {
+  border-radius:7px; padding:10px 14px; margin:10px 0;
+  font-size:13px; border-left:4px solid; line-height:1.55;
+}
+.pt-alert.info    { background:var(--blue-light);   border-color:var(--blue);       color:var(--text); }
+.pt-alert.atencao { background:var(--pt-orange-lt); border-color:var(--pt-orange);  color:var(--text); }
+.pt-alert.ok      { background:var(--pt-green-lt);  border-color:var(--pt-green);   color:var(--text); }
+.pt-alert.roxo    { background:var(--pt-purple-lt); border-color:var(--pt-purple);  color:var(--text); }
+.pt-alert strong  { display:block; margin-bottom:3px; }
+
+.pt-badge {
+  display:inline-block; font-size:11px; font-weight:600;
+  border-radius:4px; padding:2px 7px; margin:2px 2px 0 0;
+}
+.pt-b-blue   { background:var(--blue-light);   color:var(--blue); }
+.pt-b-green  { background:var(--pt-green-lt);  color:var(--pt-green); }
+.pt-b-orange { background:var(--pt-orange-lt); color:var(--pt-orange); }
+.pt-b-red    { background:var(--pt-red-lt);    color:var(--pt-red); }
+.pt-b-teal   { background:var(--pt-teal-lt);   color:var(--pt-teal); }
+.pt-b-roxo   { background:var(--pt-purple-lt); color:var(--pt-purple); }
+
+/* ── Roteiro ─────────────────────────────────────────── */
+.pt-step { display:flex; gap:10px; margin-bottom:8px; align-items:flex-start; }
+.pt-num {
+  flex-shrink:0; width:24px; height:24px; border-radius:50%;
+  display:flex; align-items:center; justify-content:center;
+  font-size:11.5px; font-weight:600; margin-top:2px;
+}
+.pt-num.azul   { background:var(--blue-light);   color:var(--blue); }
+.pt-num.verde  { background:var(--pt-green-lt);  color:var(--pt-green); }
+.pt-num.laranja{ background:var(--pt-orange-lt); color:var(--pt-orange); }
+.pt-num.roxo   { background:var(--pt-purple-lt); color:var(--pt-purple); }
+.pt-txt { flex:1; font-size:13.5px; color:var(--text); line-height:1.6; }
+.pt-quest {
+  background:var(--surface); border-left:3px solid var(--gold);
+  border-radius:0 6px 6px 0; padding:8px 12px;
+  margin:4px 0 14px 34px; font-size:13px; color:var(--text2);
+}
+.pt-divider { border:none; border-top:1px solid var(--border); margin:16px 0; }
+
+/* ── Infográfico ─────────────────────────────────────── */
+.pt-infog-wrap {
+  text-align:center; padding:8px 0 16px;
+}
+.pt-infog-wrap img {
+  max-width:100%; border-radius:10px;
+  box-shadow:0 4px 18px rgba(31,73,125,.18);
+}
+.pt-infog-caption {
+  font-size:12px; color:var(--text2); margin-top:10px;
+  font-family:var(--sans);
+}
+
+/* ── Estudo de Caso ──────────────────────────────────── */
+.pt-caso-header {
+  background:linear-gradient(135deg, var(--blue-dark,#162f52) 0%, var(--blue) 100%);
+  border-radius:10px; padding:22px 26px; color:#fff; margin-bottom:20px;
+}
+.pt-caso-header .pt-label {
+  font-size:11px; font-weight:600; letter-spacing:.1em;
+  text-transform:uppercase; color:var(--gold); margin-bottom:5px;
+}
+.pt-caso-header h3 { font-family:var(--serif); font-size:20px; margin-bottom:8px; }
+.pt-caso-header p  { font-size:13px; opacity:.9; line-height:1.55; }
+.pt-pergunta {
+  background:var(--surface); border:1px solid var(--border);
+  border-radius:8px; margin-bottom:12px; overflow:hidden;
+}
+.pt-pergunta-head {
+  display:flex; align-items:center; gap:12px;
+  padding:12px 16px; cursor:pointer; user-select:none; background:var(--bg);
+}
+.pt-pergunta-head:hover { background:var(--blue-hover); }
+.pt-pnum {
+  width:28px; height:28px; border-radius:50%;
+  background:var(--blue); color:#fff;
+  display:flex; align-items:center; justify-content:center;
+  font-size:13px; font-weight:700; flex-shrink:0;
+}
+.pt-pergunta-head p { flex:1; font-size:13.5px; color:var(--text); font-weight:600; margin:0; }
+.pt-pergunta-head .pt-toggle { font-size:18px; color:var(--text2); transition:transform .2s; }
+.pt-pergunta-body {
+  display:none; padding:14px 16px 14px 56px; font-size:13px;
+  color:var(--text2); line-height:1.65; border-top:1px solid var(--border);
+}
+.pt-pergunta-body.open { display:block; }
+.pt-pergunta-body strong { color:var(--blue); }
+.pt-pergunta-body p { margin-bottom:8px; }
+
+/* ── Diagrama Precatórios ────────────────────────────── */
+.pt-prec-flow {
+  display:flex; flex-direction:column; gap:8px; margin:10px 0 18px;
+}
+.pt-prec-item {
+  display:flex; align-items:flex-start; gap:12px;
+  background:var(--surface); border:1px solid var(--border);
+  border-radius:8px; padding:12px 16px;
+  border-left:4px solid var(--blue);
+}
+.pt-prec-item.destaque { border-left-color:var(--gold); }
+.pt-prec-item.alerta   { border-left-color:var(--pt-orange); }
+.pt-prec-icon { font-size:20px; flex-shrink:0; margin-top:1px; }
+.pt-prec-content h4 { font-size:13.5px; font-weight:700; color:var(--blue); margin-bottom:3px; }
+.pt-prec-content p  { font-size:12.5px; color:var(--text2); line-height:1.55; }
+</style>
+
+<h2 class="pt-titulo">A Fazenda Pública em Juízo — Prerrogativas e Regime de Pagamentos</h2>
+
+<div class="pt-tabs">
+  <button class="pt-tab ativo" onclick="ptTab('visao', this)">Visão Geral</button>
+  <button class="pt-tab" onclick="ptTab('infog', this)">Infográfico</button>
+  <button class="pt-tab" onclick="ptTab('roteiro', this)">Roteiro de Estudo</button>
+  <button class="pt-tab" onclick="ptTab('caso', this)">Estudo de Caso</button>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════
+     ABA 1 — VISÃO GERAL
+═══════════════════════════════════════════════════════ -->
+<div id="pt-visao" class="pt-painel ativo">
+
+  <div class="pt-section-title">O que é a Fazenda Pública?</div>
+  <div class="pt-alert info">
+    <strong>📌 Conceito (Carvalho Filho)</strong>
+    Praxe forense para denominar as pessoas jurídicas de direito público em juízo — remete diretamente ao Erário. Quando a "Fazenda" ocupa o polo da lide, atrai o regime especial de prerrogativas, fundamentado na <em>indisponibilidade do interesse público</em>.
+  </div>
+
+  <div class="pt-grid">
+    <div class="pt-card verde">
+      <h4>✅ Integram a Fazenda Pública</h4>
+      <ul>
+        <li><strong>Adm. Direta:</strong> União, Estados, DF, Municípios</li>
+        <li><strong>Autarquias</strong> (incl. associações públicas)</li>
+        <li><strong>Fundações Públicas</strong> de dir. público</li>
+      </ul>
+    </div>
+    <div class="pt-card vermelho">
+      <h4>❌ Excluídas do Conceito</h4>
+      <ul>
+        <li>Empresas Públicas</li>
+        <li>Sociedades de Economia Mista</li>
+      </ul>
+      <p style="margin-top:6px">Pessoas jurídicas de direito <strong>privado</strong> — sem prerrogativas processuais.</p>
+    </div>
+    <div class="pt-card teal">
+      <h4>⚖️ Representação Judicial</h4>
+      <ul>
+        <li><strong>União:</strong> AGU / PGFN (dívida ativa)</li>
+        <li><strong>Estados/DF/Mun.:</strong> Procuradores de carreira</li>
+      </ul>
+      <p style="margin-top:6px">Base: Arts. 131 e 132 CF. Dispensam mandato (Súm. 436 TST).</p>
+    </div>
+  </div>
+
+  <div class="pt-section-title">Prerrogativas Processuais (CPC/15)</div>
+  <div class="pt-table-wrap">
+    <table class="pt-table">
+      <thead><tr><th>Prerrogativa</th><th>Regra</th><th>Base Legal</th></tr></thead>
+      <tbody>
+        <tr>
+          <td>Prazo em Dobro</td>
+          <td>Para <em>todas</em> as manifestações processuais, salvo prazo específico em lei</td>
+          <td>Art. 183 CPC</td>
+        </tr>
+        <tr>
+          <td>Intimação Pessoal</td>
+          <td>Por carga, remessa ou meio eletrônico — prazo conta do <em>recebimento pelo órgão</em>, não pela mesa do procurador</td>
+          <td>Art. 183 §1º; Art. 269 §3º CPC</td>
+        </tr>
+        <tr>
+          <td>Reexame Necessário</td>
+          <td>Condição de eficácia: sentença contra a Fazenda só produz efeitos após confirmação pelo Tribunal</td>
+          <td>Art. 496 CPC</td>
+        </tr>
+        <tr>
+          <td>Honorários Escalonados</td>
+          <td>Faixas progressivas (10→1%) conforme o valor da condenação</td>
+          <td>Art. 85 §3º CPC</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="pt-alert atencao">
+    <strong>⚠️ Limites do Reexame Necessário (§3º)</strong>
+    Dispensado quando: União &lt; 1.000 SM · Estados/Capitais &lt; 500 SM · Demais Municípios &lt; 100 SM.
+    Também dispensado se sentença fundada em súmula de tribunal superior, acórdão repetitivo, IRDR ou IAC (§4º).
+  </div>
+
+  <div class="pt-section-title">Honorários — Escalonamento Obrigatório (Art. 85 §3º CPC)</div>
+  <div class="pt-table-wrap">
+    <table class="pt-table">
+      <thead><tr><th>Valor da Condenação / Proveito Econômico</th><th>Mínimo</th><th>Máximo</th></tr></thead>
+      <tbody>
+        <tr><td>Até 200 salários-mínimos</td><td>10%</td><td>20%</td></tr>
+        <tr><td>Acima de 200 até 2.000 SM</td><td>8%</td><td>10%</td></tr>
+        <tr><td>Acima de 2.000 até 20.000 SM</td><td>5%</td><td>8%</td></tr>
+        <tr><td>Acima de 20.000 até 100.000 SM</td><td>3%</td><td>5%</td></tr>
+        <tr><td>Acima de 100.000 SM</td><td>1%</td><td>3%</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="pt-alert roxo">
+    <strong>🔎 Tema 1313 STJ</strong>
+    Em demandas sobre direito à saúde, honorários por <em>apreciação equitativa</em> — afasta-se o escalonamento do Art. 85 §3º.
+  </div>
+
+  <div class="pt-section-title">Regime de Pagamentos: Precatórios e RPV</div>
+  <div class="pt-prec-flow">
+    <div class="pt-prec-item">
+      <div class="pt-prec-icon">📋</div>
+      <div class="pt-prec-content">
+        <h4>Regra Geral — Ordem Cronológica (Art. 100 CF)</h4>
+        <p>Pagamentos por sentença judicial seguem ordem cronológica com dotação orçamentária específica. O presidente do Tribunal pode determinar sequestro em caso de preterimento ou falta de alocação orçamentária (§6º).</p>
+      </div>
+    </div>
+    <div class="pt-prec-item destaque">
+      <div class="pt-prec-icon">🥇</div>
+      <div class="pt-prec-content">
+        <h4>Débitos Alimentares (§1º e §2º)</h4>
+        <p><strong>Preferência geral:</strong> Salários, pensões, indenizações.<br>
+        <strong>Superpreferência:</strong> Titulares com 60+ anos, doença grave ou deficiência — pagamento prioritário até 3× o limite da RPV; excedente retorna à fila geral. Permite fracionamento.</p>
+      </div>
+    </div>
+    <div class="pt-prec-item">
+      <div class="pt-prec-icon">💵</div>
+      <div class="pt-prec-content">
+        <h4>RPV — Requisição de Pequeno Valor (§3º e §4º)</h4>
+        <p>Obrigações de pequeno valor (mínimo = teto do RGPS, definido por lei local). Dispensam o rito de precatórios.</p>
+      </div>
+    </div>
+    <div class="pt-prec-item alerta">
+      <div class="pt-prec-icon">📊</div>
+      <div class="pt-prec-content">
+        <h4>Regra dos 15% — Parcelamento Especial (§20)</h4>
+        <p>Se um precatório exceder 15% do montante total do ano: paga-se 15% à vista (até o fim do exercício seguinte) + restante em 5 parcelas anuais.</p>
+      </div>
+    </div>
+    <div class="pt-prec-item">
+      <div class="pt-prec-icon">🔄</div>
+      <div class="pt-prec-content">
+        <h4>Compensação e Cessão (§9º, §10, §13, §14)</h4>
+        <p><strong>Abatimento:</strong> Fisco pode deduzir débitos do credor inscritos em dívida ativa antes da expedição do requisitório.<br>
+        <strong>Cessão:</strong> Livre a terceiros, independente de concordância do devedor — mas <em>superpreferências não se transferem</em> ao cessionário.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="pt-section-title">Limitações Tutelares e Suspensão de Segurança</div>
+  <div class="pt-alert atencao">
+    <strong>🚫 Vedações de Liminares em MS (Art. 7º §2º Lei 12.016/09)</strong>
+    Proibido conceder liminar para: (1) compensação de créditos tributários; (2) entrega de mercadorias importadas; (3) reclassificação/equiparação de servidores ou aumento de vencimentos.
+  </div>
+  <div class="pt-alert ok">
+    <strong>✅ ADI 4296/DF — STF</strong>
+    O STF declarou inconstitucional a proibição absoluta ou condicionamento de liminares em MS, preservando o poder geral de cautela do Judiciário.
+  </div>
+
+</div>
+
+<!-- ═══════════════════════════════════════════════════════
+     ABA 2 — INFOGRÁFICO
+═══════════════════════════════════════════════════════ -->
+<div id="pt-infog" class="pt-painel">
+  <div class="pt-infog-wrap">
+    <img src="conteudo/tributario/processo-tributario/img/fazenda-publica.png"
+         alt="Infográfico: Guia Prático — A Fazenda Pública em Juízo">
+    <p class="pt-infog-caption">Guia Prático: A Fazenda Pública em Juízo · Produzido via NotebookLM</p>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════
+     ABA 3 — ROTEIRO DE ESTUDO
+═══════════════════════════════════════════════════════ -->
+<div id="pt-roteiro" class="pt-painel">
+
+  <div class="pt-section-title">Roteiro de Estudo — 5 Passos</div>
+
+  <div class="pt-step">
+    <div class="pt-num azul">1</div>
+    <div class="pt-txt"><strong>Conceito e abrangência.</strong> Defina "Fazenda Pública" (Carvalho Filho), distinga sentido objetivo e subjetivo da Administração, e identifique quais entidades integram ou não o conceito.</div>
+  </div>
+  <div class="pt-quest">❓ Uma sociedade de economia mista federal litiga contra um particular. Ela goza das prerrogativas processuais da Fazenda Pública?</div>
+
+  <div class="pt-step">
+    <div class="pt-num azul">2</div>
+    <div class="pt-txt"><strong>Representação judicial.</strong> Memorize os órgãos representantes (AGU/PGFN para União; Procuradores para Estados/DF/Municípios) e o teor da Súmula 436 TST sobre dispensa de mandato.</div>
+  </div>
+  <div class="pt-quest">❓ O procurador do Município assina uma peça sem apresentar procuração. Pode ser rejeitada?</div>
+
+  <div class="pt-step">
+    <div class="pt-num verde">3</div>
+    <div class="pt-txt"><strong>Prerrogativas processuais.</strong> Domine o prazo em dobro (Art. 183 CPC), a intimação pessoal e o reexame necessário com seus limites de dispensa (§3º) e exceções (§4º).</div>
+  </div>
+  <div class="pt-quest">❓ Sentença condena o Estado do Maranhão ao pagamento de 400 SM. Há reexame necessário?</div>
+
+  <div class="pt-step">
+    <div class="pt-num verde">4</div>
+    <div class="pt-txt"><strong>Honorários escalonados.</strong> Decore o quadro de faixas (Art. 85 §3º) e a exceção do Tema 1313 STJ para causas de saúde. Note que as alíquotas decrescem com o valor da causa.</div>
+  </div>
+  <div class="pt-quest">❓ Condenação de 3.000 SM. Qual a faixa de honorários aplicável?</div>
+
+  <div class="pt-step">
+    <div class="pt-num laranja">5</div>
+    <div class="pt-txt"><strong>Precatórios, RPV e superpreferências.</strong> Entenda a ordem cronológica, as prioridades constitucionais, a regra dos 15%, a possibilidade de compensação e os limites da cessão de créditos.</div>
+  </div>
+  <div class="pt-quest">❓ Credor com 70 anos tem precatório de 10× o limite da RPV. Qual o tratamento prioritário?</div>
+
+  <hr class="pt-divider">
+
+  <div class="pt-section-title">Mapa Legislativo Essencial</div>
+  <div class="pt-grid">
+    <div class="pt-card">
+      <h4>CF/88</h4>
+      <ul>
+        <li>Art. 100 — Precatórios</li>
+        <li>Arts. 131/132 — Representação</li>
+      </ul>
+    </div>
+    <div class="pt-card verde">
+      <h4>CPC/15</h4>
+      <ul>
+        <li>Art. 85 §3º — Honorários</li>
+        <li>Art. 183 — Prazos</li>
+        <li>Art. 496 — Reexame</li>
+      </ul>
+    </div>
+    <div class="pt-card laranja">
+      <h4>Lei 12.016/09</h4>
+      <ul>
+        <li>Art. 7º §2º — Vedações</li>
+        <li>Art. 15 — Suspensão</li>
+      </ul>
+    </div>
+    <div class="pt-card teal">
+      <h4>Jurisprudência</h4>
+      <ul>
+        <li>Súm. 436 TST — Mandato</li>
+        <li>Tema 1313 STJ — Saúde</li>
+        <li>ADI 4296 STF — MS</li>
+      </ul>
+    </div>
+  </div>
+
+</div>
+
+<!-- ═══════════════════════════════════════════════════════
+     ABA 4 — ESTUDO DE CASO
+═══════════════════════════════════════════════════════ -->
+<div id="pt-caso" class="pt-painel">
+  <div class="pt-caso-header">
+    <div class="pt-label">Estudo de Caso</div>
+    <h3>Município de Carvalho vs. Empresa ABC Ltda.</h3>
+    <p>O Município de Carvalho (população: 45.000 hab.) foi condenado em ação ordinária movida pela Empresa ABC a pagar indenização de R$ 1.200.000,00 (equivalente a 800 SM). A sentença de 1ª instância transitou em julgado sem remessa ao Tribunal. Analise as questões processuais envolvidas.</p>
+  </div>
+  <div>
+    <div class="pt-pergunta">
+      <div class="pt-pergunta-head" onclick="ptPergunta(this)">
+        <div class="pt-pnum">1</div>
+        <p>A sentença produz efeitos imediatos? Há necessidade de reexame necessário?</p>
+        <span class="pt-toggle">▼</span>
+      </div>
+      <div class="pt-pergunta-body">
+        <p><strong>Não há reexame necessário.</strong> O Art. 496 §3º, III do CPC dispensa o duplo grau obrigatório quando o valor da condenação não excede 100 SM para municípios que não sejam capitais estaduais. O caso (800 SM) <em>ultrapassa</em> esse limite — portanto, <strong>o reexame era necessário</strong> e a ausência de remessa torna a sentença ineficaz até a confirmação pelo Tribunal, configurando nulidade processual.</p>
+        <p><strong>Base:</strong> Art. 496 §3º, III CPC. O Município não é capital de estado, portanto o limite aplicável é de 100 SM.</p>
+      </div>
+    </div>
+
+    <div class="pt-pergunta">
+      <div class="pt-pergunta-head" onclick="ptPergunta(this)">
+        <div class="pt-pnum">2</div>
+        <p>Como serão calculados os honorários advocatícios?</p>
+        <span class="pt-toggle">▼</span>
+      </div>
+      <div class="pt-pergunta-body">
+        <p>O valor (800 SM) enquadra-se na 2ª faixa do Art. 85 §3º CPC (acima de 200 até 2.000 SM) → <strong>honorários entre 8% e 10%</strong>. As faixas são aplicadas de forma escalonada sobre cada intervalo (progressividade), não linear sobre o total.</p>
+        <p>Cálculo ilustrativo (mínimo): 200 SM × 10% = 20 SM + 600 SM × 8% = 48 SM → <strong>mínimo de 68 SM</strong> em honorários.</p>
+      </div>
+    </div>
+
+    <div class="pt-pergunta">
+      <div class="pt-pergunta-head" onclick="ptPergunta(this)">
+        <div class="pt-pnum">3</div>
+        <p>O pagamento seguirá o rito de precatório ou RPV?</p>
+        <span class="pt-toggle">▼</span>
+      </div>
+      <div class="pt-pergunta-body">
+        <p>Depende do valor da RPV fixado pelo Município por lei. O mínimo constitucional para RPV equivale ao teto do RGPS (§4º). Se a condenação (800 SM ≈ R$ 1,2 mi) superar o limite local da RPV — o que provavelmente ocorre — o pagamento será por <strong>precatório</strong>, observando a ordem cronológica (Art. 100 caput CF).</p>
+      </div>
+    </div>
+
+    <div class="pt-pergunta">
+      <div class="pt-pergunta-head" onclick="ptPergunta(this)">
+        <div class="pt-pnum">4</div>
+        <p>A Empresa ABC pode ceder seu crédito a um fundo de investimentos? As preferências se transferem?</p>
+        <span class="pt-toggle">▼</span>
+      </div>
+      <div class="pt-pergunta-body">
+        <p><strong>Sim, a cessão é livre</strong> (Art. 100 §13 CF), independente da concordância do devedor. Contudo, se a Empresa ABC fosse credora com <em>superpreferência</em> (60+ anos, doença grave ou deficiência), <strong>esse benefício não se transmite ao cessionário</strong> (§14 CF). O fundo receberia o crédito, mas perderia a posição prioritária na fila.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+function ptTab(id, btn) {
+  document.querySelectorAll('.pt-painel').forEach(p => p.classList.remove('ativo'));
+  document.querySelectorAll('.pt-tab').forEach(b => b.classList.remove('ativo'));
+  document.getElementById('pt-' + id).classList.add('ativo');
+  btn.classList.add('ativo');
+}
+function ptPergunta(head) {
+  const body = head.nextElementSibling;
+  const toggle = head.querySelector('.pt-toggle');
+  body.classList.toggle('open');
+  toggle.style.transform = body.classList.contains('open') ? 'rotate(180deg)' : '';
+}
+</script>

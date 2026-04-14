@@ -1,0 +1,514 @@
+<style>
+/* ── Cores extras ────────────────────────────────────── */
+:root {
+  --pt-green:  #276749; --pt-green-lt: #edfaf3;
+  --pt-orange: #b84c0c; --pt-orange-lt:#fff5ee;
+  --pt-red:    #8b1a1a; --pt-red-lt:   #fce8e8;
+  --pt-teal:   #0d5c5c; --pt-teal-lt:  #e6f7f7;
+  --pt-purple: #3c3489; --pt-purple-lt:#eeedfe;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --pt-green:  #6fd86f; --pt-green-lt: #0d2e0d;
+    --pt-orange: #f0a060; --pt-orange-lt:#2e1500;
+    --pt-red:    #f08080; --pt-red-lt:   #2e0d0d;
+    --pt-teal:   #60d8b8; --pt-teal-lt:  #072e22;
+    --pt-purple: #a89cf7; --pt-purple-lt:#1a1840;
+  }
+}
+
+/* ── Abas ────────────────────────────────────────────── */
+.pt-tabs { display:flex; gap:4px; margin-bottom:22px; flex-wrap:wrap; }
+.pt-tab {
+  padding:7px 18px; font-size:13px; font-weight:600;
+  font-family:var(--sans); border:1.5px solid var(--blue);
+  border-radius:6px; cursor:pointer;
+  background:var(--surface); color:var(--blue);
+  transition:background .15s, color .15s;
+}
+.pt-tab:hover { background:var(--blue-hover); }
+.pt-tab.ativo { background:var(--blue); color:#fff; }
+.pt-painel { display:none; }
+.pt-painel.ativo { display:block; }
+
+/* ── Título ──────────────────────────────────────────── */
+.pt-titulo {
+  font-family:var(--serif); font-size:19px; font-weight:700;
+  color:var(--blue); margin-bottom:18px;
+  padding-bottom:10px; border-bottom:2px solid var(--border);
+}
+
+/* ── Componentes ─────────────────────────────────────── */
+.pt-section-title {
+  font-family:var(--serif); font-size:15px; font-weight:700; color:var(--blue);
+  border-left:3px solid var(--gold); padding-left:10px; margin:24px 0 12px;
+}
+.pt-section-title:first-child { margin-top:0; }
+
+.pt-table-wrap { overflow-x:auto; margin:10px 0 18px; }
+.pt-table { width:100%; border-collapse:collapse; font-size:13px; }
+.pt-table thead th {
+  background:var(--blue); color:#fff;
+  padding:8px 12px; text-align:left; font-weight:600; font-family:var(--sans);
+}
+.pt-table tbody td {
+  padding:7px 12px; border-bottom:1px solid var(--border);
+  vertical-align:top; color:var(--text);
+}
+.pt-table tbody tr:nth-child(even) td { background:var(--blue-light); }
+.pt-table tbody td:first-child { font-weight:600; color:var(--blue); }
+
+.pt-grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(210px,1fr)); gap:10px; margin:10px 0 18px; }
+.pt-card {
+  background:var(--surface); border:1px solid var(--border);
+  border-radius:8px; padding:14px 16px; border-top:3px solid var(--blue);
+}
+.pt-card.verde   { border-top-color:var(--pt-green); }
+.pt-card.laranja { border-top-color:var(--pt-orange); }
+.pt-card.teal    { border-top-color:var(--pt-teal); }
+.pt-card.roxo    { border-top-color:var(--pt-purple); }
+.pt-card.vermelho{ border-top-color:var(--pt-red); }
+.pt-card h4 { font-size:13.5px; color:var(--blue); margin-bottom:6px; font-weight:700; }
+.pt-card p, .pt-card li { font-size:12.5px; color:var(--text2); line-height:1.55; }
+.pt-card ul { padding-left:14px; margin-top:5px; }
+
+.pt-alert {
+  border-radius:7px; padding:10px 14px; margin:10px 0;
+  font-size:13px; border-left:4px solid; line-height:1.55;
+}
+.pt-alert.info    { background:var(--blue-light);   border-color:var(--blue);      color:var(--text); }
+.pt-alert.atencao { background:var(--pt-orange-lt); border-color:var(--pt-orange); color:var(--text); }
+.pt-alert.ok      { background:var(--pt-green-lt);  border-color:var(--pt-green);  color:var(--text); }
+.pt-alert.roxo    { background:var(--pt-purple-lt); border-color:var(--pt-purple); color:var(--text); }
+.pt-alert strong  { display:block; margin-bottom:3px; }
+
+.pt-badge {
+  display:inline-block; font-size:11px; font-weight:600;
+  border-radius:4px; padding:2px 7px; margin:2px 2px 0 0;
+}
+.pt-b-blue   { background:var(--blue-light);   color:var(--blue); }
+.pt-b-green  { background:var(--pt-green-lt);  color:var(--pt-green); }
+.pt-b-orange { background:var(--pt-orange-lt); color:var(--pt-orange); }
+.pt-b-red    { background:var(--pt-red-lt);    color:var(--pt-red); }
+.pt-b-teal   { background:var(--pt-teal-lt);   color:var(--pt-teal); }
+
+/* ── Timeline de fases ───────────────────────────────── */
+.pt-phases { display:flex; flex-direction:column; gap:4px; margin:10px 0 20px; }
+.pt-phase {
+  border-radius:10px; overflow:hidden;
+  border:1px solid var(--border);
+}
+.pt-phase-head {
+  display:flex; align-items:center; gap:12px;
+  padding:12px 18px; cursor:pointer; user-select:none;
+}
+.pt-phase-head:hover { filter:brightness(0.97); }
+.pt-phase-badge {
+  font-size:11px; font-weight:700; letter-spacing:.06em; text-transform:uppercase;
+  padding:3px 10px; border-radius:20px; flex-shrink:0;
+}
+.pt-phase-head h3 { font-family:var(--serif); font-size:14.5px; font-weight:700; flex:1; margin:0; }
+.pt-phase-toggle  { font-size:16px; transition:transform .2s; }
+.pt-phase-body    { display:none; padding:14px 18px 16px; border-top:1px solid var(--border); }
+.pt-phase-body.open { display:block; }
+
+.pt-phase-1 .pt-phase-head  { background:#EBF2FA; }
+.pt-phase-1 .pt-phase-head h3 { color:var(--blue); }
+.pt-phase-1 .pt-phase-badge { background:var(--blue); color:#fff; }
+
+.pt-phase-2 .pt-phase-head  { background:#E6F7F7; }
+.pt-phase-2 .pt-phase-head h3 { color:var(--pt-teal); }
+.pt-phase-2 .pt-phase-badge { background:var(--pt-teal); color:#fff; }
+
+.pt-phase-3 .pt-phase-head  { background:#FFF5EE; }
+.pt-phase-3 .pt-phase-head h3 { color:var(--pt-orange); }
+.pt-phase-3 .pt-phase-badge { background:var(--pt-orange); color:#fff; }
+
+.pt-phase-4 .pt-phase-head  { background:#EDFAF3; }
+.pt-phase-4 .pt-phase-head h3 { color:var(--pt-green); }
+.pt-phase-4 .pt-phase-badge { background:var(--pt-green); color:#fff; }
+
+/* ── Roteiro ─────────────────────────────────────────── */
+.pt-step { display:flex; gap:10px; margin-bottom:8px; align-items:flex-start; }
+.pt-num {
+  flex-shrink:0; width:24px; height:24px; border-radius:50%;
+  display:flex; align-items:center; justify-content:center;
+  font-size:11.5px; font-weight:600; margin-top:2px;
+}
+.pt-num.azul   { background:var(--blue-light);   color:var(--blue); }
+.pt-num.verde  { background:var(--pt-green-lt);  color:var(--pt-green); }
+.pt-num.laranja{ background:var(--pt-orange-lt); color:var(--pt-orange); }
+.pt-num.roxo   { background:var(--pt-purple-lt); color:var(--pt-purple); }
+.pt-txt { flex:1; font-size:13.5px; color:var(--text); line-height:1.6; }
+.pt-quest {
+  background:var(--surface); border-left:3px solid var(--gold);
+  border-radius:0 6px 6px 0; padding:8px 12px;
+  margin:4px 0 14px 34px; font-size:13px; color:var(--text2);
+}
+.pt-divider { border:none; border-top:1px solid var(--border); margin:16px 0; }
+
+/* ── Infográfico ─────────────────────────────────────── */
+.pt-infog-wrap { text-align:center; padding:8px 0 16px; }
+.pt-infog-wrap img {
+  max-width:100%; border-radius:10px;
+  box-shadow:0 4px 18px rgba(31,73,125,.18);
+}
+.pt-infog-caption { font-size:12px; color:var(--text2); margin-top:10px; font-family:var(--sans); }
+
+/* ── Estudo de Caso ──────────────────────────────────── */
+.pt-caso-header {
+  background:linear-gradient(135deg, var(--blue-dark,#162f52) 0%, var(--blue) 100%);
+  border-radius:10px; padding:22px 26px; color:#fff; margin-bottom:20px;
+}
+.pt-caso-header .pt-label {
+  font-size:11px; font-weight:600; letter-spacing:.1em;
+  text-transform:uppercase; color:var(--gold); margin-bottom:5px;
+}
+.pt-caso-header h3 { font-family:var(--serif); font-size:20px; margin-bottom:8px; }
+.pt-caso-header p  { font-size:13px; opacity:.9; line-height:1.55; }
+.pt-pergunta {
+  background:var(--surface); border:1px solid var(--border);
+  border-radius:8px; margin-bottom:12px; overflow:hidden;
+}
+.pt-pergunta-head {
+  display:flex; align-items:center; gap:12px;
+  padding:12px 16px; cursor:pointer; user-select:none; background:var(--bg);
+}
+.pt-pergunta-head:hover { background:var(--blue-hover); }
+.pt-pnum {
+  width:28px; height:28px; border-radius:50%;
+  background:var(--blue); color:#fff;
+  display:flex; align-items:center; justify-content:center;
+  font-size:13px; font-weight:700; flex-shrink:0;
+}
+.pt-pergunta-head p { flex:1; font-size:13.5px; color:var(--text); font-weight:600; margin:0; }
+.pt-pergunta-head .pt-toggle { font-size:18px; color:var(--text2); transition:transform .2s; }
+.pt-pergunta-body {
+  display:none; padding:14px 16px 14px 56px; font-size:13px;
+  color:var(--text2); line-height:1.65; border-top:1px solid var(--border);
+}
+.pt-pergunta-body.open { display:block; }
+.pt-pergunta-body strong { color:var(--blue); }
+.pt-pergunta-body p { margin-bottom:8px; }
+</style>
+
+<h2 class="pt-titulo">A Execução Fiscal (LEF) — Do Nascimento ao Título à Satisfação do Crédito</h2>
+
+<div class="pt-tabs">
+  <button class="pt-tab ativo" onclick="ptTab3('visao', this)">Visão Geral</button>
+  <button class="pt-tab" onclick="ptTab3('infog', this)">Infográfico</button>
+  <button class="pt-tab" onclick="ptTab3('roteiro', this)">Roteiro de Estudo</button>
+  <button class="pt-tab" onclick="ptTab3('caso', this)">Estudo de Caso</button>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════
+     ABA 1 — VISÃO GERAL
+═══════════════════════════════════════════════════════ -->
+<div id="pt3-visao" class="pt-painel ativo">
+
+  <div class="pt-section-title">O que é a Execução Fiscal?</div>
+  <div class="pt-alert info">
+    <strong>📌 Base Legal: Lei 6.830/80 (LEF) + CPC subsidiário</strong>
+    Procedimento especial pelo qual a Fazenda Pública (União, Estados, DF, Municípios, autarquias e fundações) cobra judicialmente <em>dívida ativa tributária ou não-tributária</em> inscrita em Certidão de Dívida Ativa (CDA). A LEF prevalece sobre o CPC no que houver conflito.
+  </div>
+
+  <div class="pt-section-title">As 4 Fases da Execução Fiscal</div>
+
+  <div class="pt-phases">
+
+    <!-- FASE 1 -->
+    <div class="pt-phase pt-phase-1">
+      <div class="pt-phase-head" onclick="ptPhase(this)">
+        <span class="pt-phase-badge">Fase 1</span>
+        <h3>Do Nascimento ao Título — Linha do Tempo</h3>
+        <span class="pt-phase-toggle">▼</span>
+      </div>
+      <div class="pt-phase-body open">
+        <div class="pt-table-wrap">
+          <table class="pt-table">
+            <thead><tr><th>Etapa</th><th>O que ocorre</th><th>Resultado</th></tr></thead>
+            <tbody>
+              <tr><td>Fato Gerador (FG)</td><td>Concretização da hipótese de incidência</td><td>Nasce a Obrigação Tributária</td></tr>
+              <tr><td>Lançamento</td><td>Ato administrativo vinculado (Art. 142 CTN)</td><td>Constituição do Crédito Tributário</td></tr>
+              <tr><td>Processo Adm. (PAT)</td><td>Impugnação/recurso do contribuinte</td><td>Crédito torna-se definitivamente constituído</td></tr>
+              <tr><td>Inscrição em DA</td><td>Fisco registra o débito na dívida ativa</td><td>Emissão da CDA</td></tr>
+              <tr><td>Ajuizamento</td><td>Fazenda propõe ação de execução fiscal com CDA</td><td>Instauração do processo judicial</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="pt-alert ok">
+          <strong>✅ Presunção de Certeza e Liquidez da CDA</strong>
+          A CDA goza de presunção <em>relativa</em> (juris tantum) de certeza e liquidez (Art. 3º LEF). Pode ser afastada por prova em contrário — ônus do executado.
+        </div>
+      </div>
+    </div>
+
+    <!-- FASE 2 -->
+    <div class="pt-phase pt-phase-2">
+      <div class="pt-phase-head" onclick="ptPhase(this)">
+        <span class="pt-phase-badge">Fase 2</span>
+        <h3>O Processo Judicial de Execução</h3>
+        <span class="pt-phase-toggle">▼</span>
+      </div>
+      <div class="pt-phase-body">
+        <div class="pt-grid">
+          <div class="pt-card teal">
+            <h4>📄 A Petição Inicial</h4>
+            <p>A Fazenda apresenta a CDA como título executivo extrajudicial. Deve estar devidamente instruída — CDA inválida acarreta nulidade da execução.</p>
+          </div>
+          <div class="pt-card teal">
+            <h4>⏰ Citação: 5 Dias</h4>
+            <p>Após a citação, o executado tem <strong>5 dias</strong> para:</p>
+            <ul>
+              <li>Pagar a dívida (com juros e multa)</li>
+              <li>Garantir a execução (depósito, fiança, seguro ou nomeação de bens)</li>
+            </ul>
+          </div>
+          <div class="pt-card">
+            <h4>🔒 Formas de Garantia</h4>
+            <ul>
+              <li>Depósito em dinheiro</li>
+              <li>Fiança bancária ou seguro-garantia</li>
+              <li>Nomeação de bens à penhora</li>
+            </ul>
+            <p style="margin-top:6px">A garantia é condição para oferecer embargos à execução.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- FASE 3 -->
+    <div class="pt-phase pt-phase-3">
+      <div class="pt-phase-head" onclick="ptPhase(this)">
+        <span class="pt-phase-badge">Fase 3</span>
+        <h3>Defesas do Devedor</h3>
+        <span class="pt-phase-toggle">▼</span>
+      </div>
+      <div class="pt-phase-body">
+        <div class="pt-grid">
+          <div class="pt-card laranja">
+            <h4>⚔️ Embargos à Execução</h4>
+            <p>Ação autônoma (não mero incidente). Prazo: <strong>30 dias</strong> após a garantia do juízo.</p>
+            <p style="margin-top:6px">Pode versar sobre <em>qualquer matéria</em> — mérito, vícios da CDA, nulidade, prescrição, decadência etc.</p>
+            <p style="margin-top:6px"><strong>Exige garantia do juízo</strong> para sua propositura.</p>
+          </div>
+          <div class="pt-card laranja">
+            <h4>🛡️ Exceção de Pré-Executividade</h4>
+            <p>Incidente processual (não ação autônoma). Cabível para matérias de <strong>ordem pública</strong> conhecíveis de ofício (prescrição, decadência, ilegitimidade).</p>
+            <p style="margin-top:6px"><strong>Não exige garantia do juízo</strong> — essa é a distinção essencial.</p>
+          </div>
+        </div>
+        <div class="pt-alert atencao">
+          <strong>⚠️ Distinção Chave</strong>
+          Embargos = ação autônoma + exige garantia + 30 dias + ampla cognição.<br>
+          Exceção de pré-executividade = incidente + sem garantia + matéria de ordem pública somente.
+        </div>
+      </div>
+    </div>
+
+    <!-- FASE 4 -->
+    <div class="pt-phase pt-phase-4">
+      <div class="pt-phase-head" onclick="ptPhase(this)">
+        <span class="pt-phase-badge">Fase 4</span>
+        <h3>Atos de Expropriação — Satisfação do Crédito</h3>
+        <span class="pt-phase-toggle">▼</span>
+      </div>
+      <div class="pt-phase-body">
+        <div class="pt-grid">
+          <div class="pt-card verde">
+            <h4>🔨 Penhora e Avaliação</h4>
+            <p>Se não houver pagamento voluntário, a penhora incide sobre os bens do devedor, seguida de avaliação por oficial de justiça.</p>
+            <p style="margin-top:6px"><strong>Preferência da penhora:</strong> dinheiro → títulos → imóveis → outros bens (ordem do art. 11 LEF).</p>
+          </div>
+          <div class="pt-card verde">
+            <h4>📣 Hasta Pública (Leilão)</h4>
+            <p>Bens penhorados são levados a leilão público para satisfação do crédito tributário com o produto da alienação.</p>
+          </div>
+          <div class="pt-card">
+            <h4>🏛️ Adjudicação pela Fazenda</h4>
+            <p>Prerrogativa da Fazenda de tomar o bem pelo preço da avaliação <strong>antes do leilão</strong>, quando não houver licitantes. Garante que o crédito seja satisfeito mesmo sem arrematante.</p>
+          </div>
+        </div>
+        <div class="pt-alert info">
+          <strong>📌 Redirecionamento da Execução</strong>
+          Se o patrimônio da pessoa jurídica for insuficiente, a execução pode ser redirecionada aos sócios-gerentes nas hipóteses do Art. 135 CTN (atos com excesso de poderes, infração à lei, contrato social ou estatuto) — não basta mero inadimplemento.
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /pt-phases -->
+
+  <div class="pt-section-title">Prescrição e Decadência na Execução Fiscal</div>
+  <div class="pt-table-wrap">
+    <table class="pt-table">
+      <thead><tr><th>Instituto</th><th>Prazo</th><th>Termo inicial</th><th>Objeto</th></tr></thead>
+      <tbody>
+        <tr><td>Decadência (art. 173 CTN)</td><td>5 anos</td><td>1º dia do exercício seguinte ao FG (regra geral)</td><td>Direito de lançar o tributo</td></tr>
+        <tr><td>Prescrição (art. 174 CTN)</td><td>5 anos</td><td>Constituição definitiva do crédito</td><td>Direito de ajuizar a execução</td></tr>
+        <tr><td>Prescrição intercorrente</td><td>5 anos</td><td>Arquivamento por localização do devedor/bens</td><td>Extinção da execução já ajuizada</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+</div>
+
+<!-- ═══════════════════════════════════════════════════════
+     ABA 2 — INFOGRÁFICO
+═══════════════════════════════════════════════════════ -->
+<div id="pt3-infog" class="pt-painel">
+  <div class="pt-infog-wrap">
+    <img src="conteudo/tributario/processo-tributario/img/execucao-fiscal.png"
+         alt="Guia da LEF: O Caminho da Cobrança da Dívida Ativa">
+    <p class="pt-infog-caption">Guia da Lei de Execução Fiscal (LEF) · Produzido via NotebookLM</p>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════
+     ABA 3 — ROTEIRO DE ESTUDO
+═══════════════════════════════════════════════════════ -->
+<div id="pt3-roteiro" class="pt-painel">
+
+  <div class="pt-section-title">Roteiro de Estudo — 5 Passos</div>
+
+  <div class="pt-step">
+    <div class="pt-num azul">1</div>
+    <div class="pt-txt"><strong>Da obrigação à CDA.</strong> Trace o caminho completo: FG → lançamento → PAT → inscrição em dívida ativa → CDA. Entenda que sem lançamento definitivo não há CDA válida, e sem CDA não há execução.</div>
+  </div>
+  <div class="pt-quest">❓ Um crédito tributário ainda em fase de recurso administrativo pode ser inscrito em dívida ativa e executado?</div>
+
+  <div class="pt-step">
+    <div class="pt-num azul">2</div>
+    <div class="pt-txt"><strong>Presunção da CDA.</strong> Memorize que é relativa (juris tantum) — certeza e liquidez presumidos, mas o executado pode ilidir com prova contrária. Importe: o ônus da prova é do devedor, não do Fisco.</div>
+  </div>
+  <div class="pt-quest">❓ O executado alega que a CDA tem valor incorreto. Sobre quem recai o ônus da prova?</div>
+
+  <div class="pt-step">
+    <div class="pt-num verde">3</div>
+    <div class="pt-txt"><strong>Citação e garantia.</strong> O prazo de 5 dias é para pagar ou garantir — não para contestar. Grave as formas de garantia (depósito, fiança, seguro, penhora) e que a garantia é condição para os embargos.</div>
+  </div>
+  <div class="pt-quest">❓ O executado quer impugnar a execução mas não tem bens para garantir o juízo. Qual o remédio processual cabível?</div>
+
+  <div class="pt-step">
+    <div class="pt-num laranja">4</div>
+    <div class="pt-txt"><strong>Embargos vs. Exceção de Pré-Executividade.</strong> Esta é a distinção mais cobrada: embargos = ação autônoma + garantia + 30 dias + qualquer matéria. Exceção = incidente + sem garantia + apenas ordem pública.</div>
+  </div>
+  <div class="pt-quest">❓ O devedor percebe que o crédito está prescrito. Como deve alegar essa matéria — embargos ou exceção de pré-executividade?</div>
+
+  <div class="pt-step">
+    <div class="pt-num roxo">5</div>
+    <div class="pt-txt"><strong>Expropriação e redirecionamento.</strong> Memorize a ordem de preferência da penhora, a adjudicação pela Fazenda e os requisitos do redirecionamento (art. 135 CTN) — não basta inadimplemento, exige ato ilícito do gestor.</div>
+  </div>
+  <div class="pt-quest">❓ Empresa encerrou atividades sem liquidação regular e não pagou o ICMS. Pode a execução ser redirecionada ao sócio-gerente?</div>
+
+  <hr class="pt-divider">
+
+  <div class="pt-section-title">Mapa Legislativo Essencial</div>
+  <div class="pt-grid">
+    <div class="pt-card">
+      <h4>Lei 6.830/80 (LEF)</h4>
+      <ul>
+        <li>Art. 3º — Presunção da CDA</li>
+        <li>Art. 8º — Citação (5 dias)</li>
+        <li>Art. 11 — Ordem de penhora</li>
+        <li>Art. 16 — Embargos (30 dias)</li>
+      </ul>
+    </div>
+    <div class="pt-card verde">
+      <h4>CTN</h4>
+      <ul>
+        <li>Art. 135 — Redirecionamento</li>
+        <li>Art. 173 — Decadência</li>
+        <li>Art. 174 — Prescrição</li>
+        <li>Art. 185 — Fraude à execução</li>
+      </ul>
+    </div>
+    <div class="pt-card teal">
+      <h4>STJ — Jurisprudência</h4>
+      <ul>
+        <li>Súm. 393: Penhora de faturamento</li>
+        <li>Súm. 435: Dissolução irregular → redirecionamento</li>
+        <li>Tema 444: Prescrição intercorrente</li>
+      </ul>
+    </div>
+  </div>
+
+</div>
+
+<!-- ═══════════════════════════════════════════════════════
+     ABA 4 — ESTUDO DE CASO
+═══════════════════════════════════════════════════════ -->
+<div id="pt3-caso" class="pt-painel">
+  <div class="pt-caso-header">
+    <div class="pt-label">Estudo de Caso</div>
+    <h3>Execução Fiscal contra Construtora Beta S/A</h3>
+    <p>A Fazenda Nacional ajuizou execução fiscal contra a Construtora Beta S/A cobrando R$ 2.400.000 em PIS/COFINS não recolhidos. A empresa foi citada, mas não pagou nem garantiu a execução. A Fazenda requereu penhora de bens. Os sócios-gerentes alegam que o crédito prescreveu antes do ajuizamento e que eles não podem responder pessoalmente pela dívida.</p>
+  </div>
+  <div>
+    <div class="pt-pergunta">
+      <div class="pt-pergunta-head" onclick="ptPergunta3(this)">
+        <div class="pt-pnum">1</div>
+        <p>O que ocorre se a empresa não pagar nem garantir dentro dos 5 dias após a citação?</p>
+        <span class="pt-toggle">▼</span>
+      </div>
+      <div class="pt-pergunta-body">
+        <p>O Juiz determina a <strong>penhora de bens</strong> suficientes para garantir a execução (art. 8º, §1º LEF). A penhora segue a ordem legal do art. 11 da LEF: dinheiro/depósito → títulos → imóveis → veículos → demais bens. A Fazenda pode indicar bens a penhorar, e o oficial de justiça os avalia. A empresa perde a oportunidade de propor embargos na forma mais ampla antes da penhora.</p>
+      </div>
+    </div>
+
+    <div class="pt-pergunta">
+      <div class="pt-pergunta-head" onclick="ptPergunta3(this)">
+        <div class="pt-pnum">2</div>
+        <p>Como os sócios-gerentes devem alegar a prescrição — embargos ou exceção de pré-executividade?</p>
+        <span class="pt-toggle">▼</span>
+      </div>
+      <div class="pt-pergunta-body">
+        <p>A prescrição é matéria de <strong>ordem pública</strong>, conhecível de ofício, portanto pode ser alegada por <strong>exceção de pré-executividade</strong> — sem necessidade de garantia do juízo. Essa é a via mais acessível quando não há bens para garantir a execução. Os embargos também cabem, mas exigem garantia prévia (30 dias após a garantia).</p>
+        <p>Se a prescrição for acolhida, a execução é extinta com resolução do mérito (art. 924, I CPC).</p>
+      </div>
+    </div>
+
+    <div class="pt-pergunta">
+      <div class="pt-pergunta-head" onclick="ptPergunta3(this)">
+        <div class="pt-pnum">3</div>
+        <p>Os sócios-gerentes podem ser responsabilizados pessoalmente? Quais os requisitos?</p>
+        <span class="pt-toggle">▼</span>
+      </div>
+      <div class="pt-pergunta-body">
+        <p>Não basta o mero inadimplemento fiscal. Para redirecionamento aos sócios, o Art. 135, III do CTN exige que eles tenham praticado <strong>atos com excesso de poderes</strong> ou <strong>infração à lei, contrato social ou estatuto</strong>. O STJ consolida (Súmula 435): a <em>dissolução irregular</em> da empresa (encerramento sem liquidação) presume a infração legal e autoriza o redirecionamento.</p>
+        <p>Se a empresa apenas não pagou o tributo (inadimplemento simples), <strong>os sócios não respondem pessoalmente</strong>.</p>
+      </div>
+    </div>
+
+    <div class="pt-pergunta">
+      <div class="pt-pergunta-head" onclick="ptPergunta3(this)">
+        <div class="pt-pnum">4</div>
+        <p>A Fazenda não encontra bens após anos de tramitação. O que pode ocorrer com o processo?</p>
+        <span class="pt-toggle">▼</span>
+      </div>
+      <div class="pt-pergunta-body">
+        <p>Aplica-se a <strong>prescrição intercorrente</strong> (art. 40 LEF + Tema 444 STJ): arquivada a execução por não localização do devedor ou bens, inicia-se o prazo de <strong>5 anos</strong>. Transcorrido sem manifestação das partes ou do Juiz, o crédito extingue-se pela prescrição. O Juiz deve primeiro intimar a Fazenda para que ela se manifeste antes de decretar a prescrição intercorrente.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+function ptTab3(id, btn) {
+  document.querySelectorAll('.pt-painel').forEach(p => p.classList.remove('ativo'));
+  document.querySelectorAll('.pt-tab').forEach(b => b.classList.remove('ativo'));
+  document.getElementById('pt3-' + id).classList.add('ativo');
+  btn.classList.add('ativo');
+}
+function ptPhase(head) {
+  const body = head.nextElementSibling;
+  const toggle = head.querySelector('.pt-phase-toggle');
+  body.classList.toggle('open');
+  toggle.style.transform = body.classList.contains('open') ? 'rotate(180deg)' : '';
+}
+function ptPergunta3(head) {
+  const body = head.nextElementSibling;
+  const toggle = head.querySelector('.pt-toggle');
+  body.classList.toggle('open');
+  toggle.style.transform = body.classList.contains('open') ? 'rotate(180deg)' : '';
+}
+</script>

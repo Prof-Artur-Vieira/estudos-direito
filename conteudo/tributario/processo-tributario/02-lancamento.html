@@ -1,0 +1,441 @@
+<style>
+/* ── Cores extras ────────────────────────────────────── */
+:root {
+  --pt-green:  #276749; --pt-green-lt: #edfaf3;
+  --pt-orange: #b84c0c; --pt-orange-lt:#fff5ee;
+  --pt-red:    #8b1a1a; --pt-red-lt:   #fce8e8;
+  --pt-teal:   #0d5c5c; --pt-teal-lt:  #e6f7f7;
+  --pt-purple: #3c3489; --pt-purple-lt:#eeedfe;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --pt-green:  #6fd86f; --pt-green-lt: #0d2e0d;
+    --pt-orange: #f0a060; --pt-orange-lt:#2e1500;
+    --pt-red:    #f08080; --pt-red-lt:   #2e0d0d;
+    --pt-teal:   #60d8b8; --pt-teal-lt:  #072e22;
+    --pt-purple: #a89cf7; --pt-purple-lt:#1a1840;
+  }
+}
+
+/* ── Abas ────────────────────────────────────────────── */
+.pt-tabs { display:flex; gap:4px; margin-bottom:22px; flex-wrap:wrap; }
+.pt-tab {
+  padding:7px 18px; font-size:13px; font-weight:600;
+  font-family:var(--sans); border:1.5px solid var(--blue);
+  border-radius:6px; cursor:pointer;
+  background:var(--surface); color:var(--blue);
+  transition:background .15s, color .15s;
+}
+.pt-tab:hover { background:var(--blue-hover); }
+.pt-tab.ativo { background:var(--blue); color:#fff; }
+.pt-painel { display:none; }
+.pt-painel.ativo { display:block; }
+
+/* ── Título ──────────────────────────────────────────── */
+.pt-titulo {
+  font-family:var(--serif); font-size:19px; font-weight:700;
+  color:var(--blue); margin-bottom:18px;
+  padding-bottom:10px; border-bottom:2px solid var(--border);
+}
+
+/* ── Componentes ─────────────────────────────────────── */
+.pt-section-title {
+  font-family:var(--serif); font-size:15px; font-weight:700; color:var(--blue);
+  border-left:3px solid var(--gold); padding-left:10px; margin:24px 0 12px;
+}
+.pt-section-title:first-child { margin-top:0; }
+
+.pt-table-wrap { overflow-x:auto; margin:10px 0 18px; }
+.pt-table { width:100%; border-collapse:collapse; font-size:13px; }
+.pt-table thead th {
+  background:var(--blue); color:#fff;
+  padding:8px 12px; text-align:left; font-weight:600; font-family:var(--sans);
+}
+.pt-table tbody td {
+  padding:7px 12px; border-bottom:1px solid var(--border);
+  vertical-align:top; color:var(--text);
+}
+.pt-table tbody tr:nth-child(even) td { background:var(--blue-light); }
+.pt-table tbody td:first-child { font-weight:600; color:var(--blue); }
+
+.pt-grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(210px,1fr)); gap:10px; margin:10px 0 18px; }
+.pt-card {
+  background:var(--surface); border:1px solid var(--border);
+  border-radius:8px; padding:14px 16px; border-top:3px solid var(--blue);
+}
+.pt-card.verde   { border-top-color:var(--pt-green); }
+.pt-card.laranja { border-top-color:var(--pt-orange); }
+.pt-card.teal    { border-top-color:var(--pt-teal); }
+.pt-card.roxo    { border-top-color:var(--pt-purple); }
+.pt-card h4 { font-size:13.5px; color:var(--blue); margin-bottom:6px; font-weight:700; }
+.pt-card p, .pt-card li { font-size:12.5px; color:var(--text2); line-height:1.55; }
+.pt-card ul { padding-left:14px; margin-top:5px; }
+
+.pt-alert {
+  border-radius:7px; padding:10px 14px; margin:10px 0;
+  font-size:13px; border-left:4px solid; line-height:1.55;
+}
+.pt-alert.info    { background:var(--blue-light);   border-color:var(--blue);      color:var(--text); }
+.pt-alert.atencao { background:var(--pt-orange-lt); border-color:var(--pt-orange); color:var(--text); }
+.pt-alert.ok      { background:var(--pt-green-lt);  border-color:var(--pt-green);  color:var(--text); }
+.pt-alert.roxo    { background:var(--pt-purple-lt); border-color:var(--pt-purple); color:var(--text); }
+.pt-alert strong  { display:block; margin-bottom:3px; }
+
+.pt-badge {
+  display:inline-block; font-size:11px; font-weight:600;
+  border-radius:4px; padding:2px 7px; margin:2px 2px 0 0;
+}
+.pt-b-blue   { background:var(--blue-light);   color:var(--blue); }
+.pt-b-green  { background:var(--pt-green-lt);  color:var(--pt-green); }
+.pt-b-orange { background:var(--pt-orange-lt); color:var(--pt-orange); }
+.pt-b-teal   { background:var(--pt-teal-lt);   color:var(--pt-teal); }
+
+/* ── Timeline das 5 funções ──────────────────────────── */
+.pt-funcs {
+  display:flex; flex-direction:column; gap:6px; margin:10px 0 18px;
+}
+.pt-func-item {
+  display:flex; align-items:flex-start; gap:12px;
+  background:var(--surface); border:1px solid var(--border);
+  border-radius:8px; padding:12px 16px;
+}
+.pt-func-num {
+  width:30px; height:30px; border-radius:50%; flex-shrink:0;
+  background:var(--blue); color:#fff;
+  display:flex; align-items:center; justify-content:center;
+  font-size:13px; font-weight:700;
+}
+.pt-func-body h4 { font-size:13.5px; font-weight:700; color:var(--blue); margin-bottom:3px; }
+.pt-func-body p  { font-size:12.5px; color:var(--text2); line-height:1.55; }
+
+/* ── Roteiro ─────────────────────────────────────────── */
+.pt-step { display:flex; gap:10px; margin-bottom:8px; align-items:flex-start; }
+.pt-num {
+  flex-shrink:0; width:24px; height:24px; border-radius:50%;
+  display:flex; align-items:center; justify-content:center;
+  font-size:11.5px; font-weight:600; margin-top:2px;
+}
+.pt-num.azul   { background:var(--blue-light);   color:var(--blue); }
+.pt-num.verde  { background:var(--pt-green-lt);  color:var(--pt-green); }
+.pt-num.laranja{ background:var(--pt-orange-lt); color:var(--pt-orange); }
+.pt-txt { flex:1; font-size:13.5px; color:var(--text); line-height:1.6; }
+.pt-quest {
+  background:var(--surface); border-left:3px solid var(--gold);
+  border-radius:0 6px 6px 0; padding:8px 12px;
+  margin:4px 0 14px 34px; font-size:13px; color:var(--text2);
+}
+.pt-divider { border:none; border-top:1px solid var(--border); margin:16px 0; }
+
+/* ── Infográfico ─────────────────────────────────────── */
+.pt-infog-wrap { text-align:center; padding:8px 0 16px; }
+.pt-infog-wrap img {
+  max-width:100%; border-radius:10px;
+  box-shadow:0 4px 18px rgba(31,73,125,.18);
+}
+.pt-infog-caption { font-size:12px; color:var(--text2); margin-top:10px; font-family:var(--sans); }
+
+/* ── Estudo de Caso ──────────────────────────────────── */
+.pt-caso-header {
+  background:linear-gradient(135deg, var(--blue-dark,#162f52) 0%, var(--blue) 100%);
+  border-radius:10px; padding:22px 26px; color:#fff; margin-bottom:20px;
+}
+.pt-caso-header .pt-label {
+  font-size:11px; font-weight:600; letter-spacing:.1em;
+  text-transform:uppercase; color:var(--gold); margin-bottom:5px;
+}
+.pt-caso-header h3 { font-family:var(--serif); font-size:20px; margin-bottom:8px; }
+.pt-caso-header p  { font-size:13px; opacity:.9; line-height:1.55; }
+.pt-pergunta {
+  background:var(--surface); border:1px solid var(--border);
+  border-radius:8px; margin-bottom:12px; overflow:hidden;
+}
+.pt-pergunta-head {
+  display:flex; align-items:center; gap:12px;
+  padding:12px 16px; cursor:pointer; user-select:none; background:var(--bg);
+}
+.pt-pergunta-head:hover { background:var(--blue-hover); }
+.pt-pnum {
+  width:28px; height:28px; border-radius:50%;
+  background:var(--blue); color:#fff;
+  display:flex; align-items:center; justify-content:center;
+  font-size:13px; font-weight:700; flex-shrink:0;
+}
+.pt-pergunta-head p { flex:1; font-size:13.5px; color:var(--text); font-weight:600; margin:0; }
+.pt-pergunta-head .pt-toggle { font-size:18px; color:var(--text2); transition:transform .2s; }
+.pt-pergunta-body {
+  display:none; padding:14px 16px 14px 56px; font-size:13px;
+  color:var(--text2); line-height:1.65; border-top:1px solid var(--border);
+}
+.pt-pergunta-body.open { display:block; }
+.pt-pergunta-body strong { color:var(--blue); }
+.pt-pergunta-body p { margin-bottom:8px; }
+</style>
+
+<h2 class="pt-titulo">O Lançamento Tributário — Do Fato Gerador à Constituição do Crédito</h2>
+
+<div class="pt-tabs">
+  <button class="pt-tab ativo" onclick="ptTab2('visao', this)">Visão Geral</button>
+  <button class="pt-tab" onclick="ptTab2('infog', this)">Infográfico</button>
+  <button class="pt-tab" onclick="ptTab2('roteiro', this)">Roteiro de Estudo</button>
+  <button class="pt-tab" onclick="ptTab2('caso', this)">Estudo de Caso</button>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════
+     ABA 1 — VISÃO GERAL
+═══════════════════════════════════════════════════════ -->
+<div id="pt2-visao" class="pt-painel ativo">
+
+  <div class="pt-section-title">O Ato de Lançamento (Art. 142 CTN)</div>
+  <div class="pt-alert info">
+    <strong>📌 Definição essencial</strong>
+    Atividade <em>vinculada e obrigatória</em> da autoridade administrativa, sem margem para discricionariedade. O agente fiscal <strong>deve</strong> lançar sempre que verificar ocorrência do fato gerador — a omissão configura responsabilidade funcional.
+  </div>
+
+  <div class="pt-section-title">As 5 Funções do Lançamento</div>
+  <div class="pt-funcs">
+    <div class="pt-func-item">
+      <div class="pt-func-num">1</div>
+      <div class="pt-func-body">
+        <h4>Verificar a Ocorrência do Fato Gerador</h4>
+        <p>Identificar se houve concretização da situação prevista na lei (hipótese de incidência). Responde ao <em>an debeatur</em> (se deve ou não).</p>
+      </div>
+    </div>
+    <div class="pt-func-item">
+      <div class="pt-func-num">2</div>
+      <div class="pt-func-body">
+        <h4>Determinar a Matéria Tributável</h4>
+        <p>Aferir o objeto da obrigação — qual a base de cálculo incidente e a incidência das normas de isenção ou não-incidência.</p>
+      </div>
+    </div>
+    <div class="pt-func-item">
+      <div class="pt-func-num">3</div>
+      <div class="pt-func-body">
+        <h4>Calcular o Montante Devido</h4>
+        <p>Aplicar a alíquota sobre a base de cálculo para apurar o <em>quantum debeatur</em> — conferindo <strong>liquidez</strong> ao crédito tributário.</p>
+      </div>
+    </div>
+    <div class="pt-func-item">
+      <div class="pt-func-num">4</div>
+      <div class="pt-func-body">
+        <h4>Identificar o Sujeito Passivo</h4>
+        <p>Demarcar quem é o contribuinte ou responsável tributário — individua a obrigação e delimita a <em>certeza</em> do crédito.</p>
+      </div>
+    </div>
+    <div class="pt-func-item">
+      <div class="pt-func-num" style="background:var(--pt-orange)">5</div>
+      <div class="pt-func-body">
+        <h4>Propor a Penalidade Cabível</h4>
+        <p>Aplicar sanções por descumprimento de obrigações (principal ou acessória), desde que legalmente previstas.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="pt-section-title">Modalidades de Lançamento</div>
+  <div class="pt-table-wrap">
+    <table class="pt-table">
+      <thead><tr><th>Modalidade</th><th>Operação</th><th>Exemplos Típicos</th></tr></thead>
+      <tbody>
+        <tr>
+          <td>Direto (De Ofício)</td>
+          <td>Fisco atua solitariamente com base nos seus próprios dados</td>
+          <td><span class="pt-badge pt-b-blue">IPTU</span> <span class="pt-badge pt-b-blue">IPVA</span></td>
+        </tr>
+        <tr>
+          <td>Misto (Declaração)</td>
+          <td>Contribuinte declara os fatos → Fisco realiza o lançamento</td>
+          <td><span class="pt-badge pt-b-teal">ITBI</span> <span class="pt-badge pt-b-teal">II</span></td>
+        </tr>
+        <tr>
+          <td>Homologação</td>
+          <td>Contribuinte <em>antecipa</em> o pagamento → Fisco homologa (expressa ou tacitamente)</td>
+          <td><span class="pt-badge pt-b-green">ICMS</span> <span class="pt-badge pt-b-green">IR</span> <span class="pt-badge pt-b-green">ISS</span> <span class="pt-badge pt-b-orange">ITCMD*</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="pt-alert atencao">
+    <strong>⚠️ Divergência doutrinária — ITCMD/ITCD</strong>
+    Posição majoritária: lançamento por <em>homologação</em>. Hugo de Brito Machado classifica como <em>lançamento misto</em>. Atente-se ao enunciado da questão.
+  </div>
+
+  <div class="pt-section-title">A Regra do Tempo e Vigência (Art. 143/144 CTN)</div>
+  <div class="pt-grid">
+    <div class="pt-card verde">
+      <h4>📅 Lei Aplicável (Art. 144)</h4>
+      <p>O lançamento se rege pela lei <strong>vigente na data do fato gerador</strong>.</p>
+      <p style="margin-top:6px"><strong>Exceções:</strong> Leis meramente procedimentais têm aplicação imediata. Leis de infrações aplicam-se retroativamente se benéficas (art. 106 CTN).</p>
+    </div>
+    <div class="pt-card laranja">
+      <h4>💱 Câmbio (Art. 143)</h4>
+      <p>Para tributos com base em moeda estrangeira, a conversão usa o câmbio <strong>da data do fato gerador</strong> — não da data do lançamento.</p>
+    </div>
+    <div class="pt-card teal">
+      <h4>🔄 Processo Administrativo Tributário (PAT)</h4>
+      <ul>
+        <li><strong>Fase Preparatória:</strong> Não-jurisdicional; sem conflito instaurado</li>
+        <li><strong>Fase Litigiosa:</strong> Inicia-se com a <em>impugnação</em> do lançamento pelo contribuinte</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="pt-section-title">Revisão e Alteração do Lançamento (Arts. 145–146 CTN)</div>
+  <div class="pt-table-wrap">
+    <table class="pt-table">
+      <thead><tr><th>Hipótese</th><th>Quem pode alterar</th><th>Base</th></tr></thead>
+      <tbody>
+        <tr><td>Impugnação do sujeito passivo</td><td>Processo Administrativo Tributário (PAT)</td><td>Art. 145, I</td></tr>
+        <tr><td>Recurso de ofício</td><td>Autoridade administrativa</td><td>Art. 145, II</td></tr>
+        <tr><td>Iniciativa de ofício (erro, dolo, fraude)</td><td>Autoridade fiscal (ex officio)</td><td>Art. 145, III</td></tr>
+        <tr><td>Mudança de critério jurídico</td><td>Vedado retroagir contra o contribuinte</td><td>Art. 146</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="pt-alert info">
+    <strong>📌 Art. 146 — Irretroatividade da Mudança de Critério</strong>
+    Modificação de critério jurídico adotado pelo Fisco só pode ser aplicada a fatos geradores <em>posteriores</em> à mudança. Protege a boa-fé e a segurança jurídica do contribuinte.
+  </div>
+
+</div>
+
+<!-- ═══════════════════════════════════════════════════════
+     ABA 2 — INFOGRÁFICO
+═══════════════════════════════════════════════════════ -->
+<div id="pt2-infog" class="pt-painel">
+  <div class="pt-infog-wrap">
+    <img src="conteudo/tributario/processo-tributario/img/lancamento-tributario.png"
+         alt="Mapa: O Lançamento Tributário — Do Fato Gerador à Constituição do Crédito">
+    <p class="pt-infog-caption">Mapa Visual: O Lançamento Tributário · Produzido via NotebookLM</p>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════
+     ABA 3 — ROTEIRO DE ESTUDO
+═══════════════════════════════════════════════════════ -->
+<div id="pt2-roteiro" class="pt-painel">
+
+  <div class="pt-section-title">Roteiro de Estudo — 4 Passos</div>
+
+  <div class="pt-step">
+    <div class="pt-num azul">1</div>
+    <div class="pt-txt"><strong>Natureza jurídica do lançamento.</strong> Grave: atividade <em>vinculada e obrigatória</em> (sem discrição). Distinga direito material (incidência) do direito processual (PAT). Memorize as duas fases do PAT: preparatória (não-litigiosa) e litigiosa (após impugnação).</div>
+  </div>
+  <div class="pt-quest">❓ O agente fiscal pode deixar de lançar tributo quando achar conveniente? Qual a consequência de não lançar?</div>
+
+  <div class="pt-step">
+    <div class="pt-num azul">2</div>
+    <div class="pt-txt"><strong>As 5 funções do lançamento.</strong> Memorize a sequência: Verificar FG → Determinar matéria → Calcular montante → Identificar sujeito passivo → Propor penalidade. Os três primeiros conferem <em>certeza, liquidez e exigibilidade</em> ao crédito.</div>
+  </div>
+  <div class="pt-quest">❓ O lançamento que identifica o valor (quantum) mas não identifica o sujeito passivo pode ser considerado válido?</div>
+
+  <div class="pt-step">
+    <div class="pt-num verde">3</div>
+    <div class="pt-txt"><strong>Modalidades.</strong> Distingua as três: direto (Fisco age sozinho — IPTU/IPVA), misto/declaração (contribuinte declara, Fisco lança — ITBI), homologação (contribuinte paga adiantado — ICMS/IR/ISS). Atenção à divergência do ITCMD.</div>
+  </div>
+  <div class="pt-quest">❓ No lançamento por homologação, se o Fisco não se manifestar em 5 anos, o que ocorre?</div>
+
+  <div class="pt-step">
+    <div class="pt-num laranja">4</div>
+    <div class="pt-txt"><strong>Regra do tempo e revisão.</strong> Lei aplicável = data do FG (art. 144). Câmbio = data do FG (art. 143). Revisão só cabe nas hipóteses do Art. 145 — mudança de critério jurídico não retroage (art. 146).</div>
+  </div>
+  <div class="pt-quest">❓ O Fisco descobre que usou critério equivocado ao lançar ICMS de 2020. Pode corrigir lançamentos de 2018 e 2019 com o novo critério?</div>
+
+  <hr class="pt-divider">
+
+  <div class="pt-section-title">Quadro Comparativo das Modalidades</div>
+  <div class="pt-grid">
+    <div class="pt-card">
+      <h4>🏛️ Direto (De Ofício)</h4>
+      <p><strong>Quem age:</strong> Fisco, isoladamente</p>
+      <p><strong>Base de dados:</strong> Própria do Fisco</p>
+      <p><strong>Exemplos:</strong> IPTU, IPVA</p>
+      <p><strong>Prazo decadencial:</strong> 5 anos do 1º dia do exercício seguinte ao FG (art. 173, I)</p>
+    </div>
+    <div class="pt-card teal">
+      <h4>🤝 Misto (Declaração)</h4>
+      <p><strong>Quem age:</strong> Contribuinte declara → Fisco lança</p>
+      <p><strong>Base de dados:</strong> Declaração do contribuinte</p>
+      <p><strong>Exemplos:</strong> ITBI, II</p>
+      <p><strong>Prazo decadencial:</strong> 5 anos do 1º dia do exercício seguinte ao FG (art. 173, I)</p>
+    </div>
+    <div class="pt-card verde">
+      <h4>✅ Homologação</h4>
+      <p><strong>Quem age:</strong> Contribuinte paga → Fisco confirma</p>
+      <p><strong>Base de dados:</strong> Apuração do próprio contribuinte</p>
+      <p><strong>Exemplos:</strong> ICMS, IR, ISS, ITCMD (maj.)</p>
+      <p><strong>Prazo decadencial:</strong> 5 anos da data do FG (art. 150 §4º)</p>
+    </div>
+  </div>
+
+</div>
+
+<!-- ═══════════════════════════════════════════════════════
+     ABA 4 — ESTUDO DE CASO
+═══════════════════════════════════════════════════════ -->
+<div id="pt2-caso" class="pt-painel">
+  <div class="pt-caso-header">
+    <div class="pt-label">Estudo de Caso</div>
+    <h3>Comércio Alfa Ltda. e o Lançamento de ICMS</h3>
+    <p>A empresa Alfa Ltda., varejista de eletrônicos, recolheu ICMS de janeiro a dezembro de 2020 mediante apuração própria, mas subdeclarou as vendas em 30%. Em 2024, a fiscalização estadual identificou a irregularidade durante auditoria e lavrou auto de infração com lançamento suplementar e multa de 75% sobre o valor omitido. A empresa impugnou o lançamento, alegando que teria ocorrido decadência.</p>
+  </div>
+  <div>
+    <div class="pt-pergunta">
+      <div class="pt-pergunta-head" onclick="ptPergunta2(this)">
+        <div class="pt-pnum">1</div>
+        <p>Qual a modalidade de lançamento do ICMS e qual o prazo decadencial aplicável?</p>
+        <span class="pt-toggle">▼</span>
+      </div>
+      <div class="pt-pergunta-body">
+        <p>O ICMS é tributo de <strong>lançamento por homologação</strong> (art. 150 CTN) — o contribuinte antecipa o pagamento e o Fisco confirma posteriormente. O prazo decadencial é de <strong>5 anos contados da data do fato gerador</strong> (art. 150 §4º), não do exercício seguinte.</p>
+        <p>Para os fatos geradores de 2020, o prazo venceria em 2025 — portanto, o lançamento de 2024 foi realizado <strong>dentro do prazo</strong>. A alegação de decadência é improcedente.</p>
+      </div>
+    </div>
+
+    <div class="pt-pergunta">
+      <div class="pt-pergunta-head" onclick="ptPergunta2(this)">
+        <div class="pt-pnum">2</div>
+        <p>Qual lei rege o lançamento suplementar — a de 2020 ou eventual lei nova de 2024?</p>
+        <span class="pt-toggle">▼</span>
+      </div>
+      <div class="pt-pergunta-body">
+        <p>Pela regra do <strong>Art. 144 do CTN</strong>, o lançamento rege-se pela lei <em>vigente na data do fato gerador</em> — ou seja, a legislação de 2020. Leis materiais (alíquota, base de cálculo) não retroagem. Somente leis <em>procedimentais</em> têm aplicação imediata, e leis de infrações aplicam-se retroativamente apenas se mais benéficas ao contribuinte (art. 106 CTN).</p>
+      </div>
+    </div>
+
+    <div class="pt-pergunta">
+      <div class="pt-pergunta-head" onclick="ptPergunta2(this)">
+        <div class="pt-pnum">3</div>
+        <p>A impugnação administrativa instaura a fase litigiosa do PAT. Quais efeitos ela produz sobre o crédito?</p>
+        <span class="pt-toggle">▼</span>
+      </div>
+      <div class="pt-pergunta-body">
+        <p>A impugnação tempestiva do lançamento inaugura a <strong>fase litigiosa do Processo Administrativo Tributário (PAT)</strong>. Seus principais efeitos: (1) <strong>suspende a exigibilidade</strong> do crédito tributário enquanto pendente o processo (art. 151, III CTN — "reclamações e recursos"); (2) impede a inscrição em dívida ativa e o ajuizamento de execução fiscal; (3) suspende o prazo prescricional.</p>
+      </div>
+    </div>
+
+    <div class="pt-pergunta">
+      <div class="pt-pergunta-head" onclick="ptPergunta2(this)">
+        <div class="pt-pnum">4</div>
+        <p>A multa de 75% pode ser revista? Em que hipótese o lançamento poderia ser anulado?</p>
+        <span class="pt-toggle">▼</span>
+      </div>
+      <div class="pt-pergunta-body">
+        <p>A multa integra o lançamento e pode ser discutida no PAT. O lançamento poderia ser anulado se comprovada: (a) ausência de fato gerador; (b) erro na determinação da matéria tributável; (c) vício formal ou material no auto de infração. Além disso, se o Fisco usou critério jurídico <em>diferente</em> do que vinha adotando para o contribuinte, <strong>não pode alterar retroativamente</strong> com fundamento no Art. 146 CTN — protegendo a boa-fé do contribuinte.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+function ptTab2(id, btn) {
+  document.querySelectorAll('.pt-painel').forEach(p => p.classList.remove('ativo'));
+  document.querySelectorAll('.pt-tab').forEach(b => b.classList.remove('ativo'));
+  document.getElementById('pt2-' + id).classList.add('ativo');
+  btn.classList.add('ativo');
+}
+function ptPergunta2(head) {
+  const body = head.nextElementSibling;
+  const toggle = head.querySelector('.pt-toggle');
+  body.classList.toggle('open');
+  toggle.style.transform = body.classList.contains('open') ? 'rotate(180deg)' : '';
+}
+</script>

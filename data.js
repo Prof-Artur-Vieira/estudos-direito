@@ -136,7 +136,23 @@ const materias = [
         id: "processo-tributario",
         titulo: "Processo Tributário",
         indice: "conteudo/tributario/processo-tributario/index.html",
-        temas: []
+        temas: [
+          {
+            titulo: "A Fazenda Pública em Juízo",
+            descricao: "Conceito · Prerrogativas processuais · Reexame necessário · Honorários escalonados · Precatórios e RPV",
+            arquivo: "conteudo/tributario/processo-tributario/01-fazenda-publica.html"
+          },
+          {
+            titulo: "O Lançamento Tributário",
+            descricao: "5 funções do lançamento · Modalidades (direto, misto, homologação) · Regra do tempo · Revisão do crédito",
+            arquivo: "conteudo/tributario/processo-tributario/02-lancamento.html"
+          },
+          {
+            titulo: "A Execução Fiscal (LEF)",
+            descricao: "Da obrigação à CDA · Citação · Embargos vs. Exceção de pré-executividade · Expropriação · Redirecionamento",
+            arquivo: "conteudo/tributario/processo-tributario/03-execucao-fiscal.html"
+          }
+        ]
       }
     ]
   }
