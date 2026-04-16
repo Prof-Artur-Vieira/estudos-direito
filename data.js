@@ -61,6 +61,11 @@ const materias = [
         temas: []
       },
       {
+        id: "processual-penal-iii",
+        titulo: "Direito Processual Penal III",
+        temas: []
+      },
+      {
         id: "processual-penal-ii",
         titulo: "Direito Processual Penal II",
         indice: "conteudo/processual-penal-ii/index.html",
