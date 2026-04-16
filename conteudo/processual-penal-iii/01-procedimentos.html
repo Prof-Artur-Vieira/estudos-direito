@@ -1,0 +1,530 @@
+<style>
+/* ── Variáveis extras (não existem no tema global) ── */
+:root {
+  --tl-purple:      #534AB7;
+  --tl-purple-pale: #EEEDFE;
+  --tl-teal:        #0F6E56;
+  --tl-teal-pale:   #E1F5EE;
+  --tl-coral:       #993C1D;
+  --tl-coral-pale:  #FAECE7;
+  --tl-amber:       #BA7517;
+  --tl-amber-pale:  #FAEEDA;
+  --tl-green:       #3B6D11;
+  --tl-green-pale:  #EAF3DE;
+  --tl-gray:        #5F5E5A;
+  --tl-gray-pale:   #F1EFE8;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --tl-purple:      #a89cf8;
+    --tl-purple-pale: #1a1540;
+    --tl-teal:        #5dd6b0;
+    --tl-teal-pale:   #072e22;
+    --tl-coral:       #f09070;
+    --tl-coral-pale:  #2e1000;
+    --tl-amber:       #f0c060;
+    --tl-amber-pale:  #2e1c00;
+    --tl-green:       #90d060;
+    --tl-green-pale:  #122000;
+    --tl-gray:        #b0b0a8;
+    --tl-gray-pale:   #1e1e1c;
+  }
+}
+
+/* ── Título da página ── */
+.tl-page-titulo {
+  font-family: var(--serif);
+  font-size: 19px;
+  font-weight: 700;
+  color: var(--blue);
+  margin-bottom: 6px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid var(--border);
+}
+
+.tl-page-sub {
+  font-size: 13px;
+  color: var(--text2);
+  margin-bottom: 28px;
+  line-height: 1.6;
+}
+
+/* ── Rótulo de seção ── */
+.tl-section-label {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+.tl-section-label-line {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--text2);
+  margin-bottom: 4px;
+}
+.tl-section-label-title {
+  font-family: var(--serif);
+  font-size: 1.4rem;
+  color: var(--blue);
+}
+
+/* ── Spine da timeline ── */
+.tl-wrap { position: relative; }
+.tl-spine {
+  position: absolute;
+  left: 50%; top: 0; bottom: 0;
+  width: 2px;
+  background: var(--border);
+  transform: translateX(-50%);
+  z-index: 0;
+}
+
+/* ── Linhas alternadas ── */
+.tl-row {
+  display: flex;
+  align-items: flex-start;
+  position: relative;
+  z-index: 1;
+  margin-bottom: 0;
+}
+.tl-row.left  { flex-direction: row; }
+.tl-row.right { flex-direction: row-reverse; }
+
+.tl-card-col {
+  width: calc(50% - 32px);
+  padding-bottom: 28px;
+}
+
+/* ── Card ── */
+.tl-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 16px 18px 14px;
+  transition: border-color .2s, box-shadow .2s, transform .2s;
+  position: relative;
+  overflow: hidden;
+}
+.tl-card:hover {
+  border-color: var(--blue);
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
+}
+
+.accent-l {
+  position: absolute;
+  top: 0; left: 0;
+  width: 5px; height: 100%;
+}
+.accent-r {
+  position: absolute;
+  top: 0; right: 0;
+  width: 5px; height: 100%;
+}
+
+.card-inner-l { padding-left: 14px; }
+.card-inner-r { padding-right: 14px; }
+
+.tl-card-tag {
+  display: block;
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: .07em;
+  text-transform: uppercase;
+  color: var(--text2);
+  margin-bottom: 5px;
+}
+.tl-card-title {
+  font-family: var(--serif);
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 8px;
+  line-height: 1.3;
+}
+.tl-card-body {
+  font-size: 12.5px;
+  color: var(--text2);
+  line-height: 1.65;
+}
+.tl-card-body p { margin-bottom: 5px; }
+.tl-card-body strong { color: var(--text); font-weight: 600; }
+
+/* ── Nó central ── */
+.tl-node-col {
+  width: 64px;
+  flex-shrink: 0;
+  display: flex;
+  justify-content: center;
+  padding-top: 14px;
+}
+.tl-node {
+  width: 40px; height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2.5px solid;
+  background: var(--surface);
+  font-family: var(--serif);
+  font-size: 14px;
+  font-weight: 700;
+  z-index: 2;
+  position: relative;
+  flex-shrink: 0;
+}
+.tl-spacer { width: calc(50% - 32px); }
+
+/* ── Pill / badge ── */
+.tl-pill {
+  display: inline-block;
+  background: var(--blue-light);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 0 8px;
+  font-size: 10.5px;
+  color: var(--text2);
+  font-weight: 600;
+  margin: 0 2px;
+  vertical-align: middle;
+}
+
+/* ── Badge row ── */
+.tl-badge-list { margin-top: 4px; }
+.tl-badge-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 4px;
+  font-size: 12px;
+}
+.tl-dot {
+  width: 9px; height: 9px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+/* ── Caixa de aviso ── */
+.tl-warn {
+  border-left: 3px solid var(--tl-amber);
+  background: var(--tl-amber-pale);
+  border-radius: 0 6px 6px 0;
+  padding: 6px 10px;
+  margin-top: 8px;
+  font-size: 11.5px;
+  color: var(--text);
+  line-height: 1.55;
+}
+
+/* ── Lista de passos ── */
+.tl-step-list { list-style: none; padding: 0; margin: 0; }
+.tl-step-item {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 5px;
+  font-size: 12px;
+  color: var(--text2);
+  line-height: 1.5;
+  align-items: flex-start;
+}
+.tl-step-circle {
+  width: 17px; height: 17px;
+  border-radius: 50%;
+  background: var(--blue-light);
+  color: var(--blue);
+  font-size: 10px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+/* ── Sentença (card central de destaque) ── */
+.tl-sent-connector {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  z-index: 1;
+}
+.tl-sent-connector-line {
+  width: 2px; height: 20px;
+  background: var(--border);
+}
+.tl-sent-node {
+  width: 42px; height: 42px;
+  border-radius: 50%;
+  background: var(--surface);
+  border: 2.5px solid var(--tl-purple);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--serif);
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--tl-purple);
+  z-index: 2;
+}
+
+.tl-sent-section {
+  display: flex;
+  justify-content: center;
+  position: relative;
+  z-index: 1;
+  padding-bottom: 10px;
+}
+.tl-sent-card-wrap { width: 480px; max-width: 100%; }
+.tl-sent-card {
+  background: var(--surface);
+  border: 1.5px solid var(--tl-purple);
+  border-radius: 14px;
+  padding: 20px 22px 18px;
+  position: relative;
+  overflow: hidden;
+  transition: box-shadow .2s, transform .2s;
+}
+.tl-sent-card:hover {
+  box-shadow: 0 6px 24px rgba(83,74,183,.14);
+  transform: translateY(-2px);
+}
+.tl-sent-card-header {
+  text-align: center;
+  margin-bottom: 14px;
+}
+.tl-sent-card-tag {
+  display: block;
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: .07em;
+  text-transform: uppercase;
+  color: var(--tl-purple);
+  margin-bottom: 4px;
+}
+.tl-sent-card-title {
+  font-family: var(--serif);
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--text);
+}
+.tl-sent-cols {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px 20px;
+  margin-bottom: 12px;
+}
+.tl-sent-col-head {
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: .07em;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+  padding-bottom: 4px;
+  border-bottom: 2px solid;
+}
+.tl-sent-col-head.condenatoria { color: var(--tl-purple); border-color: var(--tl-purple); }
+.tl-sent-col-head.absolutoria  { color: var(--tl-green);  border-color: var(--tl-green); }
+.tl-sent-footer {
+  border-top: 1px solid var(--border);
+  padding-top: 10px;
+  font-size: 11.5px;
+  color: var(--text2);
+  text-align: center;
+  line-height: 1.5;
+}
+
+/* ── Mobile ── */
+@media (max-width: 640px) {
+  .tl-spine { display: none; }
+  .tl-row, .tl-row.right { flex-direction: column; }
+  .tl-card-col, .tl-spacer { width: 100%; }
+  .tl-node-col { padding: 0; justify-content: flex-start; }
+  .tl-node { margin: 0 0 8px 0; }
+  .tl-sent-cols { grid-template-columns: 1fr; }
+  .tl-sent-card-wrap { width: 100%; }
+}
+</style>
+
+<div class="tl-page-titulo">Procedimentos</div>
+<p class="tl-page-sub">Fluxo completo do procedimento comum ordinário e sumário — da denúncia à sentença.</p>
+
+<div class="tl-section-label">
+  <div class="tl-section-label-line">Fluxo processual</div>
+  <div class="tl-section-label-title">Do princípio à sentença</div>
+</div>
+
+<div class="tl-wrap">
+  <div class="tl-spine"></div>
+
+  <!-- 1 -->
+  <div class="tl-row left">
+    <div class="tl-card-col">
+      <div class="tl-card">
+        <div class="accent-l" style="background:var(--tl-purple);"></div>
+        <div class="card-inner-l">
+          <span class="tl-card-tag">Princípio fundante · CF/88, art. 5º, LIV</span>
+          <div class="tl-card-title">Devido processo legal</div>
+          <div class="tl-card-body">
+            <p>Dele derivam o contraditório, a ampla defesa, os prazos e as demais garantias processuais.</p>
+            <p><span class="tl-pill">Art. 394</span> Procedimentos dividem-se em <strong>comum</strong> ou <strong>especial</strong>.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="tl-node-col">
+      <div class="tl-node" style="border-color:var(--tl-purple); color:var(--tl-purple); background:var(--tl-purple-pale);">1</div>
+    </div>
+    <div class="tl-spacer"></div>
+  </div>
+
+  <!-- 2 -->
+  <div class="tl-row right">
+    <div class="tl-card-col">
+      <div class="tl-card">
+        <div class="accent-r" style="background:var(--blue);"></div>
+        <div class="card-inner-r">
+          <span class="tl-card-tag">Definição do rito · Art. 394, §1º</span>
+          <div class="tl-card-title">Critério pela pena máxima</div>
+          <div class="tl-card-body">
+            <div class="tl-badge-list">
+              <div class="tl-badge-row"><div class="tl-dot" style="background:#E24B4A;"></div><span><strong>Ordinário</strong> — pena ≥ 4 anos</span></div>
+              <div class="tl-badge-row"><div class="tl-dot" style="background:var(--tl-amber);"></div><span><strong>Sumário</strong> — pena entre 2 e 4 anos</span></div>
+              <div class="tl-badge-row"><div class="tl-dot" style="background:var(--tl-green);"></div><span><strong>Sumaríssimo</strong> — pena ≤ 2 anos ou contravenção</span></div>
+            </div>
+            <div class="tl-warn">Lei 11.340/2006, art. 41 — violência doméstica contra a mulher não segue o rito sumaríssimo, ainda que a pena seja ≤ 2 anos.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="tl-node-col">
+      <div class="tl-node" style="border-color:var(--blue); color:var(--blue); background:var(--blue-light);">2</div>
+    </div>
+    <div class="tl-spacer"></div>
+  </div>
+
+  <!-- 3 -->
+  <div class="tl-row left">
+    <div class="tl-card-col">
+      <div class="tl-card">
+        <div class="accent-l" style="background:var(--tl-teal);"></div>
+        <div class="card-inner-l">
+          <span class="tl-card-tag">Fase postulatória · Arts. 41, 395, 396, 396-A</span>
+          <div class="tl-card-title">Fases do procedimento ordinário</div>
+          <div class="tl-card-body">
+            <ul class="tl-step-list">
+              <li class="tl-step-item"><div class="tl-step-circle">1</div><div><strong>Oferecimento</strong> — denúncia ou queixa <span class="tl-pill">Art. 41</span></div></li>
+              <li class="tl-step-item"><div class="tl-step-circle">2</div><div><strong>Admissibilidade</strong> — rejeição se inepta, sem condição ou justa causa <span class="tl-pill">Art. 395</span></div></li>
+              <li class="tl-step-item"><div class="tl-step-circle">3</div><div><strong>Recebimento &amp; citação</strong> — interrompe prescrição; réu é citado <span class="tl-pill">Art. 396</span></div></li>
+              <li class="tl-step-item"><div class="tl-step-circle">4</div><div><strong>Resposta à acusação</strong> — escrita, prazo de 10 dias, obrigatória <span class="tl-pill">Art. 396-A</span></div></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="tl-node-col">
+      <div class="tl-node" style="border-color:var(--tl-teal); color:var(--tl-teal); background:var(--tl-teal-pale);">3</div>
+    </div>
+    <div class="tl-spacer"></div>
+  </div>
+
+  <!-- 4 -->
+  <div class="tl-row right">
+    <div class="tl-card-col">
+      <div class="tl-card">
+        <div class="accent-r" style="background:var(--tl-coral);"></div>
+        <div class="card-inner-r">
+          <span class="tl-card-tag">Instrução · Arts. 397, 400, 400-A</span>
+          <div class="tl-card-title">Absolvição sumária ou AIJ</div>
+          <div class="tl-card-body">
+            <p><strong>Absolvição sumária</strong> <span class="tl-pill">Art. 397</span> — excludente manifesta, fato atípico ou punibilidade extinta → recurso: apelação.</p>
+            <p><strong>AIJ</strong> <span class="tl-pill">Art. 400</span> — designada em até 60 dias se não houver absolvição sumária. Ordem dos atos: ofendido → testemunhas (MP / defesa) → peritos → acareações / reconhecimento → <strong>interrogatório</strong> (último ato).</p>
+            <div class="tl-warn"><span class="tl-pill">Art. 400-A</span> Vedado questionar o passado sexual da vítima em crimes contra a dignidade sexual.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="tl-node-col">
+      <div class="tl-node" style="border-color:var(--tl-coral); color:var(--tl-coral); background:var(--tl-coral-pale);">4</div>
+    </div>
+    <div class="tl-spacer"></div>
+  </div>
+
+  <!-- 5 -->
+  <div class="tl-row left">
+    <div class="tl-card-col">
+      <div class="tl-card">
+        <div class="accent-l" style="background:var(--tl-gray);"></div>
+        <div class="card-inner-l">
+          <span class="tl-card-tag">Fase decisória · Arts. 402, 403</span>
+          <div class="tl-card-title">Alegações finais</div>
+          <div class="tl-card-body">
+            <ul class="tl-step-list">
+              <li class="tl-step-item">
+                <div class="tl-step-circle" style="background:var(--tl-gray-pale); color:var(--tl-gray);">D</div>
+                <div><strong>Diligências</strong> <span class="tl-pill">Art. 402</span> — as partes podem requerer ao término da AIJ.</div>
+              </li>
+              <li class="tl-step-item">
+                <div class="tl-step-circle" style="background:var(--tl-gray-pale); color:var(--tl-gray);">O</div>
+                <div><strong>Orais</strong> — 20 min acusação + 10 min réplica; sentença proferida em seguida.</div>
+              </li>
+              <li class="tl-step-item">
+                <div class="tl-step-circle" style="background:var(--tl-gray-pale); color:var(--tl-gray);">M</div>
+                <div><strong>Memoriais</strong> <span class="tl-pill">Art. 403, §3º</span> — escritos, 5 dias sucessivos, por complexidade ou nº de réus; sentença em 10 dias.</div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="tl-node-col">
+      <div class="tl-node" style="border-color:var(--tl-gray); color:var(--tl-gray); background:var(--tl-gray-pale);">5</div>
+    </div>
+    <div class="tl-spacer"></div>
+  </div>
+
+</div>
+
+<!-- SENTENÇA -->
+<div class="tl-sent-connector">
+  <div class="tl-sent-connector-line"></div>
+  <div class="tl-sent-node">6</div>
+  <div class="tl-sent-connector-line"></div>
+</div>
+
+<div class="tl-sent-section">
+  <div class="tl-sent-card-wrap">
+    <div class="tl-sent-card">
+      <div class="accent-l" style="background:var(--tl-purple);"></div>
+      <div class="accent-r" style="background:var(--tl-purple);"></div>
+      <div class="tl-sent-card-header">
+        <span class="tl-sent-card-tag">Decisão final · Arts. 381–392 CPP</span>
+        <div class="tl-sent-card-title">Sentença</div>
+      </div>
+      <div class="tl-sent-cols">
+        <div>
+          <div class="tl-sent-col-head condenatoria">Condenatória</div>
+          <ul class="tl-step-list">
+            <li class="tl-step-item"><div class="tl-step-circle" style="background:var(--tl-purple-pale); color:var(--tl-purple);">·</div><div>Tipificação do fato <span class="tl-pill">Art. 381, III</span></div></li>
+            <li class="tl-step-item"><div class="tl-step-circle" style="background:var(--tl-purple-pale); color:var(--tl-purple);">·</div><div>Dosimetria da pena (3 fases) <span class="tl-pill">Arts. 59, 68 CP</span></div></li>
+            <li class="tl-step-item"><div class="tl-step-circle" style="background:var(--tl-purple-pale); color:var(--tl-purple);">·</div><div>Regime inicial de cumprimento <span class="tl-pill">Art. 387, II</span></div></li>
+            <li class="tl-step-item"><div class="tl-step-circle" style="background:var(--tl-purple-pale); color:var(--tl-purple);">·</div><div>Substituição / PRD <span class="tl-pill">Art. 44 CP</span></div></li>
+          </ul>
+        </div>
+        <div>
+          <div class="tl-sent-col-head absolutoria">Absolutória</div>
+          <ul class="tl-step-list">
+            <li class="tl-step-item"><div class="tl-step-circle" style="background:var(--tl-green-pale); color:var(--tl-green);">·</div><div>Hipóteses taxativas <span class="tl-pill">Art. 386 CPP</span></div></li>
+            <li class="tl-step-item"><div class="tl-step-circle" style="background:var(--tl-green-pale); color:var(--tl-green);">·</div><div>Própria (sem medida) ou imprópria (com medida de segurança)</div></li>
+            <li class="tl-step-item"><div class="tl-step-circle" style="background:var(--tl-green-pale); color:var(--tl-green);">·</div><div>Levantamento de prisão cautelar <span class="tl-pill">Art. 386, par. ún.</span></div></li>
+            <li class="tl-step-item"><div class="tl-step-circle" style="background:var(--tl-green-pale); color:var(--tl-green);">·</div><div>Recurso: apelação <span class="tl-pill">Art. 593, I</span></div></li>
+          </ul>
+        </div>
+      </div>
+      <div class="tl-sent-footer">
+        Prazo para publicação: na própria audiência (alegações orais) ou em até <strong>10 dias</strong> (memoriais) <span class="tl-pill">Art. 403</span>
+      </div>
+    </div>
+  </div>
+</div>

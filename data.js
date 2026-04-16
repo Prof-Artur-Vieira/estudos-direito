@@ -103,7 +103,13 @@ const materias = [
       {
         id: "processual-penal-iii",
         titulo: "Direito Processual Penal III",
-        temas: []
+        temas: [
+          {
+            titulo: "Procedimentos",
+            descricao: "Devido processo legal · Critério pela pena · Rito ordinário · AIJ · Alegações finais · Sentença",
+            arquivo: "conteudo/processual-penal-iii/01-procedimentos.html"
+          }
+        ]
       }
     ]
   },
