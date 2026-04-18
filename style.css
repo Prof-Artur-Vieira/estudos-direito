@@ -1055,6 +1055,14 @@ main {
   font-style: italic;
 }
 
+.rodape-privacidade {
+  font-family: var(--sans);
+  font-size: 11.5px;
+  color: var(--text2);
+  margin-top: 6px;
+  opacity: 0.8;
+}
+
 @media print { body { background: white; } }
 
 /* ── Foco visível (acessibilidade) ── */

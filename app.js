@@ -240,6 +240,7 @@ function mostrarTabConteudo() {
   document.getElementById('tab-area-flash').style.display = 'none'
   document.getElementById('tab-conteudo')?.classList.add('ativa')
   document.getElementById('tab-flash')?.classList.remove('ativa')
+  document.getElementById('rodape-privacidade')?.setAttribute('hidden', '')
 }
 
 // ── Meu Deck (localStorage) ──────────────────────────────
@@ -450,6 +451,7 @@ function mostrarTabFlash() {
   document.getElementById('tab-conteudo')?.classList.remove('ativa')
   document.getElementById('tab-flash')?.classList.add('ativa')
   if (flashArea && !flashArea.hasChildNodes()) renderFlashSessao(estado.turmaAtual)
+  document.getElementById('rodape-privacidade')?.removeAttribute('hidden')
 }
 
 function executarScripts(container) {
