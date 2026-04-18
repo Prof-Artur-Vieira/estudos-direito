@@ -92,7 +92,7 @@ function renderArvore(fromPop = false) {
   estado.turmaAtual   = null
   document.title = 'Estudos Complementares — Prof. Artur Vieira'
   atualizarBreadcrumb()
-  if (!fromPop) history.pushState({ view: 'materias' }, '')
+  if (!fromPop) history.pushState({ view: 'materias' }, '', '/')
   window.scrollTo(0, 0)
 
   app.innerHTML = `
@@ -126,7 +126,7 @@ function selecionarMateria(id, fromPop = false) {
   estado.turmaAtual   = null
   document.title = `${materia.titulo} — Estudos Complementares`
   atualizarBreadcrumb()
-  if (!fromPop) history.pushState({ view: 'materia', materiaId: id }, '')
+  if (!fromPop) history.pushState({ view: 'materia', materiaId: id }, '', `/${id}`)
   window.scrollTo(0, 0)
 
   if (materia.turmas.length === 0) {
@@ -156,7 +156,7 @@ function selecionarTurma(materiaId, turmaId, fromPop = false) {
   estado.turmaAtual   = turma
   document.title = `${turma.titulo} — ${materia.titulo}`
   atualizarBreadcrumb()
-  if (!fromPop) history.pushState({ view: 'turma', materiaId, turmaId }, '')
+  if (!fromPop) history.pushState({ view: 'turma', materiaId, turmaId }, '', `/${materiaId}/${turmaId}`)
   window.scrollTo(0, 0)
 
   const temFlashcards = turma.flashcards && turma.flashcards.length > 0
@@ -507,12 +507,13 @@ function abrirTema(index, fromPop = false) {
   const tema = estado.turmaAtual.temas[index]
   document.title = `${tema.titulo} — ${estado.turmaAtual.titulo}`
   atualizarBreadcrumb(tema.titulo)
+  const _temaSlug = tema.arquivo.replace('conteudo/', '').replace('.html', '')
   if (!fromPop) history.pushState({
     view: 'tema',
     materiaId: estado.materiaAtual.id,
     turmaId: estado.turmaAtual.id,
     temaIndex: index
-  }, '')
+  }, '', `/${_temaSlug}`)
   window.scrollTo(0, 0)
 
   app.innerHTML = skeletonConteudo()
@@ -614,7 +615,7 @@ function abrirSobre(fromPop = false) {
   estado.turmaAtual   = null
   document.title = 'Sobre mim — Prof. Artur Vieira'
   atualizarBreadcrumb('Sobre mim')
-  if (!fromPop) history.pushState({ view: 'sobre' }, '')
+  if (!fromPop) history.pushState({ view: 'sobre' }, '', '/sobre')
   window.scrollTo(0, 0)
 
   app.innerHTML = skeletonSobre()
