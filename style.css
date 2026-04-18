@@ -1299,9 +1299,41 @@ main {
   #busca-input  { width: 150px; font-size: 12px; }
 }
 
+/* ── Botão de download PDF ── */
+.btn-download-wrap {
+  border-top: 1px solid var(--border);
+  padding-top: 14px;
+  margin-top: 24px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.btn-download-pdf {
+  background: var(--gold);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 20px;
+  font-size: 13px;
+  font-weight: 600;
+  font-family: var(--sans);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  transition: background .2s;
+}
+
+.btn-download-pdf:hover { background: #b8943f; }
+
+/* Cabeçalho de identidade — visível só no PDF */
+#print-header { display: none; }
+
 /* ── Print ── */
 @media print {
-  header, #btn-topo, nav#breadcrumb { display: none !important; }
+  header, #btn-topo, nav#breadcrumb,
+  .rodape-site, #busca-painel, .skip-link,
+  .btn-download-wrap { display: none !important; }
   body { background: white; }
   body::before { display: none; }
   main { max-width: 100%; padding: 0; }
@@ -1314,6 +1346,32 @@ main {
   }
   .arvore, .cards-turmas, .cards-temas { display: none; }
   a { color: inherit; text-decoration: none; }
+
+  /* Cabeçalho de identidade */
+  #print-header {
+    display: block !important;
+    border-bottom: 2px solid #1F497D;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+  }
+  #print-header-site {
+    font-size: 9pt;
+    color: #888;
+    text-transform: uppercase;
+    letter-spacing: .05em;
+    margin-bottom: 4px;
+  }
+  #print-header-titulo {
+    font-size: 16pt;
+    font-weight: bold;
+    color: #1F497D;
+    font-family: 'Playfair Display', Georgia, serif;
+    margin-bottom: 2px;
+  }
+  #print-header-turma {
+    font-size: 9pt;
+    color: #555;
+  }
 }
 
 /* ── Mobile ≤ 768px ── */
