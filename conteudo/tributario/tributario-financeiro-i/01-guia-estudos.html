@@ -544,6 +544,7 @@
   window.tfZoom = function(img) {
     const lb = document.getElementById('tf-lightbox')
     document.getElementById('tf-lightbox-img').src = img.src
+    document.getElementById('tf-lightbox-img').alt = img.alt
     lb.style.display = 'flex'
   }
 
