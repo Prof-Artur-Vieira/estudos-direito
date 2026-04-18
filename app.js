@@ -465,6 +465,34 @@ function executarScripts(container) {
   })
 }
 
+function ativarTabDoElemento(el) {
+  const isPainel = n => n.id && (n.className.includes('-painel') || n.className.includes('tab-content'))
+  const isAtivo  = n => n.classList.contains('ativo') || n.classList.contains('active')
+  let panel = isPainel(el) ? el : null
+  if (!panel) {
+    let node = el.parentElement
+    while (node && node !== document.body) {
+      if (isPainel(node)) { panel = node; break }
+      node = node.parentElement
+    }
+  }
+  if (!panel || isAtivo(panel)) return
+  const btn = document.querySelector(`[onclick*="${panel.id}"]`)
+  if (btn) btn.click()
+}
+
+function rolarParaAncora() {
+  const hash = window.location.hash
+  if (!hash) return
+  const alvo = document.getElementById(hash.slice(1))
+  if (!alvo) return
+  ativarTabDoElemento(alvo)
+  const reduzirMov = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+  requestAnimationFrame(() =>
+    alvo.scrollIntoView({ behavior: reduzirMov ? 'auto' : 'smooth', block: 'start' })
+  )
+}
+
 function abrirTemaDaArvore(materiaId, turmaId, temaIndex) {
   const materia = materias.find(m => m.id === materiaId)
   if (!materia) { console.error('abrirTemaDaArvore: matéria não encontrada', materiaId); return }
@@ -537,6 +565,7 @@ function abrirTema(index, fromPop = false) {
         })
       })
       executarScripts(area)
+      rolarParaAncora()
     })
     .catch(() => {
       document.getElementById('conteudo-area').innerHTML =
