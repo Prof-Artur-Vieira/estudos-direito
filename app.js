@@ -631,6 +631,26 @@ function abrirTema(index, fromPop = false) {
           }
         })
       })
+      // Cabeçalho de identidade para impressão (oculto na tela)
+      const printHeader = document.createElement('div')
+      printHeader.id = 'print-header'
+      printHeader.innerHTML = `
+        <div id="print-header-site">Estudos Complementares — Prof. Artur Vieira</div>
+        <div id="print-header-titulo">${esc(tema.titulo)}</div>
+        <div id="print-header-turma">${esc(estado.turmaAtual.titulo)}</div>
+      `
+      area.insertBefore(printHeader, area.firstChild)
+
+      // Botão de download
+      const downloadWrap = document.createElement('div')
+      downloadWrap.className = 'btn-download-wrap'
+      downloadWrap.innerHTML = `
+        <button class="btn-download-pdf" onclick="window.print()">
+          ⬇ Salvar como PDF
+        </button>
+      `
+      area.appendChild(downloadWrap)
+
       executarScripts(area)
       rolarParaAncora()
     })
