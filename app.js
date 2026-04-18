@@ -741,7 +741,11 @@ function _onEscBusca(e) {
   if (e.key === 'Escape') fecharBusca()
 }
 
-function _onAppClick() { fecharBusca() }
+function _onAppClick(e) {
+  const wrap  = document.getElementById('busca-input-wrap')
+  const painel = document.getElementById('busca-painel')
+  if (!wrap.contains(e.target) && !painel.contains(e.target)) fecharBusca()
+}
 
 async function abrirBusca() {
   const btn   = document.getElementById('busca-btn')
@@ -750,7 +754,7 @@ async function abrirBusca() {
 
   input.removeEventListener('input', _onBuscaInput)
   document.removeEventListener('keydown', _onEscBusca)
-  document.getElementById('app').removeEventListener('click', _onAppClick)
+  document.removeEventListener('click', _onAppClick)
   btn.setAttribute('hidden', '')
   wrap.removeAttribute('hidden')
   input.disabled    = true
@@ -763,7 +767,7 @@ async function abrirBusca() {
   input.focus()
   input.addEventListener('input', _onBuscaInput)
   document.addEventListener('keydown', _onEscBusca)
-  document.getElementById('app').addEventListener('click', _onAppClick)
+  document.addEventListener('click', _onAppClick)
 }
 
 function fecharBusca() {
@@ -774,7 +778,7 @@ function fecharBusca() {
 
   input.removeEventListener('input', _onBuscaInput)
   document.removeEventListener('keydown', _onEscBusca)
-  document.getElementById('app').removeEventListener('click', _onAppClick)
+  document.removeEventListener('click', _onAppClick)
   clearTimeout(_buscaTimer)
 
   input.value = ''
