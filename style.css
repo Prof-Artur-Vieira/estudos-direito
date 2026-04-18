@@ -413,6 +413,18 @@ main {
   left: 11px;
 }
 
+@media (prefers-reduced-motion: reduce) {
+  .no-tema {
+    transition: background .18s, border-color .18s, box-shadow .18s;
+  }
+  .no-tema:hover {
+    transform: none;
+  }
+  .no-tema::before {
+    transition: opacity .18s;
+  }
+}
+
 .no-tema .tag {
   font-size: 11.5px;
   color: var(--text2);
@@ -766,6 +778,15 @@ main {
 
 .flash-card:active { transform: scale(.98); }
 
+@media (prefers-reduced-motion: reduce) {
+  .flash-card {
+    transition: none;
+  }
+  .flash-card:active {
+    transform: none;
+  }
+}
+
 .flash-card-label {
   font-size: 10px;
   color: rgba(255,255,255,.55);
@@ -1069,6 +1090,16 @@ main {
 
 #btn-topo:hover {
   background: var(--blue-mid);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #btn-topo {
+    transform: none;
+    transition: opacity .22s, background .18s;
+  }
+  #btn-topo.visivel {
+    transform: none;
+  }
 }
 
 /* ── Rodapé ── */
@@ -1400,6 +1431,12 @@ main {
   top: 0;
   outline: 3px solid #C9A84C;
   outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .skip-link {
+    transition: none;
+  }
 }
 
 /* ── Foco visível global (WCAG 2.4.7) + prefers-reduced-motion (WCAG 2.3.3) ── */
