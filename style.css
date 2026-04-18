@@ -1208,7 +1208,7 @@ main {
   flex-shrink: 0;
 }
 
-#app.busca-ativa { opacity: .45; pointer-events: none; }
+#app.busca-ativa { opacity: .45; cursor: pointer; }
 
 .busca-vazio {
   font-family: var(--sans);
