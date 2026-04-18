@@ -1218,6 +1218,10 @@ main {
   padding: 4px 0;
 }
 
+@media (max-width: 540px) {
+  #busca-painel { margin: 8px -16px -12px; padding: 10px 16px; }
+  #busca-input  { width: 170px; }
+}
 @media (max-width: 480px) {
   #busca-painel { margin: 8px -14px -10px; padding: 10px 14px; }
   #busca-input  { width: 150px; font-size: 12px; }
