@@ -62,8 +62,59 @@ const app        = document.getElementById('app')
 const breadcrumb = document.getElementById('breadcrumb')
 
 // ── Inicialização ────────────────────────────────────────
-history.replaceState({ view: 'materias' }, '')
-renderArvore(true)
+function inicializarRota() {
+  const path = window.location.pathname.replace(/\/$/, '') || '/'
+
+  if (path === '/' || path === '') {
+    history.replaceState({ view: 'materias' }, '', '/')
+    renderArvore(true)
+    return
+  }
+
+  if (path === '/sobre') {
+    history.replaceState({ view: 'sobre' }, '', '/sobre')
+    abrirSobre(true)
+    return
+  }
+
+  for (const materia of materias) {
+    if (path === `/${materia.id}`) {
+      history.replaceState({ view: 'materia', materiaId: materia.id }, '', path)
+      selecionarMateria(materia.id, true)
+      return
+    }
+    for (const turma of materia.turmas) {
+      if (path === `/${materia.id}/${turma.id}`) {
+        estado.materiaAtual = materia
+        estado.turmaAtual   = turma
+        history.replaceState({ view: 'turma', materiaId: materia.id, turmaId: turma.id }, '', path)
+        selecionarTurma(materia.id, turma.id, true)
+        return
+      }
+      for (let i = 0; i < turma.temas.length; i++) {
+        const tema = turma.temas[i]
+        const slug = tema.arquivo.replace('conteudo/', '').replace('.html', '')
+        if (path === `/${slug}`) {
+          estado.materiaAtual = materia
+          estado.turmaAtual   = turma
+          history.replaceState({
+            view: 'tema',
+            materiaId: materia.id,
+            turmaId: turma.id,
+            temaIndex: i
+          }, '', path)
+          abrirTema(i, true)
+          return
+        }
+      }
+    }
+  }
+
+  history.replaceState({ view: 'materias' }, '', '/')
+  renderArvore(true)
+}
+
+inicializarRota()
 
 // ── Histórico do navegador ───────────────────────────────
 window.addEventListener('popstate', (e) => {
