@@ -38,7 +38,7 @@
   </header>
   <main id="app" aria-live="polite" aria-atomic="false"></main>
 
-  <button id="btn-topo" title="Voltar ao topo" aria-label="Voltar ao topo" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+  <button id="btn-topo" title="Voltar ao topo" aria-label="Voltar ao topo" onclick="window.scrollTo({top:0,behavior:window.matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'})">↑</button>
 
   <footer class="rodape-site">
     <p class="rodape-autoria">Criado e desenvolvido por Artur Vieira</p>

@@ -1,3 +1,9 @@
+// ── Utilitário de scroll suave respeitando prefers-reduced-motion ──
+function scrollSuave(el, opts = {}) {
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+  el.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start', ...opts })
+}
+
 // ── Skeleton loaders ────────────────────────────────────
 
 function skeletonConteudo() {
@@ -620,7 +626,8 @@ function abrirTema(index, fromPop = false) {
           if (target) {
             const headerH = document.querySelector('header')?.offsetHeight ?? 0
             const top = target.getBoundingClientRect().top + window.scrollY - headerH - 12
-            window.scrollTo({ top, behavior: 'smooth' })
+            const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+            window.scrollTo({ top, behavior: reduce ? 'auto' : 'smooth' })
           }
         })
       })
