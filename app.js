@@ -631,6 +631,22 @@ function abrirTema(index, fromPop = false) {
           }
         })
       })
+      // Botão de download para imagens (infográficos, mapas mentais)
+      area.querySelectorAll('a[href]').forEach(link => {
+        const href = link.getAttribute('href')
+        if (!href || !/\.(png|jpg|jpeg|webp|gif)$/i.test(href)) return
+        if (!link.querySelector('img')) return
+
+        const filename = href.split('/').pop()
+        const wrap = document.createElement('div')
+        wrap.className = 'img-download-wrap'
+        wrap.innerHTML = `
+          <a class="btn-download-img" href="${href}" download="${esc(filename)}">
+            ⬇ Baixar imagem
+          </a>
+        `
+        link.parentElement.appendChild(wrap)
+      })
       // Cabeçalho de identidade para impressão (oculto na tela)
       const printHeader = document.createElement('div')
       printHeader.id = 'print-header'
