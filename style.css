@@ -1324,6 +1324,32 @@ main {
 
 .btn-download-pdf:hover { background: #b8943f; }
 
+/* Botão de download de imagem individual */
+.img-download-wrap {
+  display: flex;
+  justify-content: flex-end;
+  padding-top: 8px;
+  border-top: 1px solid var(--border);
+  margin-top: 8px;
+}
+
+.btn-download-img {
+  background: var(--gold);
+  color: white;
+  border-radius: 6px;
+  padding: 6px 14px;
+  font-size: 12px;
+  font-weight: 600;
+  font-family: var(--sans);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  transition: background .2s;
+}
+
+.btn-download-img:hover { background: #b8943f; }
+
 /* Cabeçalho de identidade — visível só no PDF */
 #print-header { display: none; }
 
