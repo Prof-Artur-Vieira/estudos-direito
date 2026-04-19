@@ -641,11 +641,11 @@ function abrirTema(index, fromPop = false) {
         const wrap = document.createElement('div')
         wrap.className = 'img-download-wrap'
         wrap.innerHTML = `
-          <a class="btn-download-img" href="${href}" download="${esc(filename)}">
+          <a class="btn-download-img" href="${esc(href)}" download="${esc(filename)}">
             ⬇ Baixar imagem
           </a>
         `
-        link.parentElement.appendChild(wrap)
+        if (link.parentElement) link.parentElement.appendChild(wrap)
       })
       // Cabeçalho de identidade para impressão (oculto na tela)
       const printHeader = document.createElement('div')
